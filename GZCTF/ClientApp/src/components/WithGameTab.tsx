@@ -76,7 +76,7 @@ const GameCountdown: FC<{ game?: DetailedGameInfoModel }> = ({ game }) => {
           ? 'Distant future'
           : countdown.asSeconds() > 0
           ? `${Math.floor(countdown.asHours())} : ${countdown.format('mm : ss')}`
-          : 'The game has ended'}
+          : 'Game is over'}
       </Text>
       <Card.Section style={{ marginTop: 4 }}>
         <CustomProgress percentage={progress} py={0} />
