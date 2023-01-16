@@ -475,7 +475,7 @@ const GameChallengeEdit: FC = () => {
             <Grid.Col span={2}>
               <NumberInput
                 label="Storage Limit (MB)"
-                description="Limit the amount of storage used by the container, including the image size"
+                description="Limit the amount of storage used by the container, including image size"
                 min={128}
                 max={1048576}
                 required
