@@ -104,7 +104,7 @@ const TimeLine: FC<TimeLineProps> = ({ organization }) => {
           name: 'Score',
           boundaryGap: [0, '100%'],
           axisLabel: {
-            formatter: '{value} points',
+            formatter: '{value} pts',
             color: theme.colorScheme === 'dark' ? theme.colors.white[1] : theme.colors.dark[5],
           },
           max: (value: any) => (Math.floor(value.max / 1000) + 1) * 1000,
