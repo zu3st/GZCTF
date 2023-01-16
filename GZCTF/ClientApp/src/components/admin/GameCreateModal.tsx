@@ -26,8 +26,8 @@ const GameCreateModal: FC<GameCreateModalProps> = (props) => {
     if (!title || end < start) {
       showNotification({
         color: 'red',
-        title: '输入不合法',
-        message: '请输入标题和时间信息',
+        title: 'Invalid input',
+        message: 'Please input title and time information',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -45,7 +45,7 @@ const GameCreateModal: FC<GameCreateModalProps> = (props) => {
       .then((data) => {
         showNotification({
           color: 'teal',
-          message: '比赛创建成功',
+          message: 'Game created successfully',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -62,7 +62,7 @@ const GameCreateModal: FC<GameCreateModalProps> = (props) => {
     <Modal {...modalProps}>
       <Stack>
         <TextInput
-          label="比赛标题"
+          label="Game Title"
           type="text"
           required
           placeholder="Title"
@@ -73,7 +73,7 @@ const GameCreateModal: FC<GameCreateModalProps> = (props) => {
 
         <Group grow position="apart">
           <DatePicker
-            label="开始日期"
+            label="Start Date"
             placeholder="Start Date"
             value={start.toDate()}
             clearable={false}
@@ -90,7 +90,7 @@ const GameCreateModal: FC<GameCreateModalProps> = (props) => {
             required
           />
           <TimeInput
-            label="开始时间"
+            label="Start Time"
             placeholder="Start Time"
             value={start.toDate()}
             onChange={(e) => {
@@ -107,7 +107,7 @@ const GameCreateModal: FC<GameCreateModalProps> = (props) => {
 
         <Group grow position="apart">
           <DatePicker
-            label="结束日期"
+            label="End Date"
             minDate={start.toDate()}
             placeholder="End time"
             value={end.toDate()}
@@ -120,7 +120,7 @@ const GameCreateModal: FC<GameCreateModalProps> = (props) => {
             required
           />
           <TimeInput
-            label="结束时间"
+            label="End Time"
             placeholder="End time"
             value={end.toDate()}
             onChange={(e) => {
@@ -134,7 +134,7 @@ const GameCreateModal: FC<GameCreateModalProps> = (props) => {
         </Group>
         <Group grow style={{ margin: 'auto', width: '100%' }}>
           <Button fullWidth disabled={disabled} onClick={onCreate}>
-            创建比赛
+            Create Game
           </Button>
         </Group>
       </Stack>

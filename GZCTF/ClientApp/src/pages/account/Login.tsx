@@ -18,7 +18,7 @@ const Login: FC = () => {
   const [uname, setUname] = useInputState('')
   const [disabled, setDisabled] = useState(false)
 
-  usePageTitle('登录')
+  usePageTitle('Login')
 
   const onLogin = () => {
     setDisabled(true)
@@ -26,8 +26,8 @@ const Login: FC = () => {
     if (uname.length === 0 || pwd.length < 6) {
       showNotification({
         color: 'red',
-        title: '请检查输入',
-        message: '无效的用户名或密码',
+        title: 'Please check your input',
+        message: 'Invalid username or password',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -43,8 +43,8 @@ const Login: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          title: '登录成功',
-          message: '跳转回登录前页面',
+          title: 'Login success',
+          message: 'Redirecting to the previous page',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -64,7 +64,7 @@ const Login: FC = () => {
     <AccountView>
       <TextInput
         required
-        label="用户名或邮箱"
+        label="Username or Email"
         placeholder="ctfer"
         type="text"
         style={{ width: '100%' }}
@@ -75,7 +75,7 @@ const Login: FC = () => {
       />
       <PasswordInput
         required
-        label="密码"
+        label="Password"
         id="your-password"
         placeholder="P4ssW@rd"
         style={{ width: '100%' }}
@@ -92,17 +92,17 @@ const Login: FC = () => {
         component={Link}
         to="/account/recovery"
       >
-        忘记密码？
+        Forgot password?
       </Anchor>
       <Grid grow style={{ width: '100%' }}>
         <Grid.Col span={2}>
           <Button fullWidth variant="outline" component={Link} to="/account/register">
-            注册
+          Register
           </Button>
         </Grid.Col>
         <Grid.Col span={2}>
           <Button fullWidth disabled={disabled} onClick={onLogin}>
-            登录
+          Log in
           </Button>
         </Grid.Col>
       </Grid>

@@ -66,21 +66,21 @@ const TeamCard: FC<TeamCardProps> = (props) => {
           <Stack spacing="xs">
             <Group spacing="xs" position="apart">
               <Text transform="uppercase" color="dimmed">
-                个人身份:
+                Role: 
               </Text>
               {isCaptain ? (
                 <Badge color="yellow" size="lg">
-                  队长
+                  Captain
                 </Badge>
               ) : (
                 <Badge color="gray" size="lg">
-                  普通队员
+                  Member
                 </Badge>
               )}
             </Group>
             <Group spacing="xs">
               <Text transform="uppercase" color="dimmed">
-                队员列表:
+                Member List
               </Text>
               <Box style={{ flexGrow: 1 }} />
               {team.locked && (

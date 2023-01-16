@@ -15,21 +15,20 @@ const RegisterStatusMap = new Map([
   [
     RegisterStatus.LoggedIn,
     {
-      message: '注册成功',
-    },
+      message: 'Registration success',
   ],
   [
     RegisterStatus.AdminConfirmationRequired,
     {
-      title: '注册请求已发送',
-      message: '请等待管理员审核激活~',
+      title: 'Registration request sent',
+      message: 'Please wait for the administrator to review and activate your account',
     },
   ],
   [
     RegisterStatus.EmailConfirmationRequired,
     {
-      title: '一封注册邮件已发送',
-      message: '请检查你的邮箱及垃圾邮件~',
+      title: 'A registration email has been sent',
+      message: 'Please check your inbox and spam folder',
     },
   ],
   [undefined, undefined],
@@ -45,7 +44,7 @@ const Register: FC = () => {
   const navigate = useNavigate()
   const reCaptcha = useReCaptcha('register')
 
-  usePageTitle('注册')
+  usePageTitle('Registration')
 
   const onRegister = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -53,8 +52,8 @@ const Register: FC = () => {
     if (pwd !== retypedPwd) {
       showNotification({
         color: 'red',
-        title: '请检查输入',
-        message: '重复密码有误',
+        title: 'Password mismatch',
+        message: 'Please retype your password',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -66,8 +65,8 @@ const Register: FC = () => {
     if (!token) {
       showNotification({
         color: 'orange',
-        title: '请等待验证码……',
-        message: '请稍后重试',
+        title: 'Are you a robot?',
+        message: 'Please wait for the CAPTCHA to load...',
         loading: true,
         disallowClose: true,
       })
@@ -79,8 +78,8 @@ const Register: FC = () => {
     showNotification({
       color: 'orange',
       id: 'register-status',
-      title: '请求已发送……',
-      message: '等待服务器验证',
+      title: 'Registering',
+      message: 'We are processing your request...',
       loading: true,
       autoClose: false,
       disallowClose: true,
@@ -113,7 +112,7 @@ const Register: FC = () => {
         updateNotification({
           id: 'register-status',
           color: 'red',
-          title: '遇到了问题',
+          title: 'Something went wrong',
           message: `${err.response.data.title}`,
           icon: <Icon path={mdiClose} size={1} />,
           disallowClose: true,
@@ -128,7 +127,7 @@ const Register: FC = () => {
     <AccountView onSubmit={onRegister}>
       <TextInput
         required
-        label="邮箱"
+        label="Email"
         type="email"
         placeholder="ctf@example.com"
         style={{ width: '100%' }}
@@ -138,7 +137,7 @@ const Register: FC = () => {
       />
       <TextInput
         required
-        label="用户名"
+        label="Username"
         type="text"
         placeholder="ctfer"
         style={{ width: '100%' }}
@@ -156,7 +155,7 @@ const Register: FC = () => {
         value={retypedPwd}
         onChange={(event) => setRetypedPwd(event.currentTarget.value)}
         disabled={disabled}
-        label="重复密码"
+        label="Retype password"
         style={{ width: '100%' }}
         error={pwd !== retypedPwd}
       />
@@ -168,10 +167,10 @@ const Register: FC = () => {
         component={Link}
         to="/account/login"
       >
-        已经拥有账户？
+        Already have an account?
       </Anchor>
       <Button type="submit" fullWidth onClick={onRegister} disabled={disabled}>
-        注册
+      Register
       </Button>
     </AccountView>
   )

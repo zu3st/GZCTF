@@ -124,7 +124,7 @@ const TableHeader = (table: Record<string, ChallengeInfo[]>) => {
       </tr>
       {/* Headers & Score */}
       <tr>
-        {['总排名', '排名', '战队', '解题数量', '总分'].map((header, idx) => (
+        {['Total Rank', 'Rank', 'Team', 'Solved', 'Score'].map((header, idx) => (
           <th
             key={idx}
             className={cx(classes.theadFixLeft, classes.theadHeader)}
@@ -289,12 +289,12 @@ const ScoreboardTable: FC<ScoreboardProps> = ({ organization, setOrganization })
             <Select
               defaultValue="all"
               data={[
-                { value: 'all', label: '总排行' },
+                { value: 'all', label: 'Total' }, 
                 ...Object.keys(scoreboard.timeLines)
                   .filter((k) => k !== 'all')
                   .map((o) => ({
                     value: o,
-                    label: o === 'all' ? '总排行' : o,
+                    label: o === 'all' ? 'Total' : o,
                   })),
               ]}
               value={organization}
@@ -355,14 +355,14 @@ const ScoreboardTable: FC<ScoreboardProps> = ({ organization, setOrganization })
                 ))}
               </Group>
               <Text size="sm" color="dimmed">
-                注：同分队伍以得分时间先后排名
+                Teams with the same score are ranked by solve time
               </Text>
             </Stack>
           </Box>
         </Box>
         <Group position="apart">
           <Text size="sm" color="dimmed">
-            Tip: 可以按左右方向键滚动题目列表哦~
+            Tip: You can scroll the table by left and right arrow keys
           </Text>
           <Pagination
             page={activePage}

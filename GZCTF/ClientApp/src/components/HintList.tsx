@@ -62,7 +62,7 @@ export const HintList: FC<HintListProps> = (props) => {
             leftIcon={<Icon path={mdiPlus} size={1} />}
             onClick={handleAdd}
           >
-            添加提示
+            Add Hint
           </Button>
         </Stack>
       </ScrollArea>

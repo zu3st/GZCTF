@@ -39,11 +39,11 @@ const TeamRank: FC<PaperProps> = (props) => {
   const solved = (data?.rank?.solvedCount ?? 0) / (data?.rank?.challenges?.length ?? 1)
 
   useEffect(() => {
-    if (error?.title?.includes('已结束')) {
+    if (error?.title?.includes('ended')) {
       navigate(`/games/${numId}`)
       showNotification({
         color: 'yellow',
-        message: '比赛已经结束',
+        message: 'The game has ended',
         icon: <Icon path={mdiExclamationThick} size={1} />,
         disallowClose: true,
       })
@@ -80,27 +80,27 @@ const TeamRank: FC<PaperProps> = (props) => {
             <Skeleton visible={!data}>
               <Text className={classes.number}>{data?.rank?.rank ?? '0'}</Text>
             </Skeleton>
-            <Text size="xs">总排名</Text>
+            <Text size="xs">Total Rank</Text>
           </Stack>
           {data?.rank?.organization && (
             <Stack spacing={2}>
               <Skeleton visible={!data}>
                 <Text className={classes.number}>{data?.rank?.organizationRank ?? '0'}</Text>
               </Skeleton>
-              <Text size="xs">排名</Text>
+              <Text size="xs">Rank</Text>
             </Stack>
           )}
           <Stack spacing={2}>
             <Skeleton visible={!data}>
               <Text className={classes.number}>{data?.rank?.score ?? '0'}</Text>
             </Skeleton>
-            <Text size="xs">得分</Text>
+            <Text size="xs">Score</Text>
           </Stack>
           <Stack spacing={2}>
             <Skeleton visible={!data}>
               <Text className={classes.number}>{data?.rank?.solvedCount ?? '0'}</Text>
             </Skeleton>
-            <Text size="xs">攻克数量</Text>
+            <Text size="xs">Solved</Text>
           </Stack>
         </Group>
         <Progress value={solved * 100} />
@@ -113,7 +113,7 @@ const TeamRank: FC<PaperProps> = (props) => {
             clipboard.copy(data?.teamToken)
             showNotification({
               color: 'teal',
-              message: '队伍Token已复制到剪贴板',
+               message: 'Team token copied to clipboard',
               icon: <Icon path={mdiCheck} size={1} />,
               disallowClose: true,
             })

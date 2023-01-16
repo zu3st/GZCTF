@@ -27,11 +27,11 @@ const GameNoticeEdit: FC = () => {
   const modals = useModals()
   const onDeleteGameNotice = (gameNotice: GameNotice) => {
     modals.openConfirmModal({
-      title: '删除通知',
-      children: <Text> 你确定要删除通知该通知吗？</Text>,
+      title: 'Delete Notification',
+      children: <Text> Are you sure you want to delete this notification? </Text>,
       onConfirm: () => onConfirmDelete(gameNotice),
       centered: true,
-      labels: { confirm: '删除通知', cancel: '取消' },
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
     })
   }
@@ -41,7 +41,7 @@ const GameNoticeEdit: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          message: '通知已删除',
+          message: 'Notice deleted',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -60,7 +60,7 @@ const GameNoticeEdit: FC = () => {
             leftIcon={<Icon path={mdiKeyboardBackspace} size={1} />}
             onClick={() => navigate('/admin/games')}
           >
-            返回上级
+            Back
           </Button>
 
           <Group position="right">
@@ -71,7 +71,7 @@ const GameNoticeEdit: FC = () => {
                 setIsEditModalOpen(true)
               }}
             >
-              新建通知
+              Create Notification
             </Button>
           </Group>
         </>
@@ -81,8 +81,8 @@ const GameNoticeEdit: FC = () => {
         {!gameNotices || gameNotices?.length === 0 ? (
           <Center style={{ height: 'calc(100vh - 180px)' }}>
             <Stack spacing={0}>
-              <Title order={2}>Ouch! 这个比赛还没有通知</Title>
-              <Text>安然无事真好！</Text>
+              <Title order={2}>Ouch! This game has no notifications yet</Title>
+              <Text>New notifications will be shown here</Text>
             </Stack>
           </Center>
         ) : (
@@ -113,7 +113,7 @@ const GameNoticeEdit: FC = () => {
       <GameNoticeEditModal
         centered
         size="30%"
-        title={activeGameNotice ? '编辑通知' : '新建通知'}
+        title={activeGameNotice ? 'Edit Notification' : 'Create Notification'}
         opened={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         gameNotice={activeGameNotice}

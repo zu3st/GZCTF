@@ -33,8 +33,8 @@ const GameJoinModal: FC<GameJoinModalProps> = (props) => {
       <Stack>
         <Select
           required
-          label="选择你的参赛队伍"
-          description="请选择一个队伍参与比赛，选定后不可更改"
+          label="Select your team"
+          description="Please select a team to join the game, you won't be able to change it later"
           data={teams?.map((t) => ({ label: t.name!, value: t.id!.toString() })) ?? []}
           disabled={disabled}
           value={team}
@@ -43,8 +43,8 @@ const GameJoinModal: FC<GameJoinModalProps> = (props) => {
         {game?.inviteCodeRequired && (
           <TextInput
             required
-            label="请输入邀请码"
-            description="本场比赛开启了邀请参赛，报名参赛需提供邀请码"
+            label="Enter invite code"
+            description="This game requires an invite code to join"
             value={inviteCode}
             onChange={(e) => setInviteCode(e.target.value)}
             disabled={disabled}
@@ -53,8 +53,8 @@ const GameJoinModal: FC<GameJoinModalProps> = (props) => {
         {game?.organizations && game.organizations.length > 0 && (
           <Select
             required
-            label="选择你的参赛组织"
-            description="本场比赛具有多个参赛组织，请选择你的参赛组织"
+            label="Select your organization"
+            description="This game allows multiple organizations to join, please select yours"
             data={game.organizations}
             disabled={disabled}
             value={organization}
@@ -69,7 +69,7 @@ const GameJoinModal: FC<GameJoinModalProps> = (props) => {
             if (game?.inviteCodeRequired && !inviteCode) {
               showNotification({
                 color: 'orange',
-                message: '邀请码不能为空',
+                message: 'Invite code is required',
                 icon: <Icon path={mdiClose} size={1} />,
                 disallowClose: true,
               })
@@ -79,7 +79,7 @@ const GameJoinModal: FC<GameJoinModalProps> = (props) => {
             if (game?.organizations && game.organizations.length > 0 && !organization) {
               showNotification({
                 color: 'orange',
-                message: '请选择参赛组织',
+                message: 'Organization is required',
                 icon: <Icon path={mdiClose} size={1} />,
                 disallowClose: true,
               })
@@ -99,7 +99,7 @@ const GameJoinModal: FC<GameJoinModalProps> = (props) => {
             })
           }}
         >
-          报名参赛
+          Join
         </Button>
       </Stack>
     </Modal>

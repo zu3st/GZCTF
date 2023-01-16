@@ -68,7 +68,7 @@ const PostEdit: FC = () => {
           api.info.mutateInfoGetPosts()
           showNotification({
             color: 'teal',
-            message: '文章已创建',
+            message: 'Post created',
             icon: <Icon path={mdiCheck} size={24} />,
             disallowClose: true,
           })
@@ -87,7 +87,7 @@ const PostEdit: FC = () => {
           api.info.mutateInfoGetPosts()
           showNotification({
             color: 'teal',
-            message: '文章已保存',
+            message: 'Post saved',
             icon: <Icon path={mdiCheck} size={24} />,
             disallowClose: true,
           })
@@ -137,14 +137,14 @@ const PostEdit: FC = () => {
   const titlePart = (
     <>
       <TextInput
-        label="文章标题"
+        label="Title"
         value={post.title}
         onChange={(e) => setPost({ ...post, title: e.currentTarget.value })}
       />
       <MultiSelect
-        label="文章标签"
+        label="Tags"
         data={tags.map((o) => ({ value: o, label: o })) || []}
-        getCreateLabel={(query) => `+ 添加标签 "${query}"`}
+        getCreateLabel={(query) => `+ Add tag "${query}"`}
         maxSelectedValues={5}
         value={post?.tags ?? []}
         onChange={(values) => setPost({ ...post, tags: values })}
@@ -175,7 +175,7 @@ const PostEdit: FC = () => {
                   ),
                 }}
               >
-                {`> ${postId === 'new' ? '新建' : '编辑'}文章`}
+                {`> ${postId === 'new' ? 'New' : 'Edit'} post`}
               </Title>
             )}
             <Group position="right">
@@ -188,18 +188,18 @@ const PostEdit: FC = () => {
                     variant="outline"
                     onClick={() =>
                       modals.openConfirmModal({
-                        title: '删除文章',
+                        title: 'Delete post',
                         children: (
-                          <Text size="sm">你确定要删除文章 &quot;{post.title}&quot; 吗？</Text>
+                          <Text size="sm">Are you sure to delete post &quot;{post.title}&quot;?</Text>
                         ),
                         centered: true,
                         onConfirm: onDelete,
-                        labels: { confirm: '确认', cancel: '取消' },
+                        labels: { confirm: 'Confirm', cancel: 'Cancel' },
                         confirmProps: { color: 'red' },
                       })
                     }
                   >
-                    删除文章
+                    Delete post
                   </Button>
                   <Button
                     disabled={disabled}
@@ -207,10 +207,10 @@ const PostEdit: FC = () => {
                     onClick={() => {
                       if (isChanged()) {
                         modals.openConfirmModal({
-                          title: '文章已更改',
-                          children: <Text size="sm">文章内容已更改，是否保存？</Text>,
+                          title: 'Post changed',
+                          children: <Text size="sm">Post content has changed, save it?</Text>,
                           centered: true,
-                          labels: { confirm: '确认', cancel: '取消' },
+                          labels: { confirm: 'Confirm', cancel: 'Cancel' },
                           onConfirm: () => {
                             onUpdate()
                             navigate(`/posts/${postId}`)
@@ -221,7 +221,7 @@ const PostEdit: FC = () => {
                       }
                     }}
                   >
-                    转到文章
+                    Go to post
                   </Button>
                 </>
               )}
@@ -230,7 +230,7 @@ const PostEdit: FC = () => {
                 leftIcon={<Icon path={mdiContentSaveOutline} size={1} />}
                 onClick={onUpdate}
               >
-                {`${postId === 'new' ? '创建' : '保存'}文章`}
+                {`${postId === 'new' ? 'Create' : 'Save'} post`}
               </Button>
             </Group>
           </Group>
@@ -238,9 +238,9 @@ const PostEdit: FC = () => {
           <Textarea
             label={
               <Group spacing="sm">
-                <Text size="sm">文章梗概</Text>
+                <Text size="sm">Post summary</Text>
                 <Text size="xs" color="dimmed">
-                  支持 markdown 语法
+                  Supports Markdown syntax
                 </Text>
               </Group>
             }
@@ -252,9 +252,9 @@ const PostEdit: FC = () => {
           <Textarea
             label={
               <Group spacing="sm">
-                <Text size="sm">文章内容</Text>
+                <Text size="sm">Post content</Text>
                 <Text size="xs" color="dimmed">
-                  支持 markdown 语法
+                Supports Markdown syntax
                 </Text>
               </Group>
             }

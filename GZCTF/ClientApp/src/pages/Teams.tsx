@@ -56,8 +56,8 @@ const Teams: FC = () => {
     if (!codePartten.test(joinTeamCode)) {
       showNotification({
         color: 'red',
-        title: '遇到了问题',
-        message: '队伍邀请码格式不正确',
+        title: 'Encountered a problem',
+        message: 'Team invite code format is incorrect',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -69,8 +69,8 @@ const Teams: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          title: '加入队伍成功',
-          message: '队伍信息已更新',
+          title: 'Joined team successfully',
+          message: 'Team info updated',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -83,7 +83,7 @@ const Teams: FC = () => {
       })
   }
 
-  usePageTitle('队伍管理')
+  usePageTitle('Teams')
 
   const btns = (
     <>
@@ -92,14 +92,14 @@ const Teams: FC = () => {
         variant={theme.colorScheme === 'dark' ? 'outline' : 'filled'}
         onClick={() => setJoinOpened(true)}
       >
-        加入队伍
+        Join a team
       </Button>
       <Button
         leftIcon={<Icon path={mdiAccountMultiplePlus} size={1} />}
         variant={theme.colorScheme === 'dark' ? 'outline' : 'filled'}
         onClick={() => setCreateOpened(true)}
       >
-        创建队伍
+        Create a team
       </Button>
     </>
   )
@@ -163,13 +163,14 @@ const Teams: FC = () => {
         <Modal
           opened={joinOpened}
           centered
-          title="加入已有队伍"
+          title="Join an existing team"
           onClose={() => setJoinOpened(false)}
         >
           <Stack>
-            <Text size="sm">请从队伍创建者处获取队伍邀请码，输入邀请码加入队伍。</Text>
+            <Text size="sm">Please get the team invite code from the team creator and enter it to join the team.</Text>
+            
             <TextInput
-              label="邀请码"
+              label="Team invite code"
               type="text"
               placeholder="team:0:01234567890123456789012345678901"
               style={{ width: '100%' }}
@@ -177,7 +178,7 @@ const Teams: FC = () => {
               onChange={(event) => setJoinTeamCode(event.currentTarget.value)}
             />
             <Button fullWidth variant="outline" onClick={onJoinTeam}>
-              加入队伍
+            Join Team
             </Button>
           </Stack>
         </Modal>
@@ -185,7 +186,7 @@ const Teams: FC = () => {
         <TeamCreateModal
           opened={createOpened}
           centered
-          title="创建新队伍"
+          title="Create a new team"
           isOwnTeam={ownTeam ?? false}
           onClose={() => setCreateOpened(false)}
         />
@@ -193,7 +194,7 @@ const Teams: FC = () => {
         <TeamEditModal
           opened={editOpened}
           centered
-          title="队伍详情"
+          title="Team Details"
           onClose={() => setEditOpened(false)}
           team={editTeam}
           isCaptain={editTeam?.members?.some((m) => m?.captain && m.id === user?.userId) ?? false}

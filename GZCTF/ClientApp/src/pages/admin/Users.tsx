@@ -132,17 +132,17 @@ const Users: FC = () => {
       const res = await api.admin.adminResetPassword(user.id!)
 
       modals.openModal({
-        title: `为 ${user.userName} 重置密码`,
+        title: `Reset password for ${user.userName}`,
         centered: true,
         withCloseButton: false,
         children: (
           <Stack>
             <Text>
-              用户密码已重置，
+              The user's password has been reset,
               <Text span weight={700}>
-                此密码只会显示一次
+                this password will only be displayed once
               </Text>
-              。
+              .
             </Text>
             <Text
               weight={700}
@@ -155,14 +155,14 @@ const Users: FC = () => {
               onClick={() => {
                 clipboard.copy(res.data)
                 showNotification({
-                  message: '密码已复制到剪贴板',
+                  message: 'Password has been copied to clipboard',
                   color: 'teal',
                   icon: <Icon path={mdiCheck} size={1} />,
                   disallowClose: true,
                 })
               }}
             >
-              复制到剪贴板
+              Copy to clipboard
             </Button>
           </Stack>
         ),
@@ -181,7 +181,7 @@ const Users: FC = () => {
 
       await api.admin.adminDeleteUser(user.id)
       showNotification({
-        message: `${user.userName} 已删除`,
+        message: `${user.userName} has been deleted`,
         color: 'teal',
         icon: <Icon path={mdiCheck} size={1} />,
         disallowClose: true,
@@ -204,7 +204,7 @@ const Users: FC = () => {
           <TextInput
             icon={<Icon path={mdiMagnify} size={1} />}
             style={{ width: '30%' }}
-            placeholder="搜索用户ID/用户名/邮箱/学号/姓名"
+            placeholder="Search by user ID/username/email/student ID/name"
             value={hint}
             onChange={setHint}
             onKeyDown={(e) => {
@@ -213,7 +213,7 @@ const Users: FC = () => {
           />
           <Group position="right">
             <Text weight="bold" size="sm">
-              已显示 <Code>{current}</Code> / <Code>{total}</Code> 用户
+              Showing <Code>{current}</Code> / <Code>{total}</Code> users
             </Text>
             <ActionIcon size="lg" disabled={page <= 1} onClick={() => setPage(page - 1)}>
               <Icon path={mdiArrowLeftBold} size={1} />
@@ -234,12 +234,12 @@ const Users: FC = () => {
           <Table className={classes.table}>
             <thead>
               <tr>
-                <th>激活</th>
-                <th>用户</th>
-                <th>邮箱</th>
-                <th>用户 IP</th>
-                <th>真实姓名</th>
-                <th>学号</th>
+                <th>Activated</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>User IP</th>
+                <th>Real Name</th>
+                <th>Student ID</th>
                 <th />
               </tr>
             </thead>
@@ -287,7 +287,7 @@ const Users: FC = () => {
                         </Text>
                       </Group>
                     </td>
-                    <td>{!user.realName ? '用户未填写' : user.realName}</td>
+                    <td>{!user.realName ? 'Not set' : user.realName}</td>
                     <td>
                       <Text size="sm" style={{ fontFamily: theme.fontFamilyMonospace }}>
                         {!user.stdNumber ? '00000000' : user.stdNumber}
@@ -307,14 +307,14 @@ const Users: FC = () => {
                         <ActionIconWithConfirm
                           iconPath={mdiLockReset}
                           color="orange"
-                          message={`确定要重置 “${user.userName}” 的密码吗？`}
+                          message={`Are you sure to reset password for "${user.userName}"?`}
                           disabled={disabled}
                           onClick={() => onResetPassword(user)}
                         />
                         <ActionIconWithConfirm
                           iconPath={mdiDeleteOutline}
                           color="alert"
-                          message={`确定要删除 “${user.userName}” 吗？`}
+                          message={`Are you sure to delete "${user.userName}"?`}
                           disabled={disabled || user.id === currentUser?.userId}
                           onClick={() => onDelete(user)}
                         />
@@ -328,7 +328,7 @@ const Users: FC = () => {
         <UserEditModal
           centered
           size="35%"
-          title="编辑用户"
+          title="Edit User"
           user={activeUser}
           opened={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}

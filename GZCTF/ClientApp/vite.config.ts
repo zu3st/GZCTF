@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
-      eslintPlugin(), // only for development
+      eslintPlugin(), // Only for development
       webfontDownload([
         'https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap',
         'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap',

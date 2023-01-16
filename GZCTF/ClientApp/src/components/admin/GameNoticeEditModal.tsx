@@ -28,8 +28,8 @@ const GameNoticeEditModal: FC<GameNoticeEditModalProps> = (props) => {
     if (!content) {
       showNotification({
         color: 'red',
-        title: '输入不能为空',
-        message: '请输入内容',
+        title: 'Invalid content',
+        message: 'Content cannot be empty',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -38,7 +38,7 @@ const GameNoticeEditModal: FC<GameNoticeEditModalProps> = (props) => {
     if (content === gameNotice?.content) {
       showNotification({
         color: 'orange',
-        message: '似乎没有变化哦',
+        message: 'Looks like you didn\'t change anything',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -54,7 +54,7 @@ const GameNoticeEditModal: FC<GameNoticeEditModalProps> = (props) => {
         .then((data) => {
           showNotification({
             color: 'teal',
-            message: '通知修改成功',
+            message: 'Notification updated',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -74,7 +74,7 @@ const GameNoticeEditModal: FC<GameNoticeEditModalProps> = (props) => {
         .then((data) => {
           showNotification({
             color: 'teal',
-            message: '通知已添加',
+            message: 'Notification added',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -95,7 +95,7 @@ const GameNoticeEditModal: FC<GameNoticeEditModalProps> = (props) => {
         <Textarea
           label={
             <Group spacing="sm">
-              <Text size="sm">通知详情 </Text>
+              <Text size="sm">Notification Content </Text>
             </Group>
           }
           value={content}
@@ -107,7 +107,7 @@ const GameNoticeEditModal: FC<GameNoticeEditModalProps> = (props) => {
         />
         <Group grow style={{ margin: 'auto', width: '100%' }}>
           <Button fullWidth disabled={disabled} onClick={onConfirm}>
-            {'确认'}
+            {'Confirm'}
           </Button>
         </Group>
       </Stack>

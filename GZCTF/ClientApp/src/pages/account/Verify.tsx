@@ -16,8 +16,7 @@ const Verify: FC = () => {
   const navigate = useNavigate()
   const runOnce = useRef(false)
 
-  usePageTitle('账户验证')
-
+  usePageTitle('Account Verification')
   useEffect(() => {
     if (token && email && !runOnce.current) {
       runOnce.current = true
@@ -26,7 +25,7 @@ const Verify: FC = () => {
         .then(() => {
           showNotification({
             color: 'teal',
-            title: '账户已验证，请登录',
+            title: 'Account verified, please login',
             message: window.atob(email),
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
@@ -35,8 +34,8 @@ const Verify: FC = () => {
         .catch(() => {
           showNotification({
             color: 'red',
-            title: '账户验证失败',
-            message: '参数错误，请检查',
+            title: 'Account verification failed',
+            message: 'Invalid token or email',
             icon: <Icon path={mdiClose} size={1} />,
             disallowClose: true,
           })
@@ -49,7 +48,7 @@ const Verify: FC = () => {
 
   return (
     <AccountView>
-      <Text>验证中……</Text>
+      <Text>Verifying...</Text>
     </AccountView>
   )
 }

@@ -49,10 +49,10 @@ const BloodBonusModel: FC<ModalProps> = (props) => {
     <Modal {...props}>
       <Stack>
         <Text>
-          三血奖励加成是指当一个题目被前三个队伍解出时，每个队伍可以得到的分值奖励。三血的奖励基于题目的当前分值，并以一个固定百分比的形式累加至该队伍的得分中。
+          The first blood bonus is an extra score awarded to the first three teams who solve a challenge, based on the challenge's current score, as a fixed percentage added to the team's score.
         </Text>
         <NumberInput
-          label="一血奖励 (%)"
+          label="First blood bonus (%)"
           defaultValue={5}
           precision={1}
           min={0}
@@ -63,7 +63,7 @@ const BloodBonusModel: FC<ModalProps> = (props) => {
           onChange={(value) => value && setFirstBloodBonus(Math.floor(value * 10))}
         />
         <NumberInput
-          label="二血奖励 (%)"
+          label="Second blood bonus (%)"
           defaultValue={3}
           precision={1}
           min={0}
@@ -74,7 +74,7 @@ const BloodBonusModel: FC<ModalProps> = (props) => {
           onChange={(value) => value && setSecondBloodBonus(Math.floor(value * 10))}
         />
         <NumberInput
-          label="三血奖励 (%)"
+          label="Third blood bonus (%)"
           defaultValue={1}
           precision={1}
           min={0}
@@ -86,7 +86,7 @@ const BloodBonusModel: FC<ModalProps> = (props) => {
         />
         <Group grow style={{ margin: 'auto', width: '100%' }}>
           <Button fullWidth disabled={disabled} onClick={onUpdate}>
-            保存更改
+            Save changes
           </Button>
         </Group>
       </Stack>

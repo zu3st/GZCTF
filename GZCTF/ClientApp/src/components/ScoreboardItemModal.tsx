@@ -99,27 +99,27 @@ const ScoreboardItemModal: FC<ScoreboardItemModalProps> = (props) => {
               <Text weight={700} size="sm" className={classes.mono}>
                 {item?.rank}
               </Text>
-              <Text size="xs">总排名</Text>
+              <Text size="xs">Total Rank</Text>
             </Stack>
             {item?.organization && (
               <Stack spacing={2}>
                 <Text weight={700} size="sm" className={classes.mono}>
                   {item?.organizationRank}
                 </Text>
-                <Text size="xs">排名</Text>
+                <Text size="xs">Rank</Text>
               </Stack>
             )}
             <Stack spacing={2}>
               <Text weight={700} size="sm" className={classes.mono}>
                 {item?.score}
               </Text>
-              <Text size="xs">得分</Text>
+              <Text size="xs">Score</Text>
             </Stack>
             <Stack spacing={2}>
               <Text weight={700} size="sm" className={classes.mono}>
                 {item?.solvedCount}
               </Text>
-              <Text size="xs">攻克数量</Text>
+              <Text size="xs">Solves</Text>
             </Stack>
           </Group>
           <Progress value={solved * 100} />
@@ -129,11 +129,11 @@ const ScoreboardItemModal: FC<ScoreboardItemModalProps> = (props) => {
             <Table className={classes.table}>
               <thead>
                 <tr>
-                  <th>用户</th>
-                  <th>题目</th>
-                  <th>类型</th>
-                  <th>得分</th>
-                  <th>时间</th>
+                  <th>User</th>
+                  <th>Challenge</th>
+                  <th>Type</th>
+                  <th>Score</th>
+                  <th>Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -170,7 +170,7 @@ const ScoreboardItemModal: FC<ScoreboardItemModalProps> = (props) => {
           </ScrollArea>
         ) : (
           <Text py="1rem" weight={700}>
-            Ouch! 这支队伍还没有解出题目呢……
+            Ouch! This team hasn't solved any challenges yet...
           </Text>
         )}
       </Stack>

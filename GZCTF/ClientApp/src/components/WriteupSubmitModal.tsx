@@ -66,7 +66,7 @@ export const WriteupSubmitModal: FC<WriteupSubmitModalProps> = ({ gameId, wpddl,
         setProgress(100)
         showNotification({
           color: 'teal',
-          message: 'Writeup 已成功提交',
+          message: 'Writeup submitted',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -96,7 +96,7 @@ export const WriteupSubmitModal: FC<WriteupSubmitModalProps> = ({ gameId, wpddl,
     <Modal
       title={
         <Group style={{ width: '100%' }} position="apart">
-          <Title order={4}>管理 Writeup</Title>
+          <Title order={4}>Manage Writeups</Title>
           <Group spacing={4}>
             <Icon
               path={data?.submitted ? mdiCheck : mdiExclamationThick}
@@ -104,7 +104,7 @@ export const WriteupSubmitModal: FC<WriteupSubmitModalProps> = ({ gameId, wpddl,
               color={noteColor}
             />
             <Text weight={600} size="md" color={noteColor}>
-              {data?.submitted ? '已成功提交' : '尚未提交'}
+              {data?.submitted ? 'Submitted' : 'Not Submitted'}
             </Text>
           </Group>
         </Group>
@@ -123,7 +123,7 @@ export const WriteupSubmitModal: FC<WriteupSubmitModalProps> = ({ gameId, wpddl,
     >
       <Stack spacing="xs" mt="sm">
         <Divider />
-        <Title order={5}>提交说明</Title>
+        <Title order={5}>Submission Instructions</Title>
         <List
           styles={{
             itemWrapper: {
@@ -133,43 +133,43 @@ export const WriteupSubmitModal: FC<WriteupSubmitModalProps> = ({ gameId, wpddl,
         >
           <List.Item>
             <Text>
-              请在
+              Please submit your writeup before
               <Text mx={5} span weight={600} color="yellow">
-                {ddl.format(' YYYY 年 MM 月 DD 日 HH:mm:ss ')}
+                {ddl.format('YYYY-MM-DD HH:mm:ss')}
               </Text>
-              前提交 Writeup，逾期提交或不提交视为放弃本次参赛记录。
+              , failure to do so will be considered as a game forfeit.
             </Text>
           </List.Item>
           <List.Item>
             <Text>
-              请将全部解出题目整理为
+              Please organize all solved challenges into
               <Text mx={5} weight={600} span color="yellow">
-                一份标准 PDF 文档
+                a single PDF document
               </Text>
-              ，除题解外还需附有每道题目获得
+              , in addition to the solution, a screenshot of the relevant information when obtaining each problem's
               <Text mx={5} span style={{ fontFamily: theme.fontFamilyMonospace }}>
                 flag
               </Text>
-              字符串时的相关截图。
+              string is also required.
             </Text>
           </List.Item>
           <List.Item>
             <Text>
-              请上传小于
+              Please upload a PDF document smaller than
               <Text mx={5} weight={600} span color="yellow">
                 20MB
               </Text>
-              的 PDF 文档。
+              .
             </Text>
           </List.Item>
         </List>
         {data?.note && (
           <>
-            <Title order={5}>附加说明</Title>
+            <Title order={5}>Additional Notes</Title>
             <MarkdownRender source={data.note} />
           </>
         )}
-        <Title order={5}>当前提交</Title>
+        <Title order={5}>Current Submission</Title>
         <Card>
           {data?.submitted ? (
             <Group>
@@ -193,7 +193,7 @@ export const WriteupSubmitModal: FC<WriteupSubmitModalProps> = ({ gameId, wpddl,
               <Icon path={mdiFileHidden} size={1.5} />
               <Stack spacing={0}>
                 <Text weight={600} size="md">
-                  你的队伍尚未提交 Writeup
+                  Your team has not submitted a writeup yet
                 </Text>
               </Stack>
             </Group>
@@ -210,10 +210,10 @@ export const WriteupSubmitModal: FC<WriteupSubmitModalProps> = ({ gameId, wpddl,
             >
               <div className={classes.uploadLabel}>
                 {dayjs().isAfter(ddl)
-                  ? '提交截止时间已过'
+                  ? 'Deadline has passed'
                   : progress !== 0
-                  ? '上传中'
-                  : '上传 Writeup'}
+                  ? 'Uploading'
+                  : 'Upload Writeup'}
               </div>
               {progress !== 0 && (
                 <Progress

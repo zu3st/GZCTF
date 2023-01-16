@@ -20,7 +20,7 @@ export const useUser = () => {
           navigate('/')
           showNotification({
             color: 'red',
-            message: '账户已被禁用',
+            message: 'Account has been disabled',
             icon: <Icon path={mdiClose} size={1} />,
             disallowClose: true,
           })

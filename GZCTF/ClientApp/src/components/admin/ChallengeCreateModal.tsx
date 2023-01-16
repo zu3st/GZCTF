@@ -42,7 +42,7 @@ const ChallengeCreateModal: FC<ChallengeCreateModalProps> = (props) => {
         .then((data) => {
           showNotification({
             color: 'teal',
-            message: '添加比赛题目成功',
+            message: 'Challenge created',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -60,7 +60,7 @@ const ChallengeCreateModal: FC<ChallengeCreateModalProps> = (props) => {
     <Modal {...modalProps}>
       <Stack>
         <TextInput
-          label="题目标题"
+          label="Title"
           type="text"
           required
           placeholder="Title"
@@ -69,8 +69,8 @@ const ChallengeCreateModal: FC<ChallengeCreateModalProps> = (props) => {
         />
         <Select
           required
-          label="题目类型"
-          description="创建后不可更改"
+          label="Type"
+          description="Cannot be changed after creation"
           placeholder="Type"
           value={type}
           onChange={setType}
@@ -82,7 +82,7 @@ const ChallengeCreateModal: FC<ChallengeCreateModalProps> = (props) => {
         />
         <Select
           required
-          label="题目标签"
+          label="Tag"
           placeholder="Tag"
           value={tag}
           onChange={setTag}
@@ -93,7 +93,7 @@ const ChallengeCreateModal: FC<ChallengeCreateModalProps> = (props) => {
           })}
         />
         <Button fullWidth disabled={disabled} onClick={onCreate}>
-          创建题目
+          Create Challenge
         </Button>
       </Stack>
     </Modal>

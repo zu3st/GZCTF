@@ -79,10 +79,10 @@ const GameCard: FC<GameCardProps> = ({ game, ...others }) => {
               <Stack spacing={2}>
                 <Group noWrap spacing="xs">
                   <Badge size="xs" color={color}>
-                    {limit === 0 ? '多' : limit === 1 ? '个' : limit}人赛
+                    {limit === 0 ? 'Team' : limit === 1 ? 'Solo' : limit}
                   </Badge>
                   <Badge size="xs" color={color}>
-                    {`${duration} 小时`}
+                    {`${duration} hours`}
                   </Badge>
                 </Group>
                 <Title order={2} align="left">

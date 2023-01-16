@@ -32,9 +32,9 @@ import { useUploadStyles } from '@Utils/ThemeOverride'
 import api, { ChallengeType, FileType, FlagInfoModel } from '@Api'
 
 const FileTypeDesrcMap = new Map<FileType, string>([
-  [FileType.None, '无附件'],
-  [FileType.Remote, '远程文件'],
-  [FileType.Local, '平台附件'],
+  [FileType.None, 'No Attachment'],
+  [FileType.Remote, 'Remote File'],
+  [FileType.Local, 'Local File'],
 ])
 
 interface FlagEditProps {
@@ -74,7 +74,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
       .then(() => {
         showNotification({
           color: 'teal',
-          message: '附件已更新',
+          message: 'Attachment updated',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -126,7 +126,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
               mutate()
               showNotification({
                 color: 'teal',
-                message: '附件已更新',
+                message: 'Attachment updated',
                 icon: <Icon path={mdiCheck} size={1} />,
                 disallowClose: true,
               })
@@ -154,7 +154,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
         .then(() => {
           showNotification({
             color: 'teal',
-            message: '附件已更新',
+            message: 'Attachment updated',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -175,7 +175,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
         .then(() => {
           showNotification({
             color: 'teal',
-            message: 'flag 模板已更新',
+            message: 'Flag template updated',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -191,7 +191,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
   return (
     <Stack>
       <Group position="apart">
-        <Title order={2}>附件管理</Title>
+        <Title order={2}>Attachment Management</Title>
         {type !== FileType.Remote ? (
           <FileButton onChange={onUpload}>
             {(props) => (
@@ -203,7 +203,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
                 style={{ width: '122px', marginTop: '24px' }}
                 color={progress !== 0 ? 'cyan' : theme.primaryColor}
               >
-                <div className={classes.uploadLabel}>{progress !== 0 ? '上传中' : '上传附件'}</div>
+                <div className={classes.uploadLabel}>{progress !== 0 ? 'Uploading' : 'Upload'}</div>
                 {progress !== 0 && (
                   <Progress
                     value={progress}
@@ -221,24 +221,24 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
             style={{ width: '122px', marginTop: '24px' }}
             onClick={onRemote}
           >
-            保存链接
+            Save URL
           </Button>
         )}
       </Group>
       <Divider />
       <Group position="apart">
-        <Input.Wrapper label="附件类型" required>
+        <Input.Wrapper label="Attachment Type" required>
           <Chip.Group
             mt={8}
             value={type}
             onChange={(e) => {
               if (e === FileType.None) {
                 modals.openConfirmModal({
-                  title: '清除附件',
-                  children: <Text size="sm">你确定要清除本题的附件吗？</Text>,
+                  title: 'Clear Attachment',
+                  children: <Text size="sm">Are you sure to clear the attachment?</Text>,
                   onConfirm: onConfirmClear,
                   centered: true,
-                  labels: { confirm: '确认', cancel: '取消' },
+                  labels: { confirm: 'Confirm', cancel: 'Cancel' },
                   confirmProps: { color: 'orange' },
                 })
               } else {
@@ -255,7 +255,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
         </Input.Wrapper>
         {type !== FileType.Remote ? (
           <TextInput
-            label="附件链接"
+            label="Attachment URL"
             readOnly
             disabled={disabled || type === FileType.None}
             value={challenge?.attachment?.url ?? ''}
@@ -264,7 +264,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
           />
         ) : (
           <TextInput
-            label="附件链接"
+            label="Attachment URL"
             disabled={disabled}
             value={remoteUrl}
             style={{ width: 'calc(100% - 320px)' }}
@@ -273,10 +273,10 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
         )}
       </Group>
       <Group position="apart" mt={20}>
-        <Title order={2}>flag 管理</Title>
+        <Title order={2}>Flag Management</Title>
         {challenge?.type === ChallengeType.DynamicContainer ? (
           <Button disabled={disabled} onClick={onChangeFlagTemplate}>
-            保存 flag 模版
+            Save flag template
           </Button>
         ) : (
           <Button
@@ -284,7 +284,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
             style={{ width: '122px' }}
             onClick={() => setFlagCreateModalOpen(true)}
           >
-            添加 flag
+            Add flag
           </Button>
         )}
       </Group>
@@ -292,7 +292,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
       {challenge?.type === ChallengeType.DynamicContainer ? (
         <Stack>
           <TextInput
-            label="flag 模板"
+            label="Flag Template"
             value={flagTemplate}
             placeholder="flag{random_uuid}"
             onChange={(e) => setFlagTemplate(e.target.value)}
@@ -303,22 +303,18 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
             }}
           />
           <Stack spacing={6} pb={8}>
-            <Text size="xs">请输入 flag 模版字符串，留空以生成随机 UUID 作为 flag</Text>
+          <Text size="xs">Please enter the flag template, if empty a random UID will be used.</Text>
             <Text size="xs">
-              若指定 <Code>[TEAM_HASH]</Code> 则它将会被自动替换为队伍 Token
-              与相关信息所生成的哈希值
+              If <Code>[TEAM_HASH]</Code> is specified, it will be automatically replaced by the hash value
+              generated by the team Token and related information
             </Text>
             <Text size="xs">
-              若未指定 <Code>[TEAM_HASH]</Code> 则将启用 Leet
-              字符串功能，将会基于模版对花括号内字符串进行变换，需要确保 flag 模版字符串的熵足够高
+              If <Code>[TEAM_HASH]</Code> is not specified, Leet mode will be enabled,
+              randomly transforming the template
             </Text>
             <Text size="xs">
-              若需要在指定 <Code>[TEAM_HASH]</Code> 的情况下启用 Leet 字符串功能，请在 flag
-              模版字符串
-              <Text span weight={700}>
-                之前
-              </Text>
-              添加 <Code>[LEET]</Code> 标记，此时不会检查 flag 模版字符串的熵
+              To use both <Code>[TEAM_HASH]</Code> and Leet mode, add <Code>[LEET]</Code>
+              <Text span weight={700}>before</Text> the flag template
             </Text>
           </Stack>
         </Stack>
@@ -329,8 +325,8 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
               <Overlay opacity={0.3} color={theme.colorScheme === 'dark' ? 'black' : 'white'} />
               <Center style={{ height: 'calc(100vh - 430px)' }}>
                 <Stack spacing={0}>
-                  <Title order={2}>flag 列表为空</Title>
-                  <Text>请通过右上角添加 flag</Text>
+                  <Title order={2}>Flag list is empty</Title>
+                  <Text>Please add flags through the upper right corner</Text>
                 </Stack>
               </Center>
             </>
@@ -343,7 +339,7 @@ const OneAttachmentWithFlags: FC<FlagEditProps> = ({ onDelete }) => {
         </ScrollArea>
       )}
       <FlagCreateModal
-        title="添加 flag"
+        title="Add flag"
         centered
         opened={flagCreateModalOpen}
         onClose={() => setFlagCreateModalOpen(false)}
@@ -370,10 +366,10 @@ const FlagsWithAttachments: FC<FlagEditProps> = ({ onDelete }) => {
   return (
     <Stack>
       <Group position="apart" mt={20}>
-        <Title order={2}>flag 管理</Title>
+        <Title order={2}>Flags</Title>
         <Group position="right">
-          <Button onClick={() => setRemoteAttachmentModalOpened(true)}>添加远程附件</Button>
-          <Button onClick={() => setAttachmentUploadModalOpened(true)}>上传动态附件</Button>
+          <Button onClick={() => setRemoteAttachmentModalOpened(true)}>Add remote attachment</Button>
+          <Button onClick={() => setAttachmentUploadModalOpened(true)}>Upload dynamic attachment</Button>
         </Group>
       </Group>
       <Divider />
@@ -383,8 +379,8 @@ const FlagsWithAttachments: FC<FlagEditProps> = ({ onDelete }) => {
             <Overlay opacity={0.3} color={theme.colorScheme === 'dark' ? 'black' : 'white'} />
             <Center style={{ height: 'calc(100vh - 250px)' }}>
               <Stack spacing={0}>
-                <Title order={2}>flag 列表为空</Title>
-                <Text>请通过右上角添加 flag</Text>
+                <Title order={2}>Flag list is empty</Title>
+                <Text>Please add flags through the upper right corner</Text>
               </Stack>
             </Center>
           </>
@@ -392,14 +388,14 @@ const FlagsWithAttachments: FC<FlagEditProps> = ({ onDelete }) => {
         <FlagEditPanel flags={challenge?.flags} onDelete={onDelete} />
       </ScrollArea>
       <AttachmentUploadModal
-        title="批量添加动态附件"
+        title="Batch add dynamic attachments"
         size="40%"
         centered
         opened={attachmentUploadModalOpened}
         onClose={() => setAttachmentUploadModalOpened(false)}
       />
       <AttachmentRemoteEditModal
-        title="批量添加远程附件"
+        title="Batch add remote attachments"
         size="40%"
         centered
         opened={remoteAttachmentModalOpened}
@@ -425,17 +421,17 @@ const GameChallengeEdit: FC = () => {
 
   const onDeleteFlag = (flag: FlagInfoModel) => {
     modals.openConfirmModal({
-      title: '删除 flag',
+      title: 'Delete flag',
       size: '35%',
       children: (
         <Stack>
-          <Text>确定删除下列 flag 吗？</Text>
+          <Text>Are you sure to delete the following flag?</Text>
           <Text style={{ fontFamily: theme.fontFamilyMonospace }}>{flag.flag}</Text>
         </Stack>
       ),
       onConfirm: () => flag.id && onConfirmDeleteFlag(flag.id),
       centered: true,
-      labels: { confirm: '确认', cancel: '取消' },
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
     })
   }
@@ -446,7 +442,7 @@ const GameChallengeEdit: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          message: 'flag 已删除',
+          message: 'Flag deleted',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -470,7 +466,7 @@ const GameChallengeEdit: FC = () => {
               leftIcon={<Icon path={mdiKeyboardBackspace} size={1} />}
               onClick={() => navigate(`/admin/games/${id}/challenges`)}
             >
-              返回上级
+              Back
             </Button>
             <Title lineClamp={1} style={{ wordBreak: 'break-all' }}>
               # {challenge?.title}
@@ -481,7 +477,7 @@ const GameChallengeEdit: FC = () => {
               leftIcon={<Icon path={mdiPuzzleEditOutline} size={1} />}
               onClick={() => navigate(`/admin/games/${id}/challenges/${numCId}`)}
             >
-              编辑题目信息
+              Edit challenge
             </Button>
           </Group>
         </>

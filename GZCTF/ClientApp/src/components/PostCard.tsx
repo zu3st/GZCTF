@@ -42,13 +42,13 @@ const PostCard: FC<PostCardProps> = ({ post, onTogglePinned }) => {
                 {post.authorName?.slice(0, 1) ?? 'A'}
               </Avatar>
               <Text weight={700}>
-                {post.authorName ?? 'Anonym'} 发布于 {dayjs(post.time).format('HH:mm, YY/MM/DD')}
+                {post.authorName ?? 'Anonym'} posted at {dayjs(post.time).format('HH:mm, YY/MM/DD')}
               </Text>
             </Group>
             <Text align="right">
               <Anchor component={Link} to={`/posts/${post.id}`}>
                 <Text span weight={500} size="sm">
-                  查看详情 &gt;&gt;&gt;
+                  View Details &gt;&gt;&gt;
                 </Text>
               </Anchor>
             </Text>
@@ -61,7 +61,7 @@ const PostCard: FC<PostCardProps> = ({ post, onTogglePinned }) => {
               <Title order={3}>
                 {post.isPinned && (
                   <Text span color="brand">
-                    {'[置顶] '}
+                    {'[Pinned] '}
                   </Text>
                 )}
                 {post.title}
@@ -85,7 +85,7 @@ const PostCard: FC<PostCardProps> = ({ post, onTogglePinned }) => {
             <Title order={3}>
               {post.isPinned && (
                 <Text span color="brand">
-                  {'[置顶] '}
+                  {'[Pinned] '}
                 </Text>
               )}
               {post.title}

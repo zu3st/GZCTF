@@ -54,10 +54,10 @@ const RecentGameSlide: FC<RecentGameProps> = ({ game, ...others }) => {
       <Stack style={{ height: '100%' }} spacing={2} justify="space-between">
         <Group spacing={4}>
           <Badge size="sm" variant="filled">
-            {game?.limit === 0 ? '多' : game?.limit === 1 ? '个' : game?.limit}人赛
+            {game?.limit === 0 ? 'Team' : game?.limit === 1 ? 'Solo' : game?.limit} Game
           </Badge>
           <Badge size="sm" variant="filled" color={color}>
-            {`${status === GameStatus.OnGoing ? '剩余' : '共'} ${duration} 小时`}
+            {`${status === GameStatus.OnGoing ? 'Remain' : 'Total'} ${duration} ${duration === 1 ? 'hour' : 'hours'}`}
           </Badge>
         </Group>
         <Title pb={10} order={3} lineClamp={1} className={classes.title}>

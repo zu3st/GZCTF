@@ -16,7 +16,7 @@ import { RequireRole } from './WithRole'
 const pages = [
   {
     icon: mdiFlagOutline,
-    title: '比赛题目',
+    title: 'Challenges',
     path: 'challenges',
     link: 'challenges',
     color: 'blue',
@@ -25,7 +25,7 @@ const pages = [
   },
   {
     icon: mdiChartLine,
-    title: '积分总榜',
+    title: 'Scoreboard',
     path: 'scoreboard',
     link: 'scoreboard',
     color: 'yellow',
@@ -34,7 +34,7 @@ const pages = [
   },
   {
     icon: mdiMonitorEye,
-    title: '比赛监控',
+    title: 'Monitor',
     path: 'monitor',
     link: 'monitor/events',
     color: 'green',
@@ -73,10 +73,10 @@ const GameCountdown: FC<{ game?: DetailedGameInfoModel }> = ({ game }) => {
     >
       <Text style={{ fontWeight: 700 }} lineClamp={1}>
         {countdown.asHours() > 999
-          ? '比赛还会很久'
+          ? 'Distant future'
           : countdown.asSeconds() > 0
           ? `${Math.floor(countdown.asHours())} : ${countdown.format('mm : ss')}`
-          : '比赛已结束'}
+          : 'The game has ended'}
       </Text>
       <Card.Section style={{ marginTop: 4 }}>
         <CustomProgress percentage={progress} py={0} />
@@ -134,7 +134,7 @@ const WithGameTab: FC<React.PropsWithChildren> = ({ children }) => {
         navigate(`/games/${numId}`)
         showNotification({
           color: 'yellow',
-          message: '比赛尚未开始',
+          message: 'The game has not started yet',
           icon: <Icon path={mdiExclamationThick} size={1} />,
           disallowClose: true,
         })
@@ -147,7 +147,7 @@ const WithGameTab: FC<React.PropsWithChildren> = ({ children }) => {
         navigate(`/games/${numId}`)
         showNotification({
           color: 'yellow',
-          message: '比赛已经结束',
+          message: 'The game has ended',
           icon: <Icon path={mdiExclamationThick} size={1} />,
           disallowClose: true,
         })

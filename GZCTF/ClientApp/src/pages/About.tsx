@@ -54,7 +54,7 @@ const About: FC = () => {
   const { classes } = useStyles()
   const { config } = useConfig()
 
-  usePageTitle('关于')
+  usePageTitle('About')
 
   const valid =
     timestamp.length === 25 && builtdate.isValid() && sha.length === 40 && tag.length > 0

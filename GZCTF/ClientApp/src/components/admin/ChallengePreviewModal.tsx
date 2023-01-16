@@ -51,7 +51,7 @@ const ChallengePreviewModal: FC<ChallengePreviewModalProps> = (props) => {
 
     showNotification({
       color: 'teal',
-      title: 'Flag 似乎被正确提交了！',
+      title: 'Flag seems to be submitted correctly!',
       message: flag,
       icon: <Icon path={mdiCheck} size={1} />,
       disallowClose: true,
@@ -129,7 +129,7 @@ const ChallengePreviewModal: FC<ChallengePreviewModalProps> = (props) => {
                       onClick={() =>
                         showNotification({
                           color: 'teal',
-                          message: '假装附件已经下载了！',
+                          message: 'Attachment downloaded!',
                           icon: <Icon path={mdiCheck} size={1} />,
                           disallowClose: true,
                         })
@@ -143,7 +143,7 @@ const ChallengePreviewModal: FC<ChallengePreviewModalProps> = (props) => {
                   </Popover.Target>
                   <Popover.Dropdown>
                     <Text size="sm" align="center">
-                      下载附件
+                      Download attachment
                     </Text>
                   </Popover.Dropdown>
                 </Popover>
@@ -171,7 +171,7 @@ const ChallengePreviewModal: FC<ChallengePreviewModalProps> = (props) => {
                   setStartTime(dayjs())
                 }}
               >
-                开启实例
+                Create Instance
               </Button>
             </Group>
           )}
@@ -179,8 +179,8 @@ const ChallengePreviewModal: FC<ChallengePreviewModalProps> = (props) => {
             <Stack align="center">
               <Group>
                 <Text size="sm" weight={600}>
-                  实例访问入口：
-                  <Tooltip label="点击复制" withArrow classNames={tooltipClasses}>
+                  Instance Endpoint:
+                  <Tooltip label="Click to copy" withArrow classNames={tooltipClasses}>
                     <Code
                       style={{
                         backgroundColor: 'transparent',
@@ -196,10 +196,10 @@ const ChallengePreviewModal: FC<ChallengePreviewModalProps> = (props) => {
               </Group>
               <Group position="center">
                 <Button color="orange" disabled>
-                  延长时间
+                  Extend Time
                 </Button>
                 <Button color="red" onClick={() => setWithContainer(false)}>
-                  销毁实例
+                  Destroy Instance
                 </Button>
               </Group>
             </Stack>
@@ -219,7 +219,7 @@ const ChallengePreviewModal: FC<ChallengePreviewModalProps> = (props) => {
                 fontFamily: `${theme.fontFamilyMonospace}, ${theme.fontFamily}`,
               },
             }}
-            rightSection={<Button type="submit">提交 flag</Button>}
+            rightSection={<Button type="submit">Submit flag</Button>}
           />
         </form>
       </Stack>

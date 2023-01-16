@@ -94,7 +94,7 @@ const ChallengeCard: FC<ChallengeCardProps> = (props: ChallengeCardProps) => {
             <Title order={6} align="center" style={{ marginTop: theme.spacing.xs / 2 }}>
               {`${challenge.solved} `}
               <Text color="dimmed" size="xs" inherit span>
-                支队伍攻克
+                solves
               </Text>
             </Title>
             <Group position="center" spacing="md" style={{ height: 20 }}>

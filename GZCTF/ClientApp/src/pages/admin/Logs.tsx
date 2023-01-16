@@ -40,7 +40,7 @@ const Logs: FC = () => {
       .catch((err) => {
         showNotification({
           color: 'red',
-          title: '获取日志失败',
+          title: 'Failed to get logs',
           message: err.response.data.title,
           icon: <Icon path={mdiClose} size={1} />,
           disallowClose: true,
@@ -72,7 +72,7 @@ const Logs: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          message: '实时日志连接成功',
+          message: 'Connected to real-time logs',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -146,10 +146,10 @@ const Logs: FC = () => {
           <Table className={classes.table}>
             <thead>
               <tr>
-                <th>时间</th>
-                <th>用户名</th>
-                <th>信息</th>
-                <th>状态</th>
+                <th>Time</th>
+                <th>User</th>
+                <th>Message</th>
+                <th>Status</th>
                 <th>IP</th>
               </tr>
             </thead>

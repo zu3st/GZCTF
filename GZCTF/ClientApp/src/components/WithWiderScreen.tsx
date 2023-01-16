@@ -16,9 +16,9 @@ const WithWiderScreen: FC<WithWiderScreenProps> = ({ children, minWidth = 1080 }
     <Stack spacing={0} align="center" justify="center" style={{ height: 'calc(100vh - 32px)' }}>
       <IconWiderScreenRequired />
       <Title order={1} color="#00bfa5" style={{ fontWeight: 'lighter' }}>
-        页面宽度不足
+        Screen Width Insufficient
       </Title>
-      <Text style={{ fontWeight: 'bold' }}>请使用更宽的设备浏览本页面</Text>
+      <Text style={{ fontWeight: 'bold' }}>Please use a wider device to view this page</Text>
     </Stack>
   ) : (
     <>{children}</>

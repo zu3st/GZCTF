@@ -126,7 +126,7 @@ const ChallengePanel: FC = () => {
       <Center sx={{ width: 'calc(100% - 20rem)', height: 'calc(100vh - 100px)' }}>
         <Empty
           bordered
-          description="Ouch! 这个比赛还没有可用题目呢……"
+          description="Ouch! There are no available challenges in this game..."
           fontSize="xl"
           mdiPath={mdiFlagOutline}
           iconSize={8}
@@ -148,7 +148,7 @@ const ChallengePanel: FC = () => {
           leftIcon={<Icon path={mdiFileUploadOutline} size={1} />}
           onClick={() => setWriteupSubmitOpened(true)}
         >
-          提交 Writeup
+          Submit Writeup
         </Button>
         <Divider />
         <Switch
@@ -156,7 +156,7 @@ const ChallengePanel: FC = () => {
           onChange={(e) => setHideSolved(e.target.checked)}
           label={
             <Text size="md" weight={700}>
-              隐藏已解出
+              Hide Solved
             </Text>
           }
         />
@@ -248,8 +248,8 @@ const ChallengePanel: FC = () => {
           </SimpleGrid>
         ) : (
           <Stack spacing={0} pt="20vh" style={{ width: '20em', margin: 'auto' }}>
-            <Title order={2}>题目都被解出啦！</Title>
-            <Text>或许还有更难的挑战在等着你……</Text>
+            <Title order={2}>All challenges are solved!</Title>
+            <Text>Maybe there are more challenges waiting for you...</Text>
           </Stack>
         )}
       </ScrollArea>

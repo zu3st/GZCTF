@@ -60,16 +60,16 @@ const Configs: FC = () => {
         }}
         disabled={!saved}
       >
-        保存配置
+        Save Config
       </Button>
       <Stack style={{ width: '100%' }} spacing="xl">
         <Stack>
-          <Title order={2}>平台设置</Title>
+          <Title order={2}>Platform Settings</Title>
           <Divider />
           <SimpleGrid cols={2}>
             <TextInput
-              label="平台名称"
-              description="平台名称将显示在网页标题、页面顶部等位置，后跟 ::CTF 字段"
+              label="Platform Name"
+              description="Platform name will be shown in page title, top of page, etc. with ::CTF appended"
               placeholder="GZ"
               value={globalConfig?.title ?? ''}
               onChange={(e) => {
@@ -77,8 +77,8 @@ const Configs: FC = () => {
               }}
             />
             <TextInput
-              label="平台标语"
-              description="平台标语将显示在页面顶部和关于页面"
+              label="Platform Slogan"
+              description="Platform slogan will be shown at the top of page and about page"
               placeholder="Hack for fun not for profit"
               value={globalConfig?.slogan ?? ''}
               onChange={(e) => {
@@ -89,13 +89,13 @@ const Configs: FC = () => {
         </Stack>
 
         <Stack>
-          <Title order={2}>账户策略</Title>
+          <Title order={2}>Account Policy</Title>
           <Divider />
           <SimpleGrid cols={2}>
             <Switch
               checked={accountPolicy?.allowRegister ?? true}
               disabled={disabled}
-              label={SwitchLabel('允许新用户注册', '是否允许用户注册新账户')}
+              label={SwitchLabel('Enable user registration', 'Allow new users to register')}
               onChange={(e) =>
                 setAccountPolicy({
                   ...(accountPolicy ?? {}),
@@ -106,7 +106,7 @@ const Configs: FC = () => {
             <Switch
               checked={accountPolicy?.emailConfirmationRequired ?? false}
               disabled={disabled}
-              label={SwitchLabel('需要邮箱确认', '用户注册、更换邮箱、找回密码是否需要邮件确认')}
+              label={SwitchLabel('Require email confirmation', 'Require email confirmation for user registration, email change and password reset')}
               onChange={(e) =>
                 setAccountPolicy({
                   ...(accountPolicy ?? {}),
@@ -117,7 +117,7 @@ const Configs: FC = () => {
             <Switch
               checked={accountPolicy?.activeOnRegister ?? true}
               disabled={disabled}
-              label={SwitchLabel('注册后自动激活', '是否在新用户注册后自动激活账户')}
+              label={SwitchLabel('Active user on register', 'Automatically activate users on registration')}
               onChange={(e) =>
                 setAccountPolicy({
                   ...(accountPolicy ?? {}),
@@ -128,7 +128,7 @@ const Configs: FC = () => {
             <Switch
               checked={accountPolicy?.useGoogleRecaptcha ?? false}
               disabled={disabled}
-              label={SwitchLabel('使用谷歌验证码', '是否在用户发送验证邮件时检查谷歌验证码有效性')}
+              label={SwitchLabel('Use Google reCAPTCHA', 'Require Google reCAPTCHA for user registration, email change and password reset')}
               onChange={(e) =>
                 setAccountPolicy({
                   ...(accountPolicy ?? {}),
@@ -138,9 +138,9 @@ const Configs: FC = () => {
             />
           </SimpleGrid>
           <TextInput
-            label="可用邮箱域名列表"
-            description="允许注册的邮箱域名列表，多个域名用逗号分隔，留空则不限制"
-            placeholder="不限制注册域名"
+            label="Allowed Email Domains"
+            description="Comma separated list of allowed email domains, leave empty to allow all domains"
+            placeholder="No domain restriction"
             value={accountPolicy?.emailDomainList ?? ''}
             onChange={(e) => {
               setAccountPolicy({ ...(accountPolicy ?? {}), emailDomainList: e.currentTarget.value })

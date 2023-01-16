@@ -58,7 +58,7 @@ const GameNoticePanel: FC = () => {
       .catch((err) => {
         showNotification({
           color: 'red',
-          title: '获取通知失败',
+          title: 'Failed to fetch notifications',
           message: err.response.data.title,
           icon: <Icon path={mdiClose} size={1} />,
           disallowClose: true,
@@ -108,7 +108,7 @@ const GameNoticePanel: FC = () => {
       connection
         .start()
         .then(() => {
-          console.log('> 实时比赛通知已连接')
+          console.log('> Connected to real-time notifications')
         })
         .catch((error) => {
           console.error(error)
@@ -145,10 +145,10 @@ const GameNoticePanel: FC = () => {
           }}
           onChange={(value: NoticeFilter) => setFilter(value)}
           data={[
-            { value: NoticeFilter.All, label: '全部' },
-            { value: NoticeFilter.Game, label: '通知' },
-            { value: NoticeFilter.Events, label: '动态' },
-            { value: NoticeFilter.Challenge, label: '题目' },
+            { value: NoticeFilter.All, label: 'All' },
+            { value: NoticeFilter.Game, label: 'Game' },
+            { value: NoticeFilter.Events, label: 'Events' },
+            { value: NoticeFilter.Challenge, label: 'Challenges' },
           ]}
         />
         {filteredNotices.length ? (
@@ -177,7 +177,7 @@ const GameNoticePanel: FC = () => {
           </ScrollArea>
         ) : (
           <Stack justify="center" style={{ height: 'calc(100vh - 25rem)' }}>
-            <Empty description="暂无通知" />
+            <Empty description="No notifications yet" />
           </Stack>
         )}
       </Stack>

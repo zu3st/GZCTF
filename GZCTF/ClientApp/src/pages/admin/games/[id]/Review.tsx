@@ -40,7 +40,7 @@ const StatusMap = new Map([
   [
     ParticipationStatus.Pending,
     {
-      title: '待审核',
+      title: 'Pending',
       color: 'yellow',
       iconPath: mdiHelpCircleOutline,
       transformTo: [ParticipationStatus.Accepted, ParticipationStatus.Denied],
@@ -49,7 +49,7 @@ const StatusMap = new Map([
   [
     ParticipationStatus.Accepted,
     {
-      title: '审核通过',
+      title: 'Accepted',
       color: 'green',
       iconPath: mdiCheck,
       transformTo: [ParticipationStatus.Forfeited],
@@ -57,12 +57,12 @@ const StatusMap = new Map([
   ],
   [
     ParticipationStatus.Denied,
-    { title: '审核不通过', color: 'red', iconPath: mdiClose, transformTo: [] },
+    { title: 'Denied', color: 'red', iconPath: mdiClose, transformTo: [] },
   ],
   [
     ParticipationStatus.Forfeited,
     {
-      title: '禁赛',
+      title: 'Forfeited',
       color: 'alert',
       iconPath: mdiCancel,
       transformTo: [ParticipationStatus.Accepted],
@@ -124,17 +124,17 @@ const MemberItem: FC<MemberItemProps> = (props) => {
             </Group>
             <Group noWrap spacing="xs">
               <Icon path={mdiBadgeAccountHorizontalOutline} {...iconProps} />
-              <Text>{!user.stdNumber ? '未填写' : user.stdNumber}</Text>
+              <Text>{!user.stdNumber ? 'Not set' : user.stdNumber}</Text>
             </Group>
           </Stack>
           <Stack spacing={2}>
             <Group noWrap spacing="xs">
               <Icon path={mdiEmailOutline} {...iconProps} />
-              <Text>{!user.email ? '未填写' : user.email}</Text>
+              <Text>{!user.email ? 'Not set' : user.email}</Text>
             </Group>
             <Group noWrap spacing="xs">
               <Icon path={mdiPhoneOutline} {...iconProps} />
-              <Text>{!user.phone ? '未填写' : user.phone}</Text>
+              <Text>{!user.phone ? 'Not set' : user.phone}</Text>
             </Group>
           </Stack>
         </Group>
@@ -144,12 +144,12 @@ const MemberItem: FC<MemberItemProps> = (props) => {
           <Group spacing={0}>
             <Icon path={mdiStar} color={theme.colors.yellow[4]} size={0.9} />
             <Text size="sm" weight={500} color="yellow">
-              队长
+              Captain
             </Text>
           </Group>
         )}
         <Text size="sm" weight={700} color={isRegistered ? 'teal' : 'orange'}>
-          {isRegistered ? '已报名' : '未报名'}
+          {isRegistered ? 'Registered' : 'Not registered'}
         </Text>
       </Group>
     </Group>
@@ -175,10 +175,10 @@ const ParticipationItem: FC<ParticipationItemProps> = (props) => {
               <Avatar src={participation.team?.avatar} />
               <Box>
                 <Text weight={500}>
-                  {!participation.team?.name ? '（无名队伍）' : participation.team.name}
+                  {!participation.team?.name ? '(No name)' : participation.team.name}
                 </Text>
                 <Text size="sm" color="dimmed">
-                  {!participation.team?.bio ? '（未设置签名）' : participation.team.bio}
+                  {!participation.team?.bio ? '(No bio)' : participation.team.bio}
                 </Text>
               </Box>
             </Group>
@@ -187,7 +187,7 @@ const ParticipationItem: FC<ParticipationItemProps> = (props) => {
                 <Text>{participation.organization}</Text>
                 <Text size="sm" color="dimmed" weight={700}>
                   {participation.registeredMembers?.length ?? 0}/
-                  {participation.team?.members?.length ?? 0} 已报名
+                  {participation.team?.members?.length ?? 0} registered
                 </Text>
               </Box>
               <Badge color={StatusMap.get(participation.status!)?.color}>
@@ -207,7 +207,7 @@ const ParticipationItem: FC<ParticipationItemProps> = (props) => {
                 key={`${participation.id}@${value}`}
                 iconPath={s.iconPath}
                 color={s.color}
-                message={`确定要设为“${s.title}”吗？`}
+                message={`Are you sure to set to "${s.title}"?`}
                 disabled={disabled}
                 onClick={() => setParticipationStatus(participation.id!, value)}
               />
@@ -251,8 +251,8 @@ const GameTeamReview: FC = () => {
       )
       showNotification({
         color: 'teal',
-        title: '操作成功',
-        message: '参与状态已更新',
+        title: 'Success',
+        message: "Participation status has been updated",
         icon: <Icon path={mdiCheck} size={1} />,
         disallowClose: true,
       })
@@ -267,7 +267,7 @@ const GameTeamReview: FC = () => {
     if (numId < 0) {
       showNotification({
         color: 'red',
-        message: `比赛 Id 错误：${id}`,
+        message: `Game Id Error: ${id}`,
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -290,11 +290,11 @@ const GameTeamReview: FC = () => {
             leftIcon={<Icon path={mdiKeyboardBackspace} size={1} />}
             onClick={() => navigate('/admin/games')}
           >
-            返回上级
+            Back
           </Button>
           <Group w="calc(100% - 9rem)" position="left">
             <Select
-              placeholder="全部显示"
+              placeholder="Show All"
               clearable
               data={Array.from(StatusMap, (v) => ({ value: v[0], label: v[1].title }))}
               value={selectedStatus}
@@ -312,8 +312,8 @@ const GameTeamReview: FC = () => {
         {!participations || participations.length === 0 ? (
           <Center style={{ height: 'calc(100vh - 200px)' }}>
             <Stack spacing={0}>
-              <Title order={2}>Ouch! 还没有队伍报名这个比赛</Title>
-              <Text>在路上了……别急！</Text>
+              <Title order={2}>Ouch! No team has registered for this game</Title>
+              <Text>Patience is a virtue</Text>
             </Stack>
           </Center>
         ) : (

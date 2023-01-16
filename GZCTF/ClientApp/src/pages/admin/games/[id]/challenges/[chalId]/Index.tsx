@@ -87,7 +87,7 @@ const GameChallengeEdit: FC = () => {
           if (!noFeedback) {
             showNotification({
               color: 'teal',
-              message: '题目已更新',
+              message: 'Challenge updated',
               icon: <Icon path={mdiCheck} size={1} />,
               disallowClose: true,
             })
@@ -110,7 +110,7 @@ const GameChallengeEdit: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          message: '题目已删除',
+          message: 'Challenge removed',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -129,7 +129,7 @@ const GameChallengeEdit: FC = () => {
       .then((res) => {
         showNotification({
           color: 'teal',
-          message: '实例已创建',
+          message: 'Test container created',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -147,7 +147,7 @@ const GameChallengeEdit: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          message: '实例已销毁',
+          message: 'Test container destroyed',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -184,7 +184,7 @@ const GameChallengeEdit: FC = () => {
               leftIcon={<Icon path={mdiKeyboardBackspace} size={1} />}
               onClick={() => navigate(`/admin/games/${id}/challenges`)}
             >
-              返回上级
+              Back
             </Button>
             <Title lineClamp={1} style={{ wordBreak: 'break-all' }}>
               # {challengeInfo?.title}
@@ -198,30 +198,30 @@ const GameChallengeEdit: FC = () => {
               variant="outline"
               onClick={() =>
                 modals.openConfirmModal({
-                  title: `删除题目`,
-                  children: <Text size="sm">你确定要删除题目 "{challengeInfo.title}" 吗？</Text>,
+                  title: "Delete Challenge",
+                  children: <Text size="sm">Are you sure to delete challenge "{challengeInfo.title}"?</Text>,
                   onConfirm: () => onConfirmDelete(),
                   centered: true,
-                  labels: { confirm: '确认', cancel: '取消' },
+                  labels: { confirm: 'Confirm', cancel: 'Cancel' },
                   confirmProps: { color: 'red' },
                 })
               }
             >
-              删除题目
+              Delete Challenge
             </Button>
             <Button
               disabled={disabled}
               leftIcon={<Icon path={mdiEyeOutline} size={1} />}
               onClick={() => setPreviewOpend(true)}
             >
-              题目预览
+              Preview Challenge
             </Button>
             <Button
               disabled={disabled}
               leftIcon={<Icon path={mdiDatabaseEditOutline} size={1} />}
               onClick={() => navigate(`/admin/games/${numId}/challenges/${numCId}/flags`)}
             >
-              编辑附件及 flag
+              Edit Attachments and Flags
             </Button>
             <Button
               disabled={disabled}
@@ -234,7 +234,7 @@ const GameChallengeEdit: FC = () => {
                 })
               }
             >
-              保存更改
+              Save Changes
             </Button>
           </Group>
         </>
@@ -244,7 +244,7 @@ const GameChallengeEdit: FC = () => {
         <Grid columns={3}>
           <Grid.Col span={1}>
             <TextInput
-              label="题目标题"
+              label="Title"
               disabled={disabled}
               value={challengeInfo.title ?? ''}
               required
@@ -255,9 +255,9 @@ const GameChallengeEdit: FC = () => {
             <Select
               label={
                 <Group spacing="sm">
-                  <Text size="sm">题目类型</Text>
+                  <Text size="sm">Type</Text>
                   <Text size="xs" color="dimmed">
-                    创建后不可更改
+                    Cannot be changed after creation
                   </Text>
                 </Group>
               }
@@ -275,7 +275,7 @@ const GameChallengeEdit: FC = () => {
           <Grid.Col span={1}>
             <Select
               required
-              label="题目标签"
+              label="Tag"
               placeholder="Tag"
               value={tag}
               disabled={disabled}
@@ -294,9 +294,9 @@ const GameChallengeEdit: FC = () => {
             <Textarea
               label={
                 <Group spacing="sm">
-                  <Text size="sm">题目描述</Text>
+                  <Text size="sm">Content</Text>
                   <Text size="xs" color="dimmed">
-                    支持 markdown 语法
+                    Supports Markdown syntax
                   </Text>
                 </Group>
               }
@@ -312,7 +312,7 @@ const GameChallengeEdit: FC = () => {
           <Grid.Col span={1}>
             <Stack spacing="sm">
               <HintList
-                label="题目提示"
+                label="Hints"
                 hints={challengeInfo?.hints ?? []}
                 disabled={disabled}
                 height={180}
@@ -323,7 +323,7 @@ const GameChallengeEdit: FC = () => {
           <Grid.Col span={1}>
             <Stack spacing="sm">
               <NumberInput
-                label="题目分值"
+                label="Initial Score"
                 min={0}
                 required
                 disabled={disabled}
@@ -333,7 +333,7 @@ const GameChallengeEdit: FC = () => {
                 onChange={(e) => setChallengeInfo({ ...challengeInfo, originalScore: e })}
               />
               <NumberInput
-                label="难度系数"
+                label="Difficulty"
                 precision={1}
                 step={0.2}
                 min={0.1}
@@ -344,10 +344,10 @@ const GameChallengeEdit: FC = () => {
                 stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}
                 onChange={(e) => setChallengeInfo({ ...challengeInfo, difficulty: e })}
               />
-              <Input.Wrapper label="题目最低分值比例" required>
+              <Input.Wrapper label="Minimum Score Ratio">
                 <Slider
                   label={(value) =>
-                    `最低分值: ${((value / 100) * (challengeInfo?.originalScore ?? 500)).toFixed(
+                    `Minimum score: ${((value / 100) * (challengeInfo?.originalScore ?? 500)).toFixed(
                       0
                     )}pts`
                   }
@@ -380,8 +380,8 @@ const GameChallengeEdit: FC = () => {
         </Grid>
         {type === ChallengeType.DynamicAttachment && (
           <TextInput
-            label="全局附件名"
-            description="所有动态附件均会以此文件名下载"
+            label="Generated File Name"
+            description="All dynamic attachments will be downloaded with this file name"
             disabled={disabled}
             value={challengeInfo.fileName ?? 'attachment'}
             onChange={(e) => setChallengeInfo({ ...challengeInfo, fileName: e.target.value })}
@@ -391,7 +391,7 @@ const GameChallengeEdit: FC = () => {
           <Grid columns={12}>
             <Grid.Col span={8}>
               <TextInput
-                label="容器镜像"
+                label="Container Image"
                 disabled={disabled}
                 value={challengeInfo.containerImage ?? ''}
                 required
@@ -402,7 +402,7 @@ const GameChallengeEdit: FC = () => {
                     disabled={disabled}
                     onClick={onToggleTestContainer}
                   >
-                    {challenge?.testContainer ? '关闭' : '开启'}测试容器
+                    {challenge?.testContainer ? 'Create' : 'Destroy'} Test Container
                   </Button>
                 }
                 onChange={(e) =>
@@ -425,15 +425,15 @@ const GameChallengeEdit: FC = () => {
                   </Code>
                 ) : (
                   <Text size="sm" weight={600} color="dimmed">
-                    测试容器未开启
+                    Test container is not running
                   </Text>
                 )}
               </Group>
             </Grid.Col>
             <Grid.Col span={2}>
               <NumberInput
-                label="服务端口"
-                description="容器内服务暴露的端口"
+                label="Service Port"
+                description="The port exposed by the service in the container"
                 min={1}
                 max={65535}
                 required
@@ -446,8 +446,8 @@ const GameChallengeEdit: FC = () => {
             </Grid.Col>
             <Grid.Col span={2}>
               <NumberInput
-                label="CPU 数量限制"
-                description="限制容器使用的 CPU"
+                label="CPU Count Limit"
+                description="Limit the number of CPUs used by the container"
                 min={1}
                 max={1024}
                 required
@@ -460,8 +460,8 @@ const GameChallengeEdit: FC = () => {
             </Grid.Col>
             <Grid.Col span={2}>
               <NumberInput
-                label="内存限制 (MB)"
-                description="限制容器使用的 RAM"
+                label="Memory Limit (MB)"
+                description="Limit the amount of RAM used by the container"
                 min={32}
                 max={1048576}
                 required
@@ -474,8 +474,8 @@ const GameChallengeEdit: FC = () => {
             </Grid.Col>
             <Grid.Col span={2}>
               <NumberInput
-                label="存储限制 (MB)"
-                description="限制存储空间，含镜像大小"
+                label="Storage Limit (MB)"
+                description="Limit the amount of storage used by the container, including the image size"
                 min={128}
                 max={1048576}
                 required
@@ -490,7 +490,7 @@ const GameChallengeEdit: FC = () => {
               <Switch
                 disabled={disabled}
                 checked={challengeInfo.privilegedContainer ?? false}
-                label={SwitchLabel('特权容器', '以特权模式运行容器，Swarm 不受支持')}
+                label={SwitchLabel('Privileged Container', 'Run container in privileged mode, Swarm is not supported')}
                 onChange={(e) =>
                   setChallengeInfo({ ...challengeInfo, privilegedContainer: e.target.checked })
                 }

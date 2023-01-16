@@ -89,7 +89,7 @@ const Post: FC = () => {
             {post?.authorName?.slice(0, 1) ?? 'A'}
           </Avatar>
           <Text weight={700}>
-            {post?.authorName ?? 'Anonym'} 发布于 {dayjs(post?.time).format('HH:mm, YY/MM/DD')}
+            {post?.authorName ?? 'Anonym'} posted at  {dayjs(post?.time).format('HH:mm, YY/MM/DD')}
           </Text>
         </Group>
       </Container>
@@ -102,7 +102,7 @@ const Post: FC = () => {
           leftIcon={<Icon path={mdiPencilOutline} size={1} />}
           onClick={() => navigate(`/posts/${postId}/edit`)}
         >
-          编辑文章
+          Edit Post
         </Button>
       )}
     </WithNavBar>

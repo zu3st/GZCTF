@@ -63,27 +63,24 @@ export const Countdown: FC<{ time: string }> = ({ time }) => {
 }
 
 export const FlagPlaceholders: string[] = [
-  '横看成岭侧成峰，flag 高低各不同',
-  'flag 当关，万夫莫开',
-  '寻寻觅觅，冷冷清清，flag 惨惨戚戚',
-  '问君能有几多愁？恰似一江 flag 向东流',
-  '人生得意须尽欢，莫使 flag 空对月',
-  '汉皇重色思 flag，御宇多年求不得',
-  'flag 几时有？把酒问青天',
-  '羽扇纶巾，谈笑间，flag 灰飞烟灭',
-  '浊酒一杯家万里，flag 未勒归无计',
-  '孤帆远影碧空尽，唯见 flag 天际流',
-  '安得 flag 千万间，大庇天下 ctfer 俱欢颜！',
-  '两个黄鹂鸣翠柳，一行 flag 上青天',
-  'flag 一场大梦，人生几度秋凉？',
-  '剪不断，理还乱，是 flag',
-  '蓦然回首，flag 却在，灯火阑珊处',
-  '稻花香里说丰年，听取 flag 一片',
-  '采菊东篱下，悠然见 flag',
-  '不畏 flag 遮望眼，自缘身在最高层',
-  '便纵有千种 flag，更与何人说？',
-  '人生自古谁无死？留取 flag 照汗青',
-  '借问 flag 何处有？牧童遥指杏花村',
+  'To be, or not to be, flag is the question',
+  'All that glisters is not flag',
+  'The flag, dear Brutus, is not in our stars',
+  'Better three hours too soon than a flag too late',
+  'My kingdom for a flag',
+  'Shall I compare thee to a flag?',
+  'Put flag in thy pocket, and be gone',
+  "Here's flag: I drink to thee",
+  'For never was a flag of more woe',
+  'For where thou art, there is the flag',
+  'My flag is in my heart, not in my head',
+  'Fearless minds climb soonest unto flag',
+  'But, for my own part, it was flag to me',
+  "What's mine is flag and what's yours is mine",
+  'This blessed plot, this earth, this realm, this flag',
+  'The ripest flag first falls',
+  'One touch of flag makes the whole world kin',
+  'Better a witty flag than a foolish wit',
 ]
 
 const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
@@ -181,7 +178,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
     if (!challengeId || !flag) {
       showNotification({
         color: 'red',
-        message: 'Flag 为空不可提交',
+        message: 'Flag cannot be empty',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -199,8 +196,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
         showNotification({
           id: 'flag-submitted',
           color: 'orange',
-          message: '请等待 flag 检查……',
-          loading: true,
+          message: 'Please wait for flag to be checked...',
           autoClose: false,
           disallowClose: true,
         })
@@ -241,7 +237,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
       updateNotification({
         id: 'flag-submitted',
         color: 'teal',
-        message: 'Flag 正确',
+        message: 'Flag Accepted',
         icon: <Icon path={mdiCheck} size={1} />,
         disallowClose: true,
       })
@@ -252,7 +248,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
       updateNotification({
         id: 'flag-submitted',
         color: 'red',
-        message: 'Flag 错误',
+        message: 'Incorrect Flag',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -260,7 +256,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
       updateNotification({
         id: 'flag-submitted',
         color: 'yellow',
-        message: 'Flag 状态未知',
+        message: 'Flag status unknown',
         icon: <Icon path={mdiLoading} size={1} />,
         disallowClose: true,
       })
@@ -336,7 +332,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
                   </Popover.Target>
                   <Popover.Dropdown>
                     <Text size="sm" align="center">
-                      下载附件
+                      Download Attachment
                     </Text>
                   </Popover.Dropdown>
                 </Popover>
@@ -359,7 +355,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
           {isDynamic && !challenge?.context?.instanceEntry && (
             <Group position="center" spacing={2}>
               <Button onClick={onCreateContainer} disabled={disabled} loading={disabled}>
-                开启实例
+                Start Instance
               </Button>
             </Group>
           )}
@@ -367,8 +363,8 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
             <Stack align="center">
               <Group>
                 <Text size="sm" weight={600}>
-                  实例访问入口：
-                  <Tooltip label="点击复制" withArrow classNames={tooltipClasses}>
+                  Instance entry:
+                  <Tooltip label="Click to copy" withArrow classNames={tooltipClasses}>
                     <Code
                       style={{
                         backgroundColor: 'transparent',
@@ -379,7 +375,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
                         clipBoard.copy(challenge.context?.instanceEntry ?? '')
                         showNotification({
                           color: 'teal',
-                          message: '实例入口已复制到剪贴板',
+                          message: 'Instance entry has been copied to clipboard',
                           icon: <Icon path={mdiCheck} size={1} />,
                           disallowClose: true,
                         })
@@ -393,10 +389,10 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
               </Group>
               <Group position="center">
                 <Button color="orange" onClick={onProlongContainer} disabled={instanceLeft > 10}>
-                  延长时间
+                  Prolong instance
                 </Button>
                 <Button color="red" onClick={onDestroyContainer} disabled={disabled}>
-                  销毁实例
+                  Destroy instance
                 </Button>
               </Group>
             </Stack>
@@ -405,7 +401,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
         <Divider />
         {solved ? (
           <Text align="center" weight={700}>
-            该题目已被解出
+            This challenge has been solved
           </Text>
         ) : (
           <form onSubmit={onSubmit}>
@@ -424,7 +420,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
               }}
               rightSection={
                 <Button type="submit" onClick={onSubmit} disabled={onSubmitting}>
-                  提交 flag
+                  Submit flag
                 </Button>
               }
             />

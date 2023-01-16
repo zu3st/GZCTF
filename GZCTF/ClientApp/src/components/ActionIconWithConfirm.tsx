@@ -46,7 +46,7 @@ export const ActionIconWithConfirm: FC<ActionIconWithConfirmProps> = (props) => 
                 })
               }}
             >
-              确定
+              Confirm
             </Button>
             <Button
               size="xs"
@@ -55,7 +55,7 @@ export const ActionIconWithConfirm: FC<ActionIconWithConfirmProps> = (props) => 
               disabled={props.disabled}
               onClick={() => setOpened(false)}
             >
-              取消
+              Cancel
             </Button>
           </Group>
         </Stack>

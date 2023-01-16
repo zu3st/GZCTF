@@ -46,7 +46,7 @@ const FlagCreateModal: FC<ModalProps> = (props) => {
       .then(() => {
         showNotification({
           color: 'teal',
-          message: 'flag 创建成功',
+          message: 'Flag created',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -70,9 +70,9 @@ const FlagCreateModal: FC<ModalProps> = (props) => {
   return (
     <Modal {...props}>
       <Stack>
-        <Text>创建一个 flag，每道静态题目可以拥有多个 flag，任意 flag 被获取均可得分。</Text>
+        <Text>Create a flag, each static challenge can have multiple flags, and any of them can be used to solve the challenge.</Text>
         <TextInput
-          label="flag 内容"
+          label="Flag"
           type="text"
           required
           placeholder="flag{...}"
@@ -87,7 +87,7 @@ const FlagCreateModal: FC<ModalProps> = (props) => {
         />
         <Group grow style={{ margin: 'auto', width: '100%' }}>
           <Button fullWidth disabled={disabled} onClick={onCreate}>
-            创建 flag
+            Create flag
           </Button>
         </Group>
       </Stack>

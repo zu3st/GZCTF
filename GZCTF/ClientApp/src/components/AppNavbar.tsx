@@ -87,12 +87,12 @@ interface NavbarItem {
 }
 
 const items: NavbarItem[] = [
-  { icon: mdiHomeVariantOutline, label: '主页', link: '/' },
-  { icon: mdiNoteTextOutline, label: '文章', link: '/posts' },
-  { icon: mdiFlagOutline, label: '赛事', link: '/games' },
-  { icon: mdiAccountGroupOutline, label: '队伍', link: '/teams' },
-  { icon: mdiInformationOutline, label: '关于', link: '/about' },
-  { icon: mdiWrenchOutline, label: '管理', link: '/admin/games', admin: true },
+  { icon: mdiHomeVariantOutline, label: 'Home', link: '/' },
+  { icon: mdiNoteTextOutline, label: 'Posts', link: '/posts' },
+  { icon: mdiFlagOutline, label: 'Games', link: '/games' },
+  { icon: mdiAccountGroupOutline, label: 'Teams', link: '/teams' },
+  { icon: mdiInformationOutline, label: 'About', link: '/about' },
+  { icon: mdiWrenchOutline, label: 'Settings', link: '/admin/games', admin: true },
 ]
 
 export interface NavbarLinkProps {
@@ -143,7 +143,7 @@ const AppNavbar: FC = () => {
       api.account.mutateAccountProfile()
       showNotification({
         color: 'teal',
-        title: '登出成功',
+        title: 'Logged out',
         message: '',
         icon: <Icon path={mdiCheck} size={1} />,
         disallowClose: true,
@@ -191,7 +191,7 @@ const AppNavbar: FC = () => {
         <Stack align="center" spacing={5}>
           {/* Color Mode */}
           <Tooltip
-            label={'切换至' + (colorScheme === 'dark' ? '浅色' : '深色') + '主题'}
+            label={'Switch to ' + (colorScheme === 'dark' ? 'Light' : 'Dark') + ' mode'}
             classNames={{ tooltip: classes.tooltipBody }}
             position="right"
           >
@@ -224,15 +224,15 @@ const AppNavbar: FC = () => {
                   to="/account/profile"
                   icon={<Icon path={mdiAccountCircleOutline} size={1} />}
                 >
-                  用户信息
+                  Profile
                 </Menu.Item>
                 <Menu.Item color="red" onClick={logout} icon={<Icon path={mdiLogout} size={1} />}>
-                  登出
+                  Log out
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
           ) : (
-            <Tooltip label="登录" classNames={{ tooltip: classes.tooltipBody }} position="right">
+            <Tooltip label="Login" classNames={{ tooltip: classes.tooltipBody }} position="right">
               <ActionIcon
                 component={Link}
                 to={`/account/login?from=${location.pathname}`}

@@ -47,17 +47,17 @@ const GameChallengeEdit: FC = () => {
     challenge: ChallengeInfoModel,
     setDisabled: Dispatch<SetStateAction<boolean>>
   ) => {
-    const op = challenge.isEnabled ? '禁用' : '启用'
+    const op = challenge.isEnabled ? 'Disable' : 'Enable'
     modals.openConfirmModal({
-      title: `${op}题目`,
+      title: `${op} challenge`, 
       children: (
         <Text size="sm">
-          你确定要{op}题目 "{challenge.title}" 吗？
+          Are you sure to {op} challenge "{challenge.title}"?
         </Text>
       ),
       onConfirm: () => onConfirmToggle(challenge, setDisabled),
       centered: true,
-      labels: { confirm: '确认', cancel: '取消' },
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
       confirmProps: { color: 'orange' },
     })
   }
@@ -75,7 +75,7 @@ const GameChallengeEdit: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          message: '题目状态更新成功',
+          message: 'Challenge status updated successfully',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -101,15 +101,15 @@ const GameChallengeEdit: FC = () => {
             leftIcon={<Icon path={mdiKeyboardBackspace} size={1} />}
             onClick={() => navigate('/admin/games')}
           >
-            返回上级
+            Back
           </Button>
           <Group w="calc(100% - 9rem)" position="apart">
             <Select
-              placeholder="全部题目"
+              placeholder="All challenges"
               clearable
               searchable
-              nothingFound="没有找到标签"
-              clearButtonLabel="显示全部"
+              nothingFound="No tags found"
+              clearButtonLabel="Show all"
               value={category}
               onChange={(value: ChallengeTag) => setCategory(value)}
               itemComponent={ChallengeTagItem}
@@ -123,14 +123,14 @@ const GameChallengeEdit: FC = () => {
                 leftIcon={<Icon path={mdiHexagonSlice6} size={1} />}
                 onClick={() => setBonusOpened(true)}
               >
-                三血奖励
+                First Blood Bonus
               </Button>
               <Button
                 style={{ marginRight: '18px' }}
                 leftIcon={<Icon path={mdiPlus} size={1} />}
                 onClick={() => setCreateOpened(true)}
               >
-                新建题目
+                Create Challenge
               </Button>
             </Group>
           </Group>
@@ -145,8 +145,8 @@ const GameChallengeEdit: FC = () => {
         {!filteredChallenges || filteredChallenges.length === 0 ? (
           <Center style={{ height: 'calc(100vh - 200px)' }}>
             <Stack spacing={0}>
-              <Title order={2}>Ouch! 这个比赛还没有题目</Title>
-              <Text>点击右上角创建第一个题目</Text>
+              <Title order={2}>Ouch! This game has no challenges</Title>
+              <Text>Click the button on the top right to create the first challenge</Text>
             </Stack>
           </Center>
         ) : (
@@ -166,7 +166,7 @@ const GameChallengeEdit: FC = () => {
         )}
       </ScrollArea>
       <ChallengeCreateModal
-        title="新建题目"
+        title="Create Challenge"
         centered
         size="30%"
         opened={createOpened}
@@ -174,7 +174,7 @@ const GameChallengeEdit: FC = () => {
         onAddChallenge={(challenge) => mutate([challenge, ...(challenges ?? [])])}
       />
       <BloodBonusModel
-        title="三血奖励"
+        title="First Blood Bonus"
         centered
         size="30%"
         opened={bonusOpened}

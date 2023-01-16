@@ -62,7 +62,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
       .then(() => {
         showNotification({
           color: 'teal',
-          message: '用户信息已更新',
+          message: 'User information updated',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -82,7 +82,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
         <Grid grow>
           <Grid.Col span={8}>
             <TextInput
-              label="用户名"
+              label="Username"
               type="text"
               style={{ width: '100%' }}
               value={profile.userName ?? 'ctfer'}
@@ -96,7 +96,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
             </Center>
           </Grid.Col>
         </Grid>
-        <Input.Wrapper label="用户角色">
+        <Input.Wrapper label="Role">
           <SegmentedControl
             fullWidth
             disabled={disabled}
@@ -111,7 +111,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
         </Input.Wrapper>
         <SimpleGrid cols={2}>
           <TextInput
-            label="邮箱"
+            label="Email"
             type="email"
             style={{ width: '100%' }}
             value={profile.email ?? 'ctfer@gzti.me'}
@@ -119,7 +119,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
             onChange={(event) => setProfile({ ...profile, email: event.target.value })}
           />
           <TextInput
-            label="手机号"
+            label="Phone"
             type="tel"
             style={{ width: '100%' }}
             value={profile.phone ?? ''}
@@ -127,7 +127,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
             onChange={(event) => setProfile({ ...profile, phone: event.target.value })}
           />
           <TextInput
-            label="学工号"
+            label="Matriculation Number"
             type="number"
             style={{ width: '100%' }}
             value={profile.stdNumber ?? ''}
@@ -135,7 +135,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
             onChange={(event) => setProfile({ ...profile, stdNumber: event.target.value })}
           />
           <TextInput
-            label="真实姓名"
+            label="Real Name"
             type="text"
             style={{ width: '100%' }}
             value={profile.realName ?? ''}
@@ -144,8 +144,8 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
           />
         </SimpleGrid>
         <Textarea
-          label="描述"
-          value={profile.bio ?? '这个人很懒，什么都没有写'}
+          label="Bio"
+          value={profile.bio ?? 'Apparently, this user prefers to keep an air of mystery about them'}
           style={{ width: '100%' }}
           disabled={disabled}
           autosize
@@ -157,7 +157,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
         <Stack spacing={2}>
           <Group position="apart">
             <Text size="sm" weight={500}>
-              用户 IP
+              User IP
             </Text>
             <Text
               size="sm"
@@ -170,7 +170,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
           </Group>
           <Group position="apart">
             <Text size="sm" weight={500}>
-              最后访问时间
+              Last Visited
             </Text>
             <Text
               size="sm"
@@ -185,7 +185,7 @@ const UserEditModal: FC<UserEditModalProps> = (props) => {
 
         <Group grow style={{ margin: 'auto', width: '100%' }}>
           <Button fullWidth disabled={disabled} onClick={onChangeProfile}>
-            保存信息
+            Save Changes
           </Button>
         </Group>
       </Stack>

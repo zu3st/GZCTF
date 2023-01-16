@@ -42,7 +42,7 @@ const AttachmentRemoteEditModal: FC<ModalProps> = (props) => {
         .then(() => {
           showNotification({
             color: 'teal',
-            message: '附件已更新',
+            message: 'Attachments updated',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -60,8 +60,8 @@ const AttachmentRemoteEditModal: FC<ModalProps> = (props) => {
     <Modal {...props}>
       <Stack>
         <Text>
-          批量设置远程附件及对应 flag，<strong>请将 flag 字符串与 url 以空格或制表符隔开</strong>
-          ，每行一组
+          Batch set remote attachments and corresponding flags, <strong> please separate the flag string and url with spaces or tabs </strong>
+          , one group per line
         </Text>
         <Textarea
           styles={{
@@ -79,7 +79,7 @@ const AttachmentRemoteEditModal: FC<ModalProps> = (props) => {
           required
         />
         <Button fullWidth disabled={disabled} onClick={onUpload}>
-          批量添加
+          Batch add
         </Button>
       </Stack>
     </Modal>

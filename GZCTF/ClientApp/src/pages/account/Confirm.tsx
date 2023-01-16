@@ -16,7 +16,7 @@ const Confirm: FC = () => {
   const email = sp.get('email')
   const runOnce = useRef(false)
 
-  usePageTitle('邮箱验证')
+  usePageTitle('Email Confirmation')
 
   useEffect(() => {
     if (token && email && !runOnce.current) {
@@ -26,7 +26,7 @@ const Confirm: FC = () => {
         .then(() => {
           showNotification({
             color: 'teal',
-            title: '邮箱已验证',
+            title: 'Email verified',
             message: window.atob(email),
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
@@ -35,8 +35,8 @@ const Confirm: FC = () => {
         .catch(() => {
           showNotification({
             color: 'red',
-            title: '邮箱验证失败',
-            message: '参数错误，请检查',
+            title: 'Email verification failed',
+            message: 'Invalid token or email',
             icon: <Icon path={mdiClose} size={1} />,
             disallowClose: true,
           })
@@ -49,7 +49,7 @@ const Confirm: FC = () => {
 
   return (
     <AccountView>
-      <Text>验证邮箱中……</Text>
+      <Text>Verifying email...</Text>
     </AccountView>
   )
 }

@@ -31,7 +31,7 @@ export const App: FC = () => {
       <MantineProvider withGlobalStyles withCSSVariables theme={{ ...ThemeOverride, colorScheme }}>
         <NotificationsProvider zIndex={5000}>
           {StyledGlobal}
-          <ModalsProvider labels={{ confirm: '确认', cancel: '取消' }}>
+          <ModalsProvider labels={{ confirm: 'Confirm', cancel: 'Cancel' }}>
             <SWRConfig
               value={{
                 refreshInterval: 10000,

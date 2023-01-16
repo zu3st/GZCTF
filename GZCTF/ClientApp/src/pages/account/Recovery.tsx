@@ -15,7 +15,7 @@ const Recovery: FC = () => {
   const reCaptcha = useReCaptcha('recovery')
   const [disabled, setDisabled] = useState(false)
 
-  usePageTitle('找回账号')
+  usePageTitle('Account Recovery')
 
   const onRecovery = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -25,8 +25,8 @@ const Recovery: FC = () => {
     if (!token) {
       showNotification({
         color: 'orange',
-        title: '请等待验证码……',
-        message: '请稍后重试',
+        title: 'Are you a robot?',
+        message: 'Please wait for the CAPTCHA to load...',
         loading: true,
         disallowClose: true,
       })
@@ -38,8 +38,8 @@ const Recovery: FC = () => {
     showNotification({
       color: 'orange',
       id: 'recovery-status',
-      title: '请求已发送……',
-      message: '等待服务器验证',
+      title: 'Request sent',
+      message: 'We are processing your request...',
       loading: true,
       autoClose: false,
       disallowClose: true,
@@ -54,8 +54,8 @@ const Recovery: FC = () => {
         updateNotification({
           id: 'recovery-status',
           color: 'teal',
-          title: '一封恢复邮件已发送',
-          message: '请检查你的邮箱及垃圾邮件~',
+          title: 'A recovery email has been sent',
+          message: 'Please check your inbox and spam folder',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -64,7 +64,7 @@ const Recovery: FC = () => {
         updateNotification({
           id: 'recovery-status',
           color: 'red',
-          title: '遇到了问题',
+          title: 'An error occurred',
           message: `${err.response.data.title}`,
           icon: <Icon path={mdiClose} size={1} />,
         })
@@ -78,7 +78,7 @@ const Recovery: FC = () => {
     <AccountView onSubmit={onRecovery}>
       <TextInput
         required
-        label="邮箱"
+        label="Email"
         placeholder="ctf@example.com"
         type="email"
         style={{ width: '100%' }}
@@ -94,10 +94,10 @@ const Recovery: FC = () => {
         component={Link}
         to="/account/login"
       >
-        准备好登录？
+        Back to Login
       </Anchor>
       <Button disabled={disabled} fullWidth onClick={onRecovery}>
-        发送重置邮件
+        Send Recovery Email
       </Button>
     </AccountView>
   )

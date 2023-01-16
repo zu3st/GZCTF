@@ -17,10 +17,10 @@ const PasswordRequirement: FC<{ meets: boolean; label: string }> = ({ meets, lab
 }
 
 const requirements = [
-  { re: /[0-9]/, label: '包含数字' },
-  { re: /[a-z]/, label: '包含小写字母' },
-  { re: /[A-Z]/, label: '包含大写字母' },
-  { re: /[`$&+,:;=?@#|'<>.^*()%!-]/, label: '包含特殊字符' },
+  { re: /[0-9]/, label: 'Contains numbers' },
+  { re: /[a-z]/, label: 'Contains lowercase letters' },
+  { re: /[A-Z]/, label: 'Contains uppercase letters' },
+  { re: /[`$&+,:;=?@#|'<>.^*()%!-]/, label: 'Contains special characters' },
 ]
 
 const getStrength = (password: string) => {
@@ -49,7 +49,7 @@ const StrengthPasswordInput: FC<StrengthPasswordInputProps> = (props) => {
   const { isMobile } = useIsMobile()
 
   const checks = [
-    <PasswordRequirement key={0} label="至少 6 个字符" meets={pwd.length >= 6} />,
+    <PasswordRequirement key={0} label="At least 6 characters" meets={pwd.length >= 6} />,
     ...requirements.map((requirement, index) => (
       <PasswordRequirement
         key={index + 1}
@@ -78,7 +78,7 @@ const StrengthPasswordInput: FC<StrengthPasswordInputProps> = (props) => {
       <Popover.Target>
         <PasswordInput
           required
-          label={props.label ?? '密码'}
+          label={props.label ?? 'Password'}
           placeholder="P4ssW@rd"
           value={props.value}
           onFocusCapture={open}

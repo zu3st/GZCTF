@@ -39,7 +39,7 @@ const FlagCard: FC<FlagCardProps> = ({ flag, onDelete, unifiedAttachment }) => {
             onClick={() => {
               clipboard.copy(flag.flag)
               showNotification({
-                message: 'flag 已复制到剪贴板',
+                message: 'Flag copied to clipboard',
                 color: 'teal',
                 icon: <Icon path={mdiCheck} size={1} />,
                 disallowClose: true,

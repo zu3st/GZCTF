@@ -68,7 +68,7 @@ const AttachmentUploadModal: FC<ModalProps> = (props) => {
                 setProgress(0)
                 showNotification({
                   color: 'teal',
-                  message: '附件已更新',
+                  message: 'Attachments updated',
                   icon: <Icon path={mdiCheck} size={1} />,
                   disallowClose: true,
                 })
@@ -90,7 +90,7 @@ const AttachmentUploadModal: FC<ModalProps> = (props) => {
     } else {
       showNotification({
         color: 'red',
-        message: '请选择至少一个文件',
+        message: 'Please select at least one file',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -101,8 +101,8 @@ const AttachmentUploadModal: FC<ModalProps> = (props) => {
     <Modal {...props}>
       <Stack>
         <Text>
-          批量上传动态附件，<strong>需要以每个 flag 为文件名称</strong>
-          ，所有附件在上传后将会以统一的文件名进行下发。
+          Batch upload dynamic attachments, <strong>need to be named after each flag</strong>
+          , all attachments will be distributed with the same file name after uploading.
         </Text>
         <ScrollArea offsetScrollbars sx={{ height: '40vh', position: 'relative' }}>
           {files.length === 0 ? (
@@ -110,8 +110,8 @@ const AttachmentUploadModal: FC<ModalProps> = (props) => {
               <Overlay opacity={0.3} color={theme.colorScheme === 'dark' ? 'black' : 'white'} />
               <Center style={{ height: '40vh' }}>
                 <Stack spacing={0}>
-                  <Title order={2}>你还没有选择任何文件</Title>
-                  <Text>你选择的文件将会显示在这里</Text>
+                  <Title order={2}>You haven't selected any files yet</Title>
+                  <Text>The files you selected will be displayed here</Text>
                 </Stack>
               </Center>
             </>
@@ -136,7 +136,7 @@ const AttachmentUploadModal: FC<ModalProps> = (props) => {
           <FileButton multiple onChange={setFiles}>
             {(props) => (
               <Button {...props} disabled={disabled}>
-                选择文件
+                Select files
               </Button>
             )}
           </FileButton>
@@ -146,7 +146,7 @@ const AttachmentUploadModal: FC<ModalProps> = (props) => {
             onClick={onUpload}
             color={progress !== 0 ? 'cyan' : theme.primaryColor}
           >
-            <div className={classes.uploadLabel}>{progress !== 0 ? '上传中' : '上传动态附件'}</div>
+            <div className={classes.uploadLabel}>{progress !== 0 ? 'Uploading...' : 'Upload'}</div>
             {progress !== 0 && (
               <Progress
                 value={progress}

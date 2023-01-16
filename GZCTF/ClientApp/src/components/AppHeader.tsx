@@ -42,7 +42,7 @@ const AppHeader: FC = () => {
       api.account.mutateAccountProfile()
       showNotification({
         color: 'teal',
-        title: '登出成功',
+        title: 'Logged out',
         message: '',
         icon: <Icon path={mdiCheck} size={1} />,
         disallowClose: true,
@@ -69,17 +69,17 @@ const AppHeader: FC = () => {
                   to="/teams"
                   icon={<Icon path={mdiAccountGroupOutline} size={1} />}
                 >
-                  队伍管理
+                  Teams
                 </Menu.Item>
                 <Menu.Item
                   component={Link}
                   to="/account/profile"
                   icon={<Icon path={mdiAccountCircleOutline} size={1} />}
                 >
-                  用户信息
+                  Profile
                 </Menu.Item>
                 <Menu.Item color="red" onClick={logout} icon={<Icon path={mdiLogout} size={1} />}>
-                  登出
+                  Log out
                 </Menu.Item>
               </>
             ) : (
@@ -88,7 +88,7 @@ const AppHeader: FC = () => {
                 to={`/account/login?from=${location.pathname}`}
                 icon={<Icon path={mdiAccountCircleOutline} size={1} />}
               >
-                登录
+                Login
               </Menu.Item>
             )}
             <Menu.Divider />
@@ -102,7 +102,7 @@ const AppHeader: FC = () => {
               }
               onClick={() => toggleColorScheme()}
             >
-              {'切换至' + (colorScheme === 'dark' ? '浅色' : '深色') + '主题'}
+              {'Switch to' + (colorScheme === 'dark' ? 'Light' : 'Dark') + 'theme'}
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>

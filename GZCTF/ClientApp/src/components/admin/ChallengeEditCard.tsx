@@ -72,7 +72,7 @@ const ChallengeEditCard: FC<ChallengeEditCardProps> = ({ challenge, onToggle }) 
           </Group>
         </Group>
         <Tooltip
-          label="编辑题目信息"
+          label="Edit challenge info"
           position="left"
           width={120}
           offset={10}
@@ -92,7 +92,7 @@ const ChallengeEditCard: FC<ChallengeEditCardProps> = ({ challenge, onToggle }) 
           </ActionIcon>
         </Tooltip>
         <Tooltip
-          label="编辑附件及 flag"
+          label="Edit attachments and flags"
           position="left"
           width={120}
           offset={54}

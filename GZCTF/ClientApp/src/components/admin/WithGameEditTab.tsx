@@ -12,10 +12,10 @@ import { Icon } from '@mdi/react'
 import AdminPage from './AdminPage'
 
 const pages = [
-  { icon: mdiTextBoxOutline, title: '信息编辑', path: 'info' },
-  { icon: mdiBullhornOutline, title: '比赛通知', path: 'notices' },
-  { icon: mdiFlagOutline, title: '题目编辑', path: 'challenges' },
-  { icon: mdiAccountGroupOutline, title: '队伍审核', path: 'review' },
+  { icon: mdiTextBoxOutline, title: 'General', path: 'info' },
+  { icon: mdiBullhornOutline, title: 'Notifications', path: 'notices' },
+  { icon: mdiFlagOutline, title: 'Challenges', path: 'challenges' },
+  { icon: mdiAccountGroupOutline, title: 'Teams', path: 'review' },
   { icon: mdiFileDocumentCheckOutline, title: 'Writeups', path: 'writeups' },
 ]
 

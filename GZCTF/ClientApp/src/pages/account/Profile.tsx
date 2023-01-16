@@ -50,7 +50,7 @@ const Profile: FC = () => {
 
   const { isMobile } = useIsMobile()
 
-  usePageTitle('个人信息')
+  usePageTitle('Profile')
 
   useEffect(() => {
     setProfile({
@@ -71,7 +71,7 @@ const Profile: FC = () => {
         .then(() => {
           showNotification({
             color: 'teal',
-            message: '头像已更新',
+            message: 'Your avatar has been updated',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -92,8 +92,8 @@ const Profile: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          title: '更改成功',
-          message: '个人信息已更新',
+          title: 'Profile updated',
+          message: 'Your profile has been updated',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -112,8 +112,8 @@ const Profile: FC = () => {
           if (res.data.data) {
             showNotification({
               color: 'teal',
-              title: '验证邮件已发送',
-              message: '请检查你的邮箱及垃圾邮件~',
+              title: 'Verification email has been sent',
+              message: 'Please check your mailbox and spam box',
               icon: <Icon path={mdiCheck} size={1} />,
               disallowClose: true,
             })
@@ -130,7 +130,7 @@ const Profile: FC = () => {
     <>
       {/* Header */}
       <Box style={{ marginBottom: '5px' }}>
-        <h2>个人信息</h2>
+        <h2>Personal Information</h2>
       </Box>
       <Divider />
 
@@ -139,7 +139,7 @@ const Profile: FC = () => {
         <Grid grow>
           <Grid.Col span={8}>
             <TextInput
-              label="用户名"
+              label="Username"
               type="text"
               style={{ width: '100%' }}
               value={profile.userName ?? 'ctfer'}
@@ -159,7 +159,7 @@ const Profile: FC = () => {
           </Grid.Col>
         </Grid>
         <TextInput
-          label="邮箱"
+          label="Email"
           type="email"
           style={{ width: '100%' }}
           value={user?.email ?? 'ctfer@gzti.me'}
@@ -167,7 +167,7 @@ const Profile: FC = () => {
           readOnly
         />
         <TextInput
-          label="手机号"
+          label="Phone Number"
           type="tel"
           style={{ width: '100%' }}
           value={profile.phone ?? ''}
@@ -176,7 +176,7 @@ const Profile: FC = () => {
         />
         <SimpleGrid cols={2}>
           <TextInput
-            label="学工号"
+            label="Matriculation Number"
             type="number"
             style={{ width: '100%' }}
             value={profile.stdNumber ?? ''}
@@ -184,7 +184,7 @@ const Profile: FC = () => {
             onChange={(event) => setProfile({ ...profile, stdNumber: event.target.value })}
           />
           <TextInput
-            label="真实姓名"
+            label="Real Name"
             type="text"
             style={{ width: '100%' }}
             value={profile.realName ?? ''}
@@ -193,8 +193,8 @@ const Profile: FC = () => {
           />
         </SimpleGrid>
         <Textarea
-          label="描述"
-          value={profile.bio ?? '这个人很懒，什么都没有写'}
+          label="Bio"
+          value={profile.bio ?? 'Apparently, this user prefers to keep an air of mystery about them'}
           style={{ width: '100%' }}
           disabled={disabled}
           autosize
@@ -212,7 +212,7 @@ const Profile: FC = () => {
                 disabled={disabled}
                 onClick={() => setMailEditOpened(true)}
               >
-                更改邮箱
+                Change Email
               </Button>
             </Grid.Col>
             <Grid.Col span={4}>
@@ -223,12 +223,12 @@ const Profile: FC = () => {
                 disabled={disabled}
                 onClick={() => setPwdChangeOpened(true)}
               >
-                更改密码
+                Change Password
               </Button>
             </Grid.Col>
             <Grid.Col span={4}>
               <Button fullWidth disabled={disabled} onClick={onChangeProfile}>
-                保存信息
+              Save
               </Button>
             </Grid.Col>
           </Grid>
@@ -254,7 +254,7 @@ const Profile: FC = () => {
         opened={pwdChangeOpened}
         centered
         onClose={() => setPwdChangeOpened(false)}
-        title="更改密码"
+        title="Change Password"
       />
 
       {/* Change Email */}
@@ -262,15 +262,15 @@ const Profile: FC = () => {
         opened={mailEditOpened}
         centered
         onClose={() => setMailEditOpened(false)}
-        title="更改邮箱"
+        title="Change Email"
       >
         <Stack>
           <Text>
-            更改邮箱后，您将不能通过原邮箱登录。一封邮件将会发送至新邮箱，请点击邮件中的链接完成验证。
+            After changing your email, you will not be able to log in with the original
           </Text>
           <TextInput
             required
-            label="新邮箱"
+            label="New Email"
             type="email"
             style={{ width: '100%' }}
             placeholder={user?.email ?? 'ctfer@gzti.me'}
@@ -285,10 +285,10 @@ const Profile: FC = () => {
                 setMailEditOpened(false)
               }}
             >
-              取消
+              Cancel
             </Button>
             <Button color="orange" onClick={onChangeEmail}>
-              确认修改
+              Confirm
             </Button>
           </Group>
         </Stack>
@@ -306,8 +306,8 @@ const Profile: FC = () => {
           onReject={() => {
             showNotification({
               color: 'red',
-              title: '文件获取失败',
-              message: '请检查文件格式和大小',
+              title: 'Avatar Upload Failed',
+              message: 'Please check the file format and size',
               icon: <Icon path={mdiClose} size={1} />,
               disallowClose: true,
             })
@@ -326,17 +326,17 @@ const Profile: FC = () => {
             ) : (
               <Box>
                 <Text size="xl" inline>
-                  拖放图片或点击此处以选择头像
+                  Drag and drop or click here to select an avatar
                 </Text>
                 <Text size="sm" color="dimmed" inline mt={7}>
-                  请选择小于 3MB 的图片
+                  Please upload an image file with a maximum size of 3MB
                 </Text>
               </Box>
             )}
           </Group>
         </Dropzone>
         <Button fullWidth variant="outline" disabled={disabled} onClick={onChangeAvatar}>
-          修改头像
+          Update Avatar
         </Button>
       </Modal>
     </WithNavBar>

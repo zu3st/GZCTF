@@ -20,8 +20,8 @@ const PasswordChangeModal: FC<ModalProps> = (props) => {
     if (!pwd || !retypedPwd) {
       showNotification({
         color: 'red',
-        title: '密码不能为空',
-        message: '请检查你的输入',
+        title: 'Password cannot be empty',
+        message: 'Please check your input',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -34,7 +34,7 @@ const PasswordChangeModal: FC<ModalProps> = (props) => {
         .then(() => {
           showNotification({
             color: 'teal',
-            message: '密码已修改，请重新登录',
+            message: 'Password changed, please login again',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -46,8 +46,8 @@ const PasswordChangeModal: FC<ModalProps> = (props) => {
     } else {
       showNotification({
         color: 'red',
-        title: '密码不一致',
-        message: '请检查你的输入',
+        title: 'Password mismatch',
+        message: 'Please check your input',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -59,7 +59,7 @@ const PasswordChangeModal: FC<ModalProps> = (props) => {
       <Stack>
         <PasswordInput
           required
-          label="原密码"
+          label="Old password"
           placeholder="P4ssW@rd"
           style={{ width: '100%' }}
           value={oldPwd}
@@ -68,7 +68,7 @@ const PasswordChangeModal: FC<ModalProps> = (props) => {
         <StrengthPasswordInput value={pwd} onChange={setPwd} />
         <PasswordInput
           required
-          label="确认密码"
+          label="Confirm password"
           placeholder="P4ssW@rd"
           style={{ width: '100%' }}
           value={retypedPwd}
@@ -85,10 +85,10 @@ const PasswordChangeModal: FC<ModalProps> = (props) => {
               props.onClose()
             }}
           >
-            取消
+            Cancel
           </Button>
           <Button color="orange" onClick={onChangePwd}>
-            确认修改
+            Confirm
           </Button>
         </Group>
       </Stack>

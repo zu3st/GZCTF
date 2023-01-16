@@ -95,7 +95,7 @@ const Events: FC = () => {
       .catch((err) => {
         showNotification({
           color: 'red',
-          title: '获取提交失败',
+          title: 'Failed to get submissions',
           message: err.response.data.title,
           icon: <Icon path={mdiClose} size={1} />,
           disallowClose: true,
@@ -128,7 +128,7 @@ const Events: FC = () => {
         .then(() => {
           showNotification({
             color: 'teal',
-            message: '实时事件连接成功',
+            message: 'Connected to real-time events',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -155,8 +155,7 @@ const Events: FC = () => {
     <WithGameMonitorTab>
       <Group position="apart" style={{ width: '100%' }}>
         <Switch
-          label={SwitchLabel('隐藏容器事件', '隐藏容器启动/销毁事件')}
-          checked={hideContainerEvents}
+          label={SwitchLabel('Hide container events', 'Hide container create/destroy events')}
           onChange={(e) => setHideContainerEvents(e.currentTarget.checked)}
         />
         <Group position="right">

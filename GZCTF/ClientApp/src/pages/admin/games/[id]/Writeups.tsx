@@ -34,7 +34,7 @@ const GameWriteups: FC = () => {
             leftIcon={<Icon path={mdiKeyboardBackspace} size={1} />}
             onClick={() => navigate('/admin/games')}
           >
-            返回上级
+            Back
           </Button>
 
           <Group grow miw="15rem" maw="15rem" position="apart">
@@ -43,7 +43,7 @@ const GameWriteups: FC = () => {
               leftIcon={<Icon path={mdiFolderDownloadOutline} size={1} />}
               onClick={() => window.open(`/api/admin/writeups/${id}/all`)}
             >
-              下载全部 Writeup
+              Download all writeups
             </Button>
           </Group>
         </>
@@ -52,8 +52,8 @@ const GameWriteups: FC = () => {
       {!writeups?.length || !selected ? (
         <Center mih="calc(100vh - 180px)">
           <Stack spacing={0}>
-            <Title order={2}>Ouch! 这个还没有队伍提交 Writeup</Title>
-            <Text>新提交的 Writeup 会显示在这里</Text>
+            <Title order={2}>Ouch! No team has submitted writeup for this game</Title>
+            <Text>New writeups will be shown here</Text>
           </Stack>
         </Center>
       ) : (

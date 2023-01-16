@@ -72,7 +72,7 @@ const GameInfoEdit: FC = () => {
     if (numId < 0) {
       showNotification({
         color: 'red',
-        message: `比赛 Id 错误：${id}`,
+        message: `Invalid game id: ${id}`,
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -96,7 +96,7 @@ const GameInfoEdit: FC = () => {
         .then((res) => {
           showNotification({
             color: 'teal',
-            message: '成功修改比赛海报',
+            message: 'Successfully updated game poster',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -120,7 +120,7 @@ const GameInfoEdit: FC = () => {
         .then(() => {
           showNotification({
             color: 'teal',
-            message: '比赛信息已更新',
+            message: 'Game updated',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -141,7 +141,7 @@ const GameInfoEdit: FC = () => {
         .then(() => {
           showNotification({
             color: 'teal',
-            message: '比赛已删除',
+            message: 'Game deleted',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -161,7 +161,7 @@ const GameInfoEdit: FC = () => {
             leftIcon={<Icon path={mdiKeyboardBackspace} size={1} />}
             onClick={() => navigate('/admin/games')}
           >
-            返回上级
+            Back
           </Button>
           <Group position="right">
             <Button
@@ -171,23 +171,23 @@ const GameInfoEdit: FC = () => {
               variant="outline"
               onClick={() =>
                 modals.openConfirmModal({
-                  title: `删除比赛`,
-                  children: <Text size="sm">你确定要删除比赛 "{game?.title}" 吗？</Text>,
+                  title: 'Delete Game',
+                  children: <Text size="sm">Are you sure to delete game "{game?.title}"?</Text>,
                   onConfirm: () => onConfirmDelete(),
                   centered: true,
-                  labels: { confirm: '确认', cancel: '取消' },
+                  labels: { confirm: 'Confirm', cancel: 'Cancel' },
                   confirmProps: { color: 'red' },
                 })
               }
             >
-              删除比赛
+              Delete Game
             </Button>
             <Button
               leftIcon={<Icon path={mdiContentSaveOutline} size={1} />}
               disabled={disabled}
               onClick={onUpdateInfo}
             >
-              保存更改
+              Save Changes
             </Button>
           </Group>
         </>
@@ -195,16 +195,16 @@ const GameInfoEdit: FC = () => {
     >
       <SimpleGrid cols={4}>
         <TextInput
-          label="比赛标题"
-          description="过长会影响显示效果"
+          label="Game Title"
+          description="Game title, will be displayed on the games page"
           disabled={disabled}
           value={game?.title}
           required
           onChange={(e) => game && setGame({ ...game, title: e.target.value })}
         />
         <NumberInput
-          label="队伍人数限制"
-          description="0 表示不限制队伍人数"
+          label="Team Member Count Limit"
+          description="Set to 0 to disable team member limit"
           disabled={disabled}
           min={0}
           required
@@ -212,8 +212,8 @@ const GameInfoEdit: FC = () => {
           onChange={(e) => game && setGame({ ...game, teamMemberCountLimit: e })}
         />
         <NumberInput
-          label="队伍容器数量限制"
-          description="整个队伍共享的容器数量限制"
+          label="Team Container Count Limit"
+          description="Limit the number of shared containers per team"
           disabled={disabled}
           min={1}
           required
@@ -222,14 +222,14 @@ const GameInfoEdit: FC = () => {
         />
         <PasswordInput
           value={game?.publicKey || ''}
-          label="比赛签名公钥"
-          description="用于校验队伍 Token"
+          label="Game Signature Public Key"
+          description="Used to verify team token"
           readOnly
           onClick={() => {
             clipboard.copy(game?.publicKey || '')
             showNotification({
               color: 'teal',
-              message: '公钥已复制到剪贴板',
+              message: 'Public key copied to clipboard',
               icon: <Icon path={mdiCheck} size={1} />,
               disallowClose: true,
             })
@@ -241,7 +241,7 @@ const GameInfoEdit: FC = () => {
           }}
         />
         <DatePicker
-          label="开始日期"
+          label="Start Date"
           placeholder="Start Date"
           value={start.toDate()}
           disabled={disabled}
@@ -259,7 +259,7 @@ const GameInfoEdit: FC = () => {
           required
         />
         <TimeInput
-          label="开始时间"
+          label="Start Time"
           disabled={disabled}
           placeholder="Start Time"
           value={start.toDate()}
@@ -274,10 +274,10 @@ const GameInfoEdit: FC = () => {
           required
         />
         <DatePicker
-          label="结束日期"
+          label="End Date"
           disabled={disabled}
           minDate={start.toDate()}
-          placeholder="End time"
+          placeholder="End Date"
           value={end.toDate()}
           clearable={false}
           onChange={(e) => {
@@ -288,9 +288,9 @@ const GameInfoEdit: FC = () => {
           required
         />
         <TimeInput
-          label="结束时间"
+          label="End Time"
           disabled={disabled}
-          placeholder="End time"
+          placeholder="End Time"
           value={end.toDate()}
           onChange={(e) => {
             const newDate = dayjs(e).date(end.date()).month(end.month()).year(end.year())
@@ -304,8 +304,8 @@ const GameInfoEdit: FC = () => {
       <Grid>
         <Grid.Col span={6}>
           <Textarea
-            label="比赛简介"
-            description="将会显示在比赛列表中"
+            label="Game Summary"
+            description="Will be displayed on the games page"
             value={game?.summary}
             style={{ width: '100%' }}
             autosize
@@ -318,8 +318,8 @@ const GameInfoEdit: FC = () => {
         <Grid.Col span={3}>
           <Stack spacing="xs">
             <TextInput
-              label="邀请码"
-              description="留空则不启用邀请码报名"
+              label="Invite Code"
+              description="Leave blank to disable invite code"
               value={game?.inviteCode || ''}
               disabled={disabled}
               onChange={(e) => game && setGame({ ...game, inviteCode: e.target.value })}
@@ -334,7 +334,7 @@ const GameInfoEdit: FC = () => {
             <Switch
               disabled={disabled}
               checked={game?.acceptWithoutReview ?? false}
-              label={SwitchLabel('队伍报名免审核', '队伍报名后直接设置为 Accept 状态')}
+              label={SwitchLabel('Accept Teams Without Review', 'Teams will be accepted without review')}
               onChange={(e) => game && setGame({ ...game, acceptWithoutReview: e.target.checked })}
             />
           </Stack>
@@ -342,8 +342,8 @@ const GameInfoEdit: FC = () => {
         <Grid.Col span={3}>
           <Stack spacing="xs">
             <NumberInput
-              label="Writeup 提交时限"
-              description="比赛结束后允许提交 Writeup 的小时数"
+              label="Writeup Submission Deadline"
+              description="Hours after game end until writeups are no longer accepted"
               disabled={disabled}
               min={0}
               required
@@ -353,7 +353,7 @@ const GameInfoEdit: FC = () => {
             <Switch
               disabled={disabled}
               checked={game?.practiceMode ?? true}
-              label={SwitchLabel('练习模式', '比赛结束后仍然可以查看题目和提交')}
+              label={SwitchLabel('Practice Mode', 'Allow teams to continue playing after the game ends')}
               onChange={(e) => game && setGame({ ...game, practiceMode: e.target.checked })}
             />
           </Stack>
@@ -363,9 +363,9 @@ const GameInfoEdit: FC = () => {
         <Textarea
           label={
             <Group spacing="sm">
-              <Text size="sm">Writeup 附加说明</Text>
+              <Text size="sm">Writeup Additional Notes</Text>
               <Text size="xs" color="dimmed">
-                支持 markdown 语法
+                Supports Markdown syntax
               </Text>
             </Group>
           }
@@ -380,16 +380,16 @@ const GameInfoEdit: FC = () => {
         <MultiSelect
           label={
             <Group spacing="sm">
-              <Text size="sm">参赛可选组织列表</Text>
+              <Text size="sm">Participating Organizations</Text>
               <Text size="xs" color="dimmed">
-                添加参赛组织以开启分组榜单
+                Enable group leaderboard by adding participating organizations
               </Text>
             </Group>
           }
           searchable
           creatable
           disabled={disabled}
-          placeholder="无指定可选参赛组织，将允许无组织队伍参赛"
+          placeholder="Leave blank to allow teams without organization"
           maxDropdownHeight={300}
           value={game?.organizations ?? []}
           styles={{
@@ -400,7 +400,7 @@ const GameInfoEdit: FC = () => {
           }}
           onChange={(e) => game && setGame({ ...game, organizations: e })}
           data={organizations.map((o) => ({ value: o, label: o })) || []}
-          getCreateLabel={(query) => `+ 添加组织 "${query}"`}
+          getCreateLabel={(query) => `+ Add Organization "${query}"`}
           onCreate={(query) => {
             const item = { value: query, label: query }
             setOrganizations([...organizations, query])
@@ -413,9 +413,9 @@ const GameInfoEdit: FC = () => {
           <Textarea
             label={
               <Group spacing="sm">
-                <Text size="sm">比赛详情</Text>
+                <Text size="sm">Game Details</Text>
                 <Text size="xs" color="dimmed">
-                  支持 markdown 语法
+                  Supports Markdown syntax
                 </Text>
               </Group>
             }
@@ -429,14 +429,14 @@ const GameInfoEdit: FC = () => {
           />
         </Grid.Col>
         <Grid.Col span={4}>
-          <Input.Wrapper label="比赛海报">
+          <Input.Wrapper label="Game Poster">
             <Dropzone
               onDrop={(files) => onUpdatePoster(files[0])}
               onReject={() => {
                 showNotification({
                   color: 'red',
-                  title: '文件获取失败',
-                  message: '请检查文件格式和大小',
+                  title: 'Poster Upload Failed',
+                  message: 'Please check the file format and size',
                   icon: <Icon path={mdiClose} size={1} />,
                   disallowClose: true,
                 })
@@ -458,10 +458,10 @@ const GameInfoEdit: FC = () => {
                   <Center style={{ height: '160px' }}>
                     <Stack spacing={0}>
                       <Text size="xl" inline>
-                        拖放图片或点击此处以选择海报
+                      Drag and drop or click here to select a poster
                       </Text>
                       <Text size="sm" color="dimmed" inline mt={7}>
-                        请选择小于 3MB 的图片
+                        Please upload an image file with a maximum size of 3MB
                       </Text>
                     </Stack>
                   </Center>

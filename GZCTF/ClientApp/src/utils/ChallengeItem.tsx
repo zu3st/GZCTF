@@ -23,13 +23,13 @@ import { Icon } from '@mdi/react'
 import { ChallengeTag, ChallengeType, NoticeType, SubmissionType } from '@Api'
 
 export const ChallengeTypeLabelMap = new Map<ChallengeType, ChallengeTypeItemProps>([
-  [ChallengeType.StaticAttachment, { label: '静态附件', desrc: '共用附件，任意 flag 均可提交' }],
-  [ChallengeType.StaticContainer, { label: '静态容器', desrc: '共用容器，任意 flag 均可提交' }],
+  [ChallengeType.StaticAttachment, { label: 'Static Attachment', desrc: 'Shared attachment, any flag can be submitted' }],
+  [ChallengeType.StaticContainer, { label: 'Static Container', desrc: 'Shared container, any flag can be submitted' }],
   [
     ChallengeType.DynamicAttachment,
-    { label: '动态附件', desrc: '按照队伍分发附件，需保证附件数量大于队伍数' },
+    { label: 'Dynamic Attachment', desrc: 'Dynamic Attachment, each team has a unique attachment' },
   ],
-  [ChallengeType.DynamicContainer, { label: '动态容器', desrc: '自动生成下发 flag，每队均唯一' }],
+  [ChallengeType.DynamicContainer, { label: 'Dynamic Container', desrc: 'Auto-generated flag, unique for each team' }],
 ])
 
 export interface ChallengeTypeItemProps extends React.ComponentPropsWithoutRef<'div'> {
@@ -51,35 +51,35 @@ export const ChallengeTypeItem = forwardRef<HTMLDivElement, ChallengeTypeItemPro
 export const ChallengeTagLabelMap = new Map<ChallengeTag, ChallengeTagItemProps>([
   [
     ChallengeTag.Misc,
-    { desrc: '杂项', icon: mdiGamepadVariantOutline, label: ChallengeTag.Misc, color: 'teal' },
+    { desrc: 'Misc', icon: mdiGamepadVariantOutline, label: ChallengeTag.Misc, color: 'teal' },
   ],
   [
     ChallengeTag.Crypto,
-    { desrc: '密码学', icon: mdiMatrix, label: ChallengeTag.Crypto, color: 'indigo' },
+    { desrc: 'Crypto', icon: mdiMatrix, label: ChallengeTag.Crypto, color: 'indigo' },
   ],
   [ChallengeTag.Pwn, { desrc: 'Pwn', icon: mdiBomb, label: ChallengeTag.Pwn, color: 'red' }],
   [ChallengeTag.Web, { desrc: 'Web', icon: mdiWeb, label: ChallengeTag.Web, color: 'blue' }],
   [
     ChallengeTag.Reverse,
-    { desrc: '逆向工程', icon: mdiChevronTripleLeft, label: ChallengeTag.Reverse, color: 'yellow' },
+    { desrc: 'Reverse', icon: mdiChevronTripleLeft, label: ChallengeTag.Reverse, color: 'yellow' },
   ],
   [
     ChallengeTag.Blockchain,
-    { desrc: '区块链', icon: mdiEthereum, label: ChallengeTag.Blockchain, color: 'lime' },
+    { desrc: 'Blockchain', icon: mdiEthereum, label: ChallengeTag.Blockchain, color: 'lime' },
   ],
   [
     ChallengeTag.Forensics,
-    { desrc: '取证', icon: mdiFingerprint, label: ChallengeTag.Forensics, color: 'cyan' },
+    { desrc: 'Forensics', icon: mdiFingerprint, label: ChallengeTag.Forensics, color: 'cyan' },
   ],
   [
     ChallengeTag.Hardware,
-    { desrc: '硬件', icon: mdiChip, label: ChallengeTag.Hardware, color: 'violet' },
+    { desrc: 'Hardware', icon: mdiChip, label: ChallengeTag.Hardware, color: 'violet' },
   ],
   [
     ChallengeTag.Mobile,
-    { desrc: '移动设备', icon: mdiCellphoneCog, label: ChallengeTag.Mobile, color: 'pink' },
+    { desrc: 'Mobile', icon: mdiCellphoneCog, label: ChallengeTag.Mobile, color: 'pink' },
   ],
-  [ChallengeTag.PPC, { desrc: '编程', icon: mdiConsole, label: ChallengeTag.PPC, color: 'orange' }],
+  [ChallengeTag.PPC, { desrc: 'PPC', icon: mdiConsole, label: ChallengeTag.PPC, color: 'orange' }],
 ])
 
 export interface ChallengeTagItemProps extends React.ComponentPropsWithoutRef<'div'> {
@@ -196,9 +196,9 @@ export interface BonusLabel {
 }
 
 const BonusLabelNameMap = new Map([
-  [SubmissionType.FirstBlood, '一血'],
-  [SubmissionType.SecondBlood, '二血'],
-  [SubmissionType.ThirdBlood, '三血'],
+  [SubmissionType.FirstBlood, 'First Blood'],
+  [SubmissionType.SecondBlood, 'Second Blood'],
+  [SubmissionType.ThirdBlood, 'Third Blood'],
 ])
 
 export class BloodBonus {

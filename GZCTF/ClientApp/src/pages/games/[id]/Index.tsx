@@ -35,8 +35,8 @@ const GameAlertMap = new Map([
     {
       color: 'yellow',
       icon: mdiTimerSand,
-      label: '你已经以队伍 {TEAM} 成员身份成功报名',
-      content: '请耐心等待审核结果',
+      label: 'You have successfully registered as a member of team {TEAM}',
+      content: 'Please wait for staff to review your application',
     },
   ],
   [ParticipationStatus.Accepted, null],
@@ -45,8 +45,8 @@ const GameAlertMap = new Map([
     {
       color: 'red',
       icon: mdiAlertCircle,
-      label: '您的参赛申请未通过',
-      content: '请确保具备参赛资格和满足参赛要求后重新报名',
+      label: 'Your application for team {TEAM} has been denied',
+      content: 'Please ensure that you meet the requirements and reapply',
     },
   ],
   [
@@ -54,19 +54,19 @@ const GameAlertMap = new Map([
     {
       color: 'red',
       icon: mdiAlertCircle,
-      label: '您的队伍 {TEAM} 已被禁赛',
-      content: '如有异议，请联系管理员进行申诉',
+      label: 'Your team {TEAM} has been disqualified',
+      content: 'Please contact staff for more information',
     },
   ],
   [ParticipationStatus.Unsubmitted, null],
 ])
 
 const GameActionMap = new Map([
-  [ParticipationStatus.Pending, '等待审核'],
-  [ParticipationStatus.Accepted, '通过审核'],
-  [ParticipationStatus.Denied, '重新报名'],
-  [ParticipationStatus.Forfeited, '通过审核'],
-  [ParticipationStatus.Unsubmitted, '报名参赛'],
+  [ParticipationStatus.Pending, 'Pending'],
+  [ParticipationStatus.Accepted, 'Accepted'],
+  [ParticipationStatus.Denied, 'Reapply'],
+  [ParticipationStatus.Forfeited, 'Forfeited'],
+  [ParticipationStatus.Unsubmitted, 'Join Game'],
 ])
 
 const GetAlert = (status: ParticipationStatus, team: string) => {
@@ -140,7 +140,7 @@ const GameDetail: FC = () => {
       await api.game.gameJoinGame(numId, info)
       showNotification({
         color: 'teal',
-        message: '报名成功',
+        message: 'Join Success',
         icon: <Icon path={mdiCheck} size={1} />,
         disallowClose: true,
       })
@@ -157,7 +157,7 @@ const GameDetail: FC = () => {
 
       showNotification({
         color: 'teal',
-        message: '退出成功',
+        message: 'Leave Success',
         icon: <Icon path={mdiCheck} size={1} />,
         disallowClose: true,
       })
@@ -179,64 +179,64 @@ const GameDetail: FC = () => {
 
   const onJoin = () =>
     modals.openConfirmModal({
-      title: '确认报名',
+      title: 'Confirm Join',
       children: (
         <Stack spacing="xs">
-          <Text size="sm">你确定要报名此比赛吗？</Text>
+          <Text size="sm">Are you sure you want to join this game?</Text>
           <Text size="sm">
-            报名参赛后参赛队伍将被锁定，不能再进行人员变动。
+            Once joined, no further changes can be made to the team.
             <Text span weight={700}>
-              即邀请、踢出队员。
+            That is, invite or kick out members.
             </Text>
-            队伍将在比赛结束后或驳回请求时解锁。
+            The team will be unlocked after the game ends or the request is rejected.
           </Text>
           <Text size="sm">
-            比赛队伍人数要求以选择队伍的成员数为准，
+            Team size limit refers to the number of players who can join the game within a team,
             <Text span weight={700}>
-              不论队员是否以此队伍身份参加比赛。
+              not the number of players in that team.
             </Text>
           </Text>
         </Stack>
       ),
       onConfirm: () => setJoinModalOpen(true),
       centered: true,
-      labels: { confirm: '确认报名', cancel: '取消' },
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
       confirmProps: { color: 'brand' },
     })
 
   const onLeave = () =>
     modals.openConfirmModal({
-      title: '确认退出比赛',
+      title: 'Confirm Leave',
       children: (
         <Stack spacing="xs">
-          <Text size="sm">你确定要退出此比赛吗？</Text>
-          <Text size="sm">退出后如果队伍报名人数为空，队伍参与信息将被删除。</Text>
+          <Text size="sm">Are you sure you want to withdraw from this competition?</Text>
+          <Text size="sm">If all members of your team withdraw, the team participation will be canceled.</Text>
         </Stack>
       ),
       onConfirm: onSubmitLeave,
       centered: true,
-      labels: { confirm: '确认退出', cancel: '取消' },
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
       confirmProps: { color: 'brand' },
     })
 
   const ControlButtons = (
     <>
       <Button disabled={!canSubmit} onClick={onJoin}>
-        {finished ? '比赛结束' : !user ? '请先登录' : GameActionMap.get(status)}
+        {finished ? 'Game Finished' : !user ? 'Please Login' : GameActionMap.get(status)}
       </Button>
       {started && !isMobile && (
-        <Button onClick={() => navigate(`/games/${numId}/scoreboard`)}>查看榜单</Button>
+        <Button onClick={() => navigate(`/games/${numId}/scoreboard`)}>View Scoreboard</Button>
       )}
       {(status === ParticipationStatus.Pending || status === ParticipationStatus.Denied) && (
         <Button color="red" variant="outline" onClick={onLeave}>
-          退出比赛
+          Withdraw from game
         </Button>
       )}
       {status === ParticipationStatus.Accepted &&
         started &&
         !isMobile &&
         (!finished || game?.practiceMode) && (
-          <Button onClick={() => navigate(`/games/${numId}/challenges`)}>进入比赛</Button>
+          <Button onClick={() => navigate(`/games/${numId}/challenges`)}>Join Game</Button>
         )}
     </>
   )
@@ -253,9 +253,9 @@ const GameDetail: FC = () => {
           <Stack spacing={6} className={classes.flexGrowAtSm}>
             <Group>
               <Badge variant="outline">
-                {game?.limit === 0 ? '多' : game?.limit === 1 ? '个' : game?.limit}人赛
+                {game?.limit === 0 ? 'Team' : game?.limit === 1 ? 'Solo' : game?.limit} Game
               </Badge>
-              {game?.hidden && <Badge variant="outline">比赛已隐藏</Badge>}
+              {game?.hidden && <Badge variant="outline">Hidden</Badge>}
             </Group>
             <Stack spacing={2}>
               <Title className={classes.title}>{game?.title}</Title>
@@ -263,13 +263,13 @@ const GameDetail: FC = () => {
                 <Text span weight={700}>
                   {`${game?.teamCount ?? 0} `}
                 </Text>
-                支队伍已报名
+                Teams have joined
               </Text>
             </Stack>
             <Group position="apart">
               <Stack spacing={0}>
                 <Text size="sm" className={classes.date}>
-                  开始时间
+                  Start time
                 </Text>
                 <Text size="sm" weight={700} className={classes.date}>
                   {startTime.format('HH:mm:ss, MMMM DD, YYYY')}
@@ -277,7 +277,7 @@ const GameDetail: FC = () => {
               </Stack>
               <Stack spacing={0}>
                 <Text size="sm" className={classes.date}>
-                  结束时间
+                  End time
                 </Text>
                 <Text size="sm" weight={700} className={classes.date}>
                   {endTime.format('HH:mm:ss, MMMM DD, YYYY')}
@@ -300,24 +300,24 @@ const GameDetail: FC = () => {
         <Stack spacing="xs">
           {GetAlert(status, game?.teamName ?? '')}
           {teamRequire && (
-            <Alert color="yellow" icon={<Icon path={mdiAlertCircle} />} title="当前无法报名">
-              你没有加入任何队伍，请在
+            <Alert color="yellow" icon={<Icon path={mdiAlertCircle} />} title="Unable to join the game">
+              You are not in a team. Please
               <Anchor component={Link} to="/teams">
-                队伍管理
+                join or create a team
               </Anchor>
-              页面创建、加入队伍。
+              first.
             </Alert>
           )}
           {status === ParticipationStatus.Accepted && !started && (
-            <Alert color="teal" icon={<Icon path={mdiCheck} />} title="比赛尚未开始">
-              你已经以队伍 "{game?.teamName}" 成员身份成功报名，请耐心等待比赛开始。
-              {isMobile && '请使用电脑端参与比赛及查看比赛详情。'}
+            <Alert color="teal" icon={<Icon path={mdiCheck} />} title="Game has not started yet">
+              You have joined the game for team "{game?.teamName}", please wait for the game to start.
+              {isMobile && 'Please use a computer to participate in the game and view the game details.'}
             </Alert>
           )}
           <MarkdownRender source={game?.content ?? ''} style={{ marginBottom: 100 }} />
         </Stack>
         <GameJoinModal
-          title="补全报名信息"
+          title="Join Game"
           opened={joinModalOpen}
           centered
           withCloseButton={false}

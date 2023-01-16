@@ -1,15 +1,15 @@
 import { useState } from 'react'
 
 export interface ArrayResponse<T> {
-  /** 数据 */
+  /** Data */
   data: T[]
   /**
-   * 数据长度
+   * Data length
    * @format int32
    */
   length: number
   /**
-   * 总长度
+   * Total length
    * @format int32
    */
   total?: number

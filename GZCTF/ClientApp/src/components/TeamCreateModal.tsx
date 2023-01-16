@@ -32,8 +32,8 @@ const TeamCreateModal: FC<TeamEditModalProps> = (props) => {
       .then((res) => {
         showNotification({
           color: 'teal',
-          title: '队伍已创建',
-          message: `${res.data.name} 创建成功，快去邀请队友吧！`,
+          title: 'Team created',
+          message: `${res.data.name} created, it's time to invite your friends!`,
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -52,20 +52,20 @@ const TeamCreateModal: FC<TeamEditModalProps> = (props) => {
           <Center>
             <Icon color={theme.colors.red[7]} path={mdiCloseCircle} size={4} />
           </Center>
-          <Title order={3}>你已经创建了一个队伍</Title>
+          <Title order={3}>You already own a team</Title>
           <Text>
-            每个人只能拥有一个队伍
+            Each user can only own one team.
             <br />
-            你可以删除队伍后重新创建
+            You can delete it and create a new one.
           </Text>
         </Stack>
       ) : (
         <Stack>
           <Text>
-            创建一个队伍，你可以组织一个队伍，并且可以邀请其他人加入。每个人只能拥有一个队伍。
+            Create a team, you can organize a team and invite others to join. Each user can only own one team.
           </Text>
           <TextInput
-            label="队伍名称"
+            label="Team Name"
             type="text"
             placeholder="team"
             style={{ width: '100%' }}
@@ -73,8 +73,8 @@ const TeamCreateModal: FC<TeamEditModalProps> = (props) => {
             onChange={(event) => setCreateTeam({ ...createTeam, name: event.currentTarget.value })}
           />
           <Textarea
-            label="队伍签名"
-            placeholder={createTeam?.bio ?? '这个人很懒，什么都没有写'}
+            label="Team Bio"
+            placeholder={createTeam?.bio ?? 'Apparently, this team prefers to keep an air of mystery about them.'}
             value={createTeam?.bio ?? ''}
             style={{ width: '100%' }}
             autosize
@@ -83,7 +83,7 @@ const TeamCreateModal: FC<TeamEditModalProps> = (props) => {
             onChange={(event) => setCreateTeam({ ...createTeam, bio: event.currentTarget.value })}
           />
           <Button fullWidth variant="outline" onClick={onCreateTeam}>
-            创建队伍
+            Create Team
           </Button>
         </Stack>
       )}

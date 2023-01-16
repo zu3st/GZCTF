@@ -6,7 +6,7 @@ export const showErrorNotification = (err: any) => {
   if (err?.response?.status === 429) {
     showNotification({
       color: 'red',
-      message: '操作过于频繁，请稍后再试',
+      message: 'Too many requests, please try again later',
       icon: <Icon path={mdiClose} size={1} />,
       disallowClose: true,
     })
@@ -16,8 +16,8 @@ export const showErrorNotification = (err: any) => {
   console.warn(err)
   showNotification({
     color: 'red',
-    title: '遇到了问题',
-    message: `${err?.response?.data?.title ?? err?.title ?? err ?? '未知错误'}`,
+    title: 'An error occurred',
+    message: `${err?.response?.data?.title ?? err?.title ?? err ?? 'Unknown error'}`,
     icon: <Icon path={mdiClose} size={1} />,
     disallowClose: true,
   })

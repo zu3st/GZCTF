@@ -28,7 +28,7 @@ const Empty: FC<EmptyProps> = (props) => {
       }
     >
       <Icon path={props.mdiPath ?? mdiInbox} size={props.iconSize ?? 4} color="gray" />
-      <Text size={props.fontSize}>{props.description ?? '没有数据'}</Text>
+      <Text size={props.fontSize}>{props.description ?? 'No data'}</Text>
     </Stack>
   )
 }

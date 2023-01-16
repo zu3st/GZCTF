@@ -100,7 +100,7 @@ const Submissions: FC = () => {
       .catch((err) => {
         showNotification({
           color: 'red',
-          title: '获取提交失败',
+          title: 'Failed to get submissions',
           message: err.response.data.title,
           icon: <Icon path={mdiClose} size={1} />,
           disallowClose: true,
@@ -133,7 +133,7 @@ const Submissions: FC = () => {
         .then(() => {
           showNotification({
             color: 'teal',
-            message: '实时提交连接成功',
+            message: 'Connected to real-time submissions',
             icon: <Icon path={mdiCheck} size={1} />,
             disallowClose: true,
           })
@@ -220,7 +220,7 @@ const Submissions: FC = () => {
           ]}
         />
         <Group position="right">
-          <Tooltip label="下载全部提交" position="left" classNames={tooltipClasses}>
+          <Tooltip label="Download all submissions" position="left" classNames={tooltipClasses}>
             <ActionIcon
               size="lg"
               onClick={() => window.open(`/api/game/${numId}/submissionsheet`, '_blank')}
@@ -250,10 +250,10 @@ const Submissions: FC = () => {
                     <Icon path={mdiFlag} size={0.8} />
                   </Group>
                 </th>
-                <th>时间</th>
-                <th>队伍</th>
-                <th>用户</th>
-                <th>题目</th>
+                <th>Time</th>
+                <th>Team</th>
+                <th>User</th>
+                <th>Challenge</th>
                 <th className={cx(classes.mono)}>flag</th>
               </tr>
             </thead>

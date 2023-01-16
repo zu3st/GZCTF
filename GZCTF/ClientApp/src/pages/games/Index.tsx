@@ -21,7 +21,7 @@ const Games: FC = () => {
     ...(allGames?.filter((g) => now >= new Date(g.end ?? '')).reverse() ?? []),
   ]
 
-  usePageTitle('赛事')
+  usePageTitle('Games')
 
   return (
     <WithNavBar>

@@ -84,11 +84,11 @@ const Games: FC = () => {
       head={
         <>
           <Button leftIcon={<Icon path={mdiPlus} size={1} />} onClick={() => setCreateOpened(true)}>
-            新建比赛
+            New Game
           </Button>
           <Group style={{ width: 'calc(100% - 9rem)' }} position="right">
             <Text weight="bold" size="sm">
-              已显示 <Code>{current}</Code> / <Code>{total}</Code> 比赛
+              Showing <Code>{current}</Code> / <Code>{total}</Code> games
             </Text>
             <ActionIcon size="lg" disabled={page <= 1} onClick={() => setPage(page - 1)}>
               <Icon path={mdiArrowLeftBold} size={1} />
@@ -109,10 +109,10 @@ const Games: FC = () => {
           <Table className={classes.table}>
             <thead>
               <tr>
-                <th>隐藏</th>
-                <th>比赛</th>
-                <th>比赛时间</th>
-                <th>简介</th>
+                <th>Hidden</th>
+                <th>Game</th>
+                <th>Duration</th>
+                <th>Description</th>
                 <th />
               </tr>
             </thead>
@@ -186,7 +186,7 @@ const Games: FC = () => {
         </ScrollArea>
       </Paper>
       <GameCreateModal
-        title="新建比赛"
+        title="New Game"
         centered
         size="30%"
         opened={createOpened}

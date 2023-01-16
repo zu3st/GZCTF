@@ -97,7 +97,7 @@ const Teams: FC = () => {
 
       await api.admin.adminDeleteTeam(team.id)
       showNotification({
-        message: `${team.name} 已删除`,
+        message: `${team.name} deleted`,
         color: 'teal',
         icon: <Icon path={mdiCheck} size={1} />,
         disallowClose: true,
@@ -120,7 +120,7 @@ const Teams: FC = () => {
           <TextInput
             icon={<Icon path={mdiMagnify} size={1} />}
             style={{ width: '30%' }}
-            placeholder="搜索队伍名称"
+            placeholder="Search team name"
             value={hint}
             onChange={setHint}
             onKeyDown={(e) => {
@@ -129,7 +129,7 @@ const Teams: FC = () => {
           />
           <Group position="right">
             <Text weight="bold" size="sm">
-              已显示 <Code>{current}</Code> / <Code>{total}</Code> 队伍
+              Showing <Code>{current}</Code> / <Code>{total}</Code> teams
             </Text>
             <ActionIcon size="lg" disabled={page <= 1} onClick={() => setPage(page - 1)}>
               <Icon path={mdiArrowLeftBold} size={1} />
@@ -150,9 +150,9 @@ const Teams: FC = () => {
           <Table className={classes.table}>
             <thead>
               <tr>
-                <th>队伍</th>
-                <th>签名</th>
-                <th>队员</th>
+                <th>Team</th>
+                <th>Bio</th>
+                <th>Members</th>
                 <th />
               </tr>
             </thead>
@@ -217,7 +217,7 @@ const Teams: FC = () => {
                         <ActionIconWithConfirm
                           iconPath={mdiDeleteOutline}
                           color="alert"
-                          message={`确定要删除 “${team.name}” 吗？`}
+                          message={`Are you sure to delete "${team.name}"?`}
                           disabled={disabled}
                           onClick={() => onDelete(team)}
                         />

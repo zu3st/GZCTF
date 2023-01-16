@@ -9,8 +9,8 @@ import WithNavBar from './WithNavbar'
 import WithRole from './WithRole'
 
 const pages = [
-  { icon: mdiLightningBolt, title: '事件监控', path: 'events' },
-  { icon: mdiFlag, title: '提交记录', path: 'submissions' },
+  { icon: mdiLightningBolt, title: 'Events', path: 'events' },
+  { icon: mdiFlag, title: 'Submissions', path: 'submissions' },
 ]
 
 interface WithGameMonitorProps extends React.PropsWithChildren {
@@ -47,7 +47,7 @@ const WithGameMonitor: FC<WithGameMonitorProps> = ({ children, isLoading }) => {
                 leftIcon={<Icon path={mdiFileTableOutline} size={1} />}
                 onClick={() => window.open(`/api/game/${numId}/scoreboardsheet`, '_blank')}
               >
-                下载积分榜
+                Download Scoreboard
               </Button>
               <Tabs
                 orientation="vertical"

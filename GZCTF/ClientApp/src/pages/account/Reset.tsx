@@ -21,14 +21,14 @@ const Reset: FC = () => {
   const [retypedPwd, setRetypedPwd] = useInputState('')
   const [disabled, setDisabled] = useState(false)
 
-  usePageTitle('重置密码')
+  usePageTitle('Reset Password')
 
   const onReset = () => {
     if (pwd !== retypedPwd) {
       showNotification({
         color: 'red',
-        title: '请检查输入',
-        message: '重复密码有误',
+        title: 'Password mismatch',
+        message: 'Please retype your password',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -38,8 +38,8 @@ const Reset: FC = () => {
     if (!(token && email)) {
       showNotification({
         color: 'red',
-        title: '密码重设失败',
-        message: '参数错误，请检查',
+        title: 'Password reset failed',
+        message: 'Invalid token or email'
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
@@ -56,8 +56,8 @@ const Reset: FC = () => {
       .then(() => {
         showNotification({
           color: 'teal',
-          title: '密码已重置',
-          message: '请重新登录',
+          title: 'Password reset success',
+          message: 'Redirecting to login page...',
           icon: <Icon path={mdiCheck} size={1} />,
           disallowClose: true,
         })
@@ -76,7 +76,7 @@ const Reset: FC = () => {
       <StrengthPasswordInput
         value={pwd}
         onChange={(event) => setPwd(event.currentTarget.value)}
-        label="新密码"
+        label="New Password"
         disabled={disabled}
         onKeyDown={enterHandler}
       />
@@ -84,14 +84,14 @@ const Reset: FC = () => {
         required
         value={retypedPwd}
         onChange={(event) => setRetypedPwd(event.currentTarget.value)}
-        label="重复密码"
+        label="Retype new password"
         style={{ width: '100%' }}
         disabled={disabled}
         error={pwd !== retypedPwd}
         onKeyDown={enterHandler}
       />
       <Button fullWidth onClick={onReset} disabled={disabled}>
-        重置密码
+      Reset Password
       </Button>
     </AccountView>
   )
