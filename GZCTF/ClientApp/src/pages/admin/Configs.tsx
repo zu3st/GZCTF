@@ -117,7 +117,7 @@ const Configs: FC = () => {
             <Switch
               checked={accountPolicy?.activeOnRegister ?? true}
               disabled={disabled}
-              label={SwitchLabel('Active user on register', 'Automatically activate users on registration')}
+              label={SwitchLabel('Activate user on registration', 'Automatically activate users on registration')}
               onChange={(e) =>
                 setAccountPolicy({
                   ...(accountPolicy ?? {}),
