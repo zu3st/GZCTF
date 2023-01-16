@@ -402,7 +402,7 @@ const GameChallengeEdit: FC = () => {
                     disabled={disabled}
                     onClick={onToggleTestContainer}
                   >
-                    {challenge?.testContainer ? 'Create' : 'Destroy'} Test Container
+                    {challenge?.testContainer ? 'Destroy' : 'Create'} Test
                   </Button>
                 }
                 onChange={(e) =>
