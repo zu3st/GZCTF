@@ -301,11 +301,11 @@ const GameDetail: FC = () => {
           {GetAlert(status, game?.teamName ?? '')}
           {teamRequire && (
             <Alert color="yellow" icon={<Icon path={mdiAlertCircle} />} title="Unable to join the game">
-              You are not in a team. Please
-              &nbsp;<Anchor component={Link} to="/teams">&nbsp;
+              You are not in a team. Please&nbsp;
+              <Anchor component={Link} to="/teams">
                 join or create a team
               </Anchor>
-              first.
+              &nbsp;first.
             </Alert>
           )}
           {status === ParticipationStatus.Accepted && !started && (
