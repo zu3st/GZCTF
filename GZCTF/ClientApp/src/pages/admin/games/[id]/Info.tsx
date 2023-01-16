@@ -343,7 +343,7 @@ const GameInfoEdit: FC = () => {
           <Stack spacing="xs">
             <NumberInput
               label="Writeup Submission Deadline"
-              description="Hours after game end until writeups are no longer accepted"
+              description="Hours after game in which writeups are accepted"
               disabled={disabled}
               min={0}
               required
