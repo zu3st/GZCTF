@@ -27,7 +27,7 @@ export const ChallengeTypeLabelMap = new Map<ChallengeType, ChallengeTypeItemPro
   [ChallengeType.StaticContainer, { label: 'Static Container', desrc: 'Shared container, any flag can be submitted' }],
   [
     ChallengeType.DynamicAttachment,
-    { label: 'Dynamic Attachment', desrc: 'Dynamic Attachment, each team has a unique attachment' },
+    { label: 'Dynamic Attachment', desrc: 'Dynamic attachment, each team has a unique attachment' },
   ],
   [ChallengeType.DynamicContainer, { label: 'Dynamic Container', desrc: 'Auto-generated flag, unique for each team' }],
 ])
