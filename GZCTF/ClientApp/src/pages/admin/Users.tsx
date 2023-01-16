@@ -307,14 +307,14 @@ const Users: FC = () => {
                         <ActionIconWithConfirm
                           iconPath={mdiLockReset}
                           color="orange"
-                          message={`Are you sure to reset password for "${user.userName}"?`}
+                          message={`Are you sure you want to reset the password for "${user.userName}"?`}
                           disabled={disabled}
                           onClick={() => onResetPassword(user)}
                         />
                         <ActionIconWithConfirm
                           iconPath={mdiDeleteOutline}
                           color="alert"
-                          message={`Are you sure to delete "${user.userName}"?`}
+                          message={`Are you sure you want to delete "${user.userName}"?`}
                           disabled={disabled || user.id === currentUser?.userId}
                           onClick={() => onDelete(user)}
                         />

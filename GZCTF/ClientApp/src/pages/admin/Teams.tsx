@@ -217,7 +217,7 @@ const Teams: FC = () => {
                         <ActionIconWithConfirm
                           iconPath={mdiDeleteOutline}
                           color="alert"
-                          message={`Are you sure to delete "${team.name}"?`}
+                          message={`Are you sure you want to delete "${team.name}"?`}
                           disabled={disabled}
                           onClick={() => onDelete(team)}
                         />

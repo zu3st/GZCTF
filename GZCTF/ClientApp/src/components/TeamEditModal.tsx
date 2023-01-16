@@ -343,7 +343,7 @@ const TeamEditModal: FC<TeamEditModalProps> = (props) => {
                       centered: true,
                       children: (
                         <Text size="sm">
-                          Are you sure to transfer ownership of team "{teamInfo?.name}" to "{user.userName}"?
+                          Are you sure you want to transfer ownership of team "{teamInfo?.name}" to "{user.userName}"?
                         </Text>
                       ),
                       onConfirm: () => onTransferCaptain(user.id!),
@@ -356,7 +356,7 @@ const TeamEditModal: FC<TeamEditModalProps> = (props) => {
                     modals.openConfirmModal({
                       title: 'Confirm Kick',
                       centered: true,
-                      children: <Text size="sm">Are you sure to kick out "{user.userName}"?</Text>,
+                      children: <Text size="sm">Are you sure you want to kick out "{user.userName}"?</Text>,
                       onConfirm: () => onConfirmKickUser(user.id!),
                       labels: { confirm: 'Confirm', cancel: 'Cancel' },
                       confirmProps: { color: 'orange' },
@@ -378,9 +378,9 @@ const TeamEditModal: FC<TeamEditModalProps> = (props) => {
                 title: isCaptain ? 'Confirm Disaband' : 'Confirm Leave',
                 centered: true,
                 children: isCaptain ? (
-                  <Text size="sm">Are you sure to disband the team?</Text>
+                  <Text size="sm">Are you sure you want to disband the team?</Text>
                 ) : (
-                  <Text size="sm">Are you sure to leave the team?</Text>
+                  <Text size="sm">Are you sure you want to leave the team?</Text>
                 ),
                 onConfirm: isCaptain ? onConfirmDisbandTeam : onConfirmLeaveTeam,
                 labels: { confirm: 'Confirm', cancel: 'Cancel' },

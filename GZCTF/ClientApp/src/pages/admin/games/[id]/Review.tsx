@@ -207,7 +207,7 @@ const ParticipationItem: FC<ParticipationItemProps> = (props) => {
                 key={`${participation.id}@${value}`}
                 iconPath={s.iconPath}
                 color={s.color}
-                message={`Are you sure to set to "${s.title}"?`}
+                message={`Are you sure you want to set the status to "${s.title}"?`}
                 disabled={disabled}
                 onClick={() => setParticipationStatus(participation.id!, value)}
               />

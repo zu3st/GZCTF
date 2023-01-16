@@ -190,7 +190,7 @@ const PostEdit: FC = () => {
                       modals.openConfirmModal({
                         title: 'Delete post',
                         children: (
-                          <Text size="sm">Are you sure to delete post &quot;{post.title}&quot;?</Text>
+                          <Text size="sm">Are you sure you want to delete &quot;{post.title}&quot;?</Text>
                         ),
                         centered: true,
                         onConfirm: onDelete,

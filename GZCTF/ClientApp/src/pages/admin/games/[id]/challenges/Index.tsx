@@ -52,7 +52,7 @@ const GameChallengeEdit: FC = () => {
       title: `${op} challenge`, 
       children: (
         <Text size="sm">
-          Are you sure to {op} challenge "{challenge.title}"?
+          Are you sure you want to {op.toLowerCase()} "{challenge.title}"?
         </Text>
       ),
       onConfirm: () => onConfirmToggle(challenge, setDisabled),

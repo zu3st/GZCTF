@@ -172,7 +172,7 @@ const GameInfoEdit: FC = () => {
               onClick={() =>
                 modals.openConfirmModal({
                   title: 'Delete Game',
-                  children: <Text size="sm">Are you sure to delete game "{game?.title}"?</Text>,
+                  children: <Text size="sm">Are you sure you want to delete "{game?.title}"?</Text>,
                   onConfirm: () => onConfirmDelete(),
                   centered: true,
                   labels: { confirm: 'Confirm', cancel: 'Cancel' },
