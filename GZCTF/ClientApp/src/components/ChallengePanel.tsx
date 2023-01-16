@@ -148,7 +148,7 @@ const ChallengePanel: FC = () => {
           leftIcon={<Icon path={mdiFileUploadOutline} size={1} />}
           onClick={() => setWriteupSubmitOpened(true)}
         >
-          Submit Writeup
+          Add Writeup
         </Button>
         <Divider />
         <Switch
