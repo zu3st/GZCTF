@@ -196,9 +196,9 @@ export interface BonusLabel {
 }
 
 const BonusLabelNameMap = new Map([
-  [SubmissionType.FirstBlood, 'First Blood'],
-  [SubmissionType.SecondBlood, 'Second Blood'],
-  [SubmissionType.ThirdBlood, 'Third Blood'],
+  [SubmissionType.FirstBlood, '1st Blood'],
+  [SubmissionType.SecondBlood, '2nd Blood'],
+  [SubmissionType.ThirdBlood, '3rd Blood'],
 ])
 
 export class BloodBonus {
