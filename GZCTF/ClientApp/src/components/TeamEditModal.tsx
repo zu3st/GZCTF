@@ -429,7 +429,7 @@ const TeamEditModal: FC<TeamEditModalProps> = (props) => {
             ) : (
               <Box>
                 <Text size="xl" inline>
-                  Drag and drop or click here to select an avatar
+                  Drag and drop or click to select an avatar
                 </Text>
                 <Text size="sm" color="dimmed" inline mt={7}>
                   Please upload an image file with a maximum size of 3MB

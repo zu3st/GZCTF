@@ -458,7 +458,7 @@ const GameInfoEdit: FC = () => {
                   <Center style={{ height: '160px' }}>
                     <Stack spacing={0}>
                       <Text size="xl" inline>
-                      Drag and drop or click here to select a poster
+                      Drag and drop or click to select a poster
                       </Text>
                       <Text size="sm" color="dimmed" inline mt={7}>
                         Please upload an image file with a maximum size of 3MB

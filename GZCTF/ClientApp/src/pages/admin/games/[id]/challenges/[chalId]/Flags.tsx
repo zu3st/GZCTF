@@ -32,9 +32,9 @@ import { useUploadStyles } from '@Utils/ThemeOverride'
 import api, { ChallengeType, FileType, FlagInfoModel } from '@Api'
 
 const FileTypeDesrcMap = new Map<FileType, string>([
-  [FileType.None, 'No Attachment'],
-  [FileType.Remote, 'Remote File'],
-  [FileType.Local, 'Local File'],
+  [FileType.None, 'None'],
+  [FileType.Remote, 'Remote'],
+  [FileType.Local, 'Local'],
 ])
 
 interface FlagEditProps {
