@@ -16,6 +16,7 @@ const RegisterStatusMap = new Map([
     RegisterStatus.LoggedIn,
     {
       message: 'Registration success',
+    },
   ],
   [
     RegisterStatus.AdminConfirmationRequired,

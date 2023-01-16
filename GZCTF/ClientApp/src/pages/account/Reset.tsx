@@ -39,7 +39,7 @@ const Reset: FC = () => {
       showNotification({
         color: 'red',
         title: 'Password reset failed',
-        message: 'Invalid token or email'
+        message: 'Invalid token or email',
         icon: <Icon path={mdiClose} size={1} />,
         disallowClose: true,
       })
