@@ -3,19 +3,19 @@
 namespace CTFServer.Models.Request.Account;
 
 /// <summary>
-/// 账号验证
+/// Account verification
 /// </summary>
 public class AccountVerifyModel
 {
     /// <summary>
-    /// 邮箱接收到的Base64格式Token
+    /// Token received in the email in Base64 format
     /// </summary>
-    [Required(ErrorMessage = "Token是必需的")]
+    [Required(ErrorMessage = "Token is required")]
     public string? Token { get; set; }
 
     /// <summary>
-    /// 用户邮箱的Base64格式
+    /// User email in Base64 format
     /// </summary>
-    [Required(ErrorMessage = "邮箱是必需的")]
+    [Required(ErrorMessage = "Email is required")]
     public string? Email { get; set; }
 }

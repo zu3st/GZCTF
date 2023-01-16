@@ -10,46 +10,46 @@ public class Participation
     public int Id { get; set; }
 
     /// <summary>
-    /// 参与状态
+    /// Participation status
     /// </summary>
     [Required]
     public ParticipationStatus Status { get; set; } = ParticipationStatus.Pending;
 
     /// <summary>
-    /// 队伍 Token
+    /// Team token
     /// </summary>
     [Required]
     public string Token { get; set; } = string.Empty;
 
     /// <summary>
-    /// 参赛所属组织
+    /// Organization
     /// </summary>
     public string? Organization { get; set; }
 
     /// <summary>
-    /// 队伍题解
+    /// Writeup
     /// </summary>
     public LocalFile? Writeup { get; set; }
 
     #region Db Relationship
 
     /// <summary>
-    /// 队伍参与的队员
+    /// Members of the team
     /// </summary>
     public HashSet<UserParticipation> Members { get; set; } = new();
 
     /// <summary>
-    /// 队伍激活的题目
+    /// Attended challenges
     /// </summary>
     public HashSet<Challenge> Challenges { get; set; } = new();
 
     /// <summary>
-    /// 赛题实例
+    /// Challenge instance of the team
     /// </summary>
     public List<Instance> Instances { get; set; } = new();
 
     /// <summary>
-    /// 提交
+    /// Submissions of the team
     /// </summary>
     public List<Submission> Submissions { get; set; } = new();
 

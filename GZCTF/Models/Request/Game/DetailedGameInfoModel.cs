@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace CTFServer.Models.Request.Game;
 
 /// <summary>
-/// 比赛详细信息，包含详细介绍与当前队伍报名状态
+/// Detailed game information, including detailed introduction and current team registration status
 /// </summary>
 public class DetailedGameInfoModel
 {
@@ -12,81 +12,81 @@ public class DetailedGameInfoModel
     public int Id { get; set; }
 
     /// <summary>
-    /// 比赛标题
+    /// Game title
     /// </summary>
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// 比赛描述
+    /// Game summary
     /// </summary>
     public string Summary { get; set; } = string.Empty;
 
     /// <summary>
-    /// 比赛详细介绍
+    /// Game details
     /// </summary>
     public string Content { get; set; } = string.Empty;
 
     /// <summary>
-    /// 是否为隐藏比赛
+    /// Whether the game is hidden
     /// </summary>
     public bool Hidden { get; set; } = false;
 
     /// <summary>
-    /// 参赛所属单位列表
+    /// List of participating organizations
     /// </summary>
     public HashSet<string>? Organizations { get; set; }
 
     /// <summary>
-    /// 是否需要邀请码
+    /// Whether an invite code is required
     /// </summary>
     public bool InviteCodeRequired { get; set; } = false;
 
     /// <summary>
-    /// 比赛头图
+    /// Game poster URL
     /// </summary>
     [JsonPropertyName("poster")]
     public string? PosterUrl { get; set; } = string.Empty;
 
     /// <summary>
-    /// 队员数量限制
+    /// Limit of team member count, 0 for no limit
     /// </summary>
     [JsonPropertyName("limit")]
     public int TeamMemberCountLimit { get; set; } = 0;
 
     /// <summary>
-    /// 报名参赛队伍数量
+    /// Number of teams currently registered
     /// </summary>
     public int TeamCount { get; set; } = 0;
 
     /// <summary>
-    /// 当前报名的组织
+    /// Current organization
     /// </summary>
     public string? Organization { get; set; }
 
     /// <summary>
-    /// 参赛队伍名称
+    /// Team name
     /// </summary>
     public string? TeamName { get; set; }
 
     /// <summary>
-    /// 比赛是否为练习模式（比赛结束够依然可以访问）
+    /// Whether the game is in practice mode (accessible after the game ends)
     /// </summary>
     public bool PracticeMode { get; set; } = true;
 
     /// <summary>
-    /// 队伍参与状态
+    /// Team participation status
     /// </summary>
     [JsonPropertyName("status")]
     public ParticipationStatus Status { get; set; } = ParticipationStatus.Unsubmitted;
 
     /// <summary>
-    /// 开始时间
+    /// Start time (UTC)
     /// </summary>
     [JsonPropertyName("start")]
     public DateTimeOffset StartTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// 结束时间
+    /// End time (UTC)
     /// </summary>
     [JsonPropertyName("end")]
     public DateTimeOffset EndTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);

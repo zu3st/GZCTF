@@ -34,7 +34,7 @@ public class InstanceRepository : RepositoryBase, IInstanceRepository
 
         if (instance is null)
         {
-            logger.SystemLog($"队伍对应参与对象为空，这可能是非预期的情况 [{part.Id}, {challengeId}]", TaskStatus.NotFound, LogLevel.Warning);
+            logger.SystemLog($"Team participation object is null, this might be unexpected [{part.Id}, {challengeId}]", TaskStatus.NotFound, LogLevel.Warning);
             return null;
         }
 
@@ -48,7 +48,7 @@ public class InstanceRepository : RepositoryBase, IInstanceRepository
 
         if (challenge.Type.IsStatic())
         {
-            instance.FlagContext = null; // use challenge to verify
+            instance.FlagContext = null; // Use challenge to verify
             instance.IsLoaded = true;
 
             await SaveAsync(token);
@@ -67,7 +67,7 @@ public class InstanceRepository : RepositoryBase, IInstanceRepository
 
                     if (flags.Count == 0)
                     {
-                        logger.SystemLog($"题目 {challenge.Title}#{challenge.Id} 请求分配的动态附件数量不足", TaskStatus.Fail, LogLevel.Warning);
+                        logger.SystemLog($"The number of dynamic attachments requested by the challenge {challenge.Title}#{challenge.Id} is insufficient", TaskStatus.Fail, LogLevel.Warning);
                         return null;
                     }
 
@@ -85,7 +85,7 @@ public class InstanceRepository : RepositoryBase, IInstanceRepository
                     catch
                     {
                         retry++;
-                        logger.SystemLog($"题目 {challenge.Title}#{challenge.Id} 分配的动态附件保存失败，重试中：{retry} 次", TaskStatus.Fail, LogLevel.Warning);
+                        logger.SystemLog($"The dynamic attachment allocated to the challenge {challenge.Title}#{challenge.Id} failed to save, retrying: {retry} times", TaskStatus.Fail, LogLevel.Warning);
                         if (retry >= 3)
                             return null;
                         await Task.Delay(100, token);
@@ -97,7 +97,7 @@ public class InstanceRepository : RepositoryBase, IInstanceRepository
                 instance.FlagContext = new()
                 {
                     Challenge = challenge,
-                    // tiny probability will produce the same FLAG,
+                    // Tiny probability will produce the same FLAG,
                     // but this will not affect the correctness of the answer
                     Flag = challenge.GenerateFlag(part),
                     IsOccupied = true
@@ -118,7 +118,7 @@ public class InstanceRepository : RepositoryBase, IInstanceRepository
         }
         catch (Exception ex)
         {
-            logger.SystemLog($"销毁容器 [{container.ContainerId[..12]}] ({container.Image.Split("/").LastOrDefault()}): {ex.Message}", TaskStatus.Fail, LogLevel.Warning);
+            logger.SystemLog($"Destroying container [{container.ContainerId[..12]}] ({container.Image.Split("/").LastOrDefault()}): {ex.Message}", TaskStatus.Fail, LogLevel.Warning);
             return false;
         }
     }
@@ -127,7 +127,7 @@ public class InstanceRepository : RepositoryBase, IInstanceRepository
     {
         if (string.IsNullOrEmpty(instance.Challenge.ContainerImage) || instance.Challenge.ContainerExposePort is null)
         {
-            logger.SystemLog($"无法为题目 {instance.Challenge.Title} 启动容器实例", TaskStatus.Denied, LogLevel.Warning);
+            logger.SystemLog($"Unable to start container instance for challenge {instance.Challenge.Title}", TaskStatus.Denied, LogLevel.Warning);
             return new TaskResult<Container>(TaskStatus.Fail);
         }
 
@@ -143,34 +143,34 @@ public class InstanceRepository : RepositoryBase, IInstanceRepository
             {
                 TeamId = team.Id.ToString(),
                 UserId = user.Id,
-                Flag = instance.FlagContext?.Flag, // static challenge has no specific flag
+                Flag = instance.FlagContext?.Flag, // Static challenge has no specific flag
                 Image = instance.Challenge.ContainerImage,
                 CPUCount = instance.Challenge.CPUCount ?? 1,
                 MemoryLimit = instance.Challenge.MemoryLimit ?? 64,
                 StorageLimit = instance.Challenge.StorageLimit ?? 256,
                 PrivilegedContainer = instance.Challenge.PrivilegedContainer ?? false,
-                ExposedPort = instance.Challenge.ContainerExposePort ?? throw new ArgumentException("创建容器时遇到无效的端口"),
+                ExposedPort = instance.Challenge.ContainerExposePort ?? throw new ArgumentException("Invalid port on creating container"),
             }, token);
 
             if (container is null)
             {
-                logger.SystemLog($"为题目 {instance.Challenge.Title} 启动容器实例失败", TaskStatus.Fail, LogLevel.Warning);
+                logger.SystemLog($"Failed to start container instance for challenge {instance.Challenge.Title}", TaskStatus.Fail, LogLevel.Warning);
                 return new TaskResult<Container>(TaskStatus.Fail);
             }
 
             instance.Container = container;
             instance.LastContainerOperation = DateTimeOffset.UtcNow;
 
-            logger.Log($"{team.Name} 启动题目 {instance.Challenge.Title} 的容器实例 [{container.Id}]", user, TaskStatus.Success);
+            logger.Log($"Team {team.Name} started a container instance for challenge {instance.Challenge.Title} [{container.Id}]", user, TaskStatus.Success);
 
-            // will save instance together
+            // Will save instance together
             await gameEventRepository.AddEvent(new()
             {
                 Type = EventType.ContainerStart,
                 GameId = instance.Challenge.GameId,
                 TeamId = instance.Participation.TeamId,
                 UserId = user.Id,
-                Content = $"{instance.Challenge.Title}#{instance.Challenge.Id} 启动容器实例"
+                Content = $"Start container instance for {instance.Challenge.Title}#{instance.Challenge.Id}"
             }, token);
         }
 

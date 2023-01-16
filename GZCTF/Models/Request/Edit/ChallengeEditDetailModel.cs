@@ -5,51 +5,51 @@ using CTFServer.Models.Request.Game;
 namespace CTFServer.Models.Request.Edit;
 
 /// <summary>
-/// 题目详细信息（Edit）
+/// Challenge detail information (Edit)
 /// </summary>
 public class ChallengeEditDetailModel
 {
     /// <summary>
-    /// 题目Id
+    /// Challenge Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// 题目名称
+    /// Challenge title
     /// </summary>
     [Required]
-    [MinLength(1, ErrorMessage = "标题过短")]
+    [MinLength(1, ErrorMessage = "Title too short")]
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// 题目内容
+    /// Challenge content
     /// </summary>
     public string Content { get; set; } = string.Empty;
 
     /// <summary>
-    /// 题目标签
+    /// Challenge tag
     /// </summary>
     [Required]
     public ChallengeTag Tag { get; set; } = ChallengeTag.Misc;
 
     /// <summary>
-    /// 题目类型
+    /// Challenge type
     /// </summary>
     [Required]
     public ChallengeType Type { get; set; } = ChallengeType.StaticAttachment;
 
     /// <summary>
-    /// 题目提示
+    /// Challenge hints 
     /// </summary>
     public string[] Hints { get; set; } = Array.Empty<string>();
 
     /// <summary>
-    /// Flag 模版，用于根据 Token 和题目、比赛信息生成 Flag
+    /// Flag template, used to generate Flag based on Token and Challenge and Game information
     /// </summary>
     public string? FlagTemplate { get; set; }
 
     /// <summary>
-    /// 是否启用题目
+    /// Whether the challenge is enabled
     /// </summary>
     [Required]
     public bool IsEnabled { get; set; }
@@ -57,37 +57,37 @@ public class ChallengeEditDetailModel
     #region Container
 
     /// <summary>
-    /// 镜像名称与标签
+    /// Container image
     /// </summary>
     [Required]
     public string? ContainerImage { get; set; } = string.Empty;
 
     /// <summary>
-    /// 运行内存限制 (MB)
+    /// Memory limit (MB)
     /// </summary>
     [Required]
     public int? MemoryLimit { get; set; } = 64;
 
     /// <summary>
-    /// CPU 运行数量限制
+    /// CPU count limit
     /// </summary>
     [Required]
     public int? CPUCount { get; set; } = 1;
 
     /// <summary>
-    /// 存储限制 (MB)
+    /// Storage limit (MB)
     /// </summary>
     [Required]
     public int? StorageLimit { get; set; } = 256;
 
     /// <summary>
-    /// 镜像暴露端口
+    /// Exposed container port
     /// </summary>
     [Required]
     public int? ContainerExposePort { get; set; } = 80;
 
     /// <summary>
-    /// 是否为特权容器
+    /// Whether the container is privileged
     /// </summary>
     public bool? PrivilegedContainer { get; set; } = false;
 
@@ -96,20 +96,20 @@ public class ChallengeEditDetailModel
     #region Score
 
     /// <summary>
-    /// 初始分数
+    /// Initial score
     /// </summary>
     [Required]
     public int OriginalScore { get; set; } = 500;
 
     /// <summary>
-    /// 最低分数比例
+    /// Minimum score ratio
     /// </summary>
     [Required]
     [Range(0, 1)]
     public double MinScoreRate { get; set; } = 0.25;
 
     /// <summary>
-    /// 难度系数
+    /// Difficulty factor
     /// </summary>
     [Required]
     public double Difficulty { get; set; } = 3;
@@ -117,28 +117,28 @@ public class ChallengeEditDetailModel
     #endregion Score
 
     /// <summary>
-    /// 通过人数
+    /// Number of solves
     /// </summary>
     [Required]
     public int AcceptedCount { get; set; } = 0;
 
     /// <summary>
-    /// 统一文件名（仅用于动态附件）
+    /// Unified file name (only for dynamic attachment)
     /// </summary>
     public string? FileName { get; set; } = string.Empty;
 
     /// <summary>
-    /// 题目附件（动态附件存放于 FlagInfoModel）
+    /// Challenge attachment (dynamic attachment is stored in FlagInfoModel)
     /// </summary>
     public Attachment? Attachment { get; set; }
 
     /// <summary>
-    /// 测试容器
+    /// Test container information
     /// </summary>
     public ContainerInfoModel? TestContainer { get; set; }
 
     /// <summary>
-    /// 题目 Flag 信息
+    /// Challenge Flag Information
     /// </summary>
     [Required]
     public FlagInfoModel[] Flags { get; set; } = Array.Empty<FlagInfoModel>();

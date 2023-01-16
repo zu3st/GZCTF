@@ -33,17 +33,17 @@ public class SignatureTest
         Ed25519PrivateKeyParameters privateKey = (Ed25519PrivateKeyParameters)kp.Private;
         Ed25519PublicKeyParameters publicKey = (Ed25519PublicKeyParameters)kp.Public;
 
-        output.WriteLine("私钥：");
+        output.WriteLine("Pivate key:");
         output.WriteLine(Base64.ToBase64String(privateKey.GetEncoded()));
-        output.WriteLine("公钥：");
+        output.WriteLine("Public key:");
         output.WriteLine(Base64.ToBase64String(publicKey.GetEncoded()));
 
         var sign = DigitalSignature.GenerateSignature(s, privateKey, sAlgorithm);
-        output.WriteLine($"签名：\n{sign}");
+        output.WriteLine($"Signature:\n{sign}");
 
         var verified = DigitalSignature.VerifySignature(s, sign, publicKey, sAlgorithm);
 
-        output.WriteLine("验证结果：");
+        output.WriteLine("Verification result:");
         output.WriteLine(verified ? "Signature verified" : "Signature not verified");
         Assert.True(verified);
     }
@@ -58,29 +58,29 @@ public class SignatureTest
         Ed25519PrivateKeyParameters privateKey = new(Codec.Base64.DecodeToBytes("Qu4G33WZ7DYTUEdlf3P5amVg7f8yXcOmFcG0EJvfQEY="), 0);
         Ed25519PublicKeyParameters publicKey = new(Codec.Base64.DecodeToBytes("t4zduq4LGA1hEYhkCVK19xRACXuDxm/W72v4PBN1EXY="), 0);
 
-        output.WriteLine("私钥：");
+        output.WriteLine("Private key:");
         output.WriteLine(Base64.ToBase64String(privateKey.GetEncoded()));
 
         byte[] xorkey = Encoding.UTF8.GetBytes("helloworld");
         var encodedkey = Base64.ToBase64String(Codec.Xor(privateKey.GetEncoded(), xorkey));
 
-        output.WriteLine("编码私钥：");
+        output.WriteLine("Encoded private key:");
         output.WriteLine(encodedkey);
 
         var bytekey = Codec.Xor(Codec.Base64.DecodeToBytes(encodedkey), xorkey);
         privateKey = new(bytekey, 0);
 
-        output.WriteLine("解码私钥：");
+        output.WriteLine("Decoded private key:");
         output.WriteLine(Base64.ToBase64String(privateKey.GetEncoded()));
-        output.WriteLine("公钥：");
+        output.WriteLine("Public key:");
         output.WriteLine(Base64.ToBase64String(publicKey.GetEncoded()));
 
         var sign = DigitalSignature.GenerateSignature(s, privateKey, sAlgorithm);
-        output.WriteLine($"签名：\n{sign}");
+        output.WriteLine($"Signature: \n{sign}");
 
         var verified = DigitalSignature.VerifySignature(s, sign, publicKey, sAlgorithm);
 
-        output.WriteLine("验证结果：");
+        output.WriteLine("Verification result:");
         output.WriteLine(verified ? "Signature verified" : "Signature not verified");
         Assert.True(verified);
     }
@@ -99,17 +99,17 @@ public class SignatureTest
         Ed25519PrivateKeyParameters privateKey = (Ed25519PrivateKeyParameters)kp.Private;
         Ed25519PublicKeyParameters publicKey = (Ed25519PublicKeyParameters)kp.Public;
 
-        output.WriteLine("私钥：");
+        output.WriteLine("Private key:");
         output.WriteLine(Base64.ToBase64String(privateKey.GetEncoded()));
-        output.WriteLine("公钥：");
+        output.WriteLine("Public key:");
         output.WriteLine(Base64.ToBase64String(publicKey.GetEncoded()));
 
         var sign = DigitalSignature.GenerateSignature(s, privateKey, sAlgorithm);
-        output.WriteLine($"签名：\n{sign}");
+        output.WriteLine($"Signature:\n{sign}");
 
         var verified = DigitalSignature.VerifySignature(s, sign, publicKey, sAlgorithm);
 
-        output.WriteLine("验证结果：");
+        output.WriteLine("Verification result:");
         output.WriteLine(verified ? "Signature verified" : "Signature not verified");
         Assert.True(verified);
     }
@@ -128,17 +128,17 @@ public class SignatureTest
         Ed448PrivateKeyParameters privateKey = (Ed448PrivateKeyParameters)kp.Private;
         Ed448PublicKeyParameters publicKey = (Ed448PublicKeyParameters)kp.Public;
 
-        output.WriteLine("私钥：");
+        output.WriteLine("Private key:");
         output.WriteLine(Base64.ToBase64String(privateKey.GetEncoded()));
-        output.WriteLine("公钥：");
+        output.WriteLine("Public key:");
         output.WriteLine(Base64.ToBase64String(publicKey.GetEncoded()));
 
         var sign = DigitalSignature.GenerateSignature(s, privateKey, sAlgorithm);
-        output.WriteLine($"签名：\n{sign}");
+        output.WriteLine($"Signature: \n{sign}");
 
         var verified = DigitalSignature.VerifySignature(s, sign, publicKey, sAlgorithm);
 
-        output.WriteLine("验证结果：");
+        output.WriteLine("Verification result:");
         output.WriteLine(verified ? "Signature verified" : "Signature not verified");
         Assert.True(verified);
     }
@@ -157,17 +157,17 @@ public class SignatureTest
         RsaKeyParameters privateKey = (RsaKeyParameters)kp.Private;
         RsaKeyParameters publicKey = (RsaKeyParameters)kp.Public;
 
-        output.WriteLine("私钥：");
+        output.WriteLine("Private key:");
         output.WriteLine(privateKey.Exponent.ToString());
-        output.WriteLine("公钥：");
+        output.WriteLine("Public key:");
         output.WriteLine(publicKey.Exponent.ToString());
 
         var sign = DigitalSignature.GenerateSignature(s, privateKey, sAlgorithm);
-        output.WriteLine($"签名：\n{sign}");
+        output.WriteLine($"Signature:\n{sign}");
 
         var verified = DigitalSignature.VerifySignature(s, sign, publicKey, sAlgorithm);
 
-        output.WriteLine("验证结果：");
+        output.WriteLine("Verification result:");
         output.WriteLine(verified ? "Signature verified" : "Signature not verified");
         Assert.True(verified);
     }

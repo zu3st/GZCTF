@@ -1,72 +1,72 @@
 ﻿namespace CTFServer.Models.Request.Admin;
 
 /// <summary>
-/// 用户信息（Admin）
+/// User information (Admin)
 /// </summary>
 public class UserInfoModel
 {
     /// <summary>
-    /// 用户ID
+    /// User ID
     /// </summary>
     public string? Id { get; set; }
 
     /// <summary>
-    /// 用户名
+    /// Username
     /// </summary>
     public string? UserName { get; set; }
 
     /// <summary>
-    /// 真实姓名
+    /// Real name
     /// </summary>
     public string? RealName { get; set; }
 
     /// <summary>
-    /// 学号
+    /// Matriculation number
     /// </summary>
     public string? StdNumber { get; set; }
 
     /// <summary>
-    /// 联系电话
+    /// Phone
     /// </summary>
     public string? Phone { get; set; }
 
     /// <summary>
-    /// 签名
+    /// Bio
     /// </summary>
     public string? Bio { get; set; }
 
     /// <summary>
-    /// 注册时间
+    /// Register time
     /// </summary>
     public DateTimeOffset RegisterTimeUTC { get; set; }
 
     /// <summary>
-    /// 用户最近访问时间
+    /// Last visited time
     /// </summary>
     public DateTimeOffset LastVisitedUTC { get; set; }
 
     /// <summary>
-    /// 用户最近访问IP
+    /// Most recent IP
     /// </summary>
     public string IP { get; set; } = "0.0.0.0";
 
     /// <summary>
-    /// 邮箱
+    /// Email
     /// </summary>
     public string? Email { get; set; }
 
     /// <summary>
-    /// 头像链接
+    /// Avatar
     /// </summary>
     public string? Avatar { get; set; }
 
     /// <summary>
-    /// 用户角色
+    /// User role
     /// </summary>
     public Role? Role { get; set; }
 
     /// <summary>
-    /// 用户是否通过邮箱验证（可登录）
+    /// Whether the user has passed email verification (can log in)
     /// </summary>
     public bool? EmailConfirmed { get; set; }
 

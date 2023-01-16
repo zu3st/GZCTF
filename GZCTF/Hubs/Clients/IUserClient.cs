@@ -3,7 +3,7 @@
 public interface IUserClient
 {
     /// <summary>
-    /// 接收到比赛通知信息
+    /// Received game notice
     /// </summary>
     public Task ReceivedGameNotice(GameNotice notice);
 }

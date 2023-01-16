@@ -3,17 +3,17 @@
 public class GameJoinModel
 {
     /// <summary>
-    /// 参赛队伍 Id
+    /// Team id
     /// </summary>
     public int TeamId { get; set; }
 
     /// <summary>
-    /// 参赛单位
+    /// Organization
     /// </summary>
     public string? Organization { get; set; }
 
     /// <summary>
-    /// 参赛邀请码
+    /// Invite code
     /// </summary>
     public string? InviteCode { get; set; }
 }

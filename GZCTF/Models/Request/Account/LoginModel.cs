@@ -3,20 +3,20 @@
 namespace CTFServer.Models.Request.Account;
 
 /// <summary>
-/// 登录
+/// Login
 /// </summary>
 public class LoginModel
 {
     /// <summary>
-    /// 用户名或邮箱
+    /// Username or email
     /// </summary>
     [Required]
     public string UserName { get; set; } = string.Empty;
 
     /// <summary>
-    /// 密码
+    /// Password
     /// </summary>
     [Required]
-    [MinLength(6, ErrorMessage = "密码过短")]
+    [MinLength(6, ErrorMessage = "Password too short")]
     public string Password { get; set; } = string.Empty;
 }

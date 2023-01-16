@@ -3,19 +3,19 @@
 namespace CTFServer.Models.Request.Info;
 
 /// <summary>
-/// 队伍信息更新
+/// Team information update
 /// </summary>
 public class TeamUpdateModel
 {
     /// <summary>
-    /// 队伍名称
+    /// Team name
     /// </summary>
-    [MaxLength(15, ErrorMessage = "队伍名称过长")]
+    [MaxLength(15, ErrorMessage = "Team name too long")]
     public string? Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// 队伍签名
+    /// Team bio
     /// </summary>
-    [MaxLength(31, ErrorMessage = "队伍签名过长")]
+    [MaxLength(31, ErrorMessage = "Bio too long")]
     public string? Bio { get; set; }
 }

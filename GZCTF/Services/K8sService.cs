@@ -29,7 +29,7 @@ public class K8sService : IContainerService
 
         if (!File.Exists("k8sconfig.yaml"))
         {
-            LogHelper.SystemLog(logger, "无法加载 K8s 配置文件，请确保挂载 /app/k8sconfig.yaml");
+            LogHelper.SystemLog(logger, "Unable to load K8s config file, please ensure that /app/k8sconfig.yaml is mounted");
             throw new FileNotFoundException("k8sconfig.yaml");
         }
 
@@ -52,7 +52,7 @@ public class K8sService : IContainerService
 
         InitK8s(withAuth, registry);
 
-        logger.SystemLog($"K8s 服务已启动 ({config.Host})", TaskStatus.Success, LogLevel.Debug);
+        logger.SystemLog($"K8s service started ({config.Host})", TaskStatus.Success, LogLevel.Debug);
     }
 
     public async Task<Container?> CreateContainerAsync(ContainerConfig config, CancellationToken token = default)
@@ -124,19 +124,19 @@ public class K8sService : IContainerService
         }
         catch (HttpOperationException e)
         {
-            logger.SystemLog($"容器 {name} 创建失败, 状态：{e.Response.StatusCode.ToString()}", TaskStatus.Fail, LogLevel.Warning);
-            logger.SystemLog($"容器 {name} 创建失败, 响应：{e.Response.Content}", TaskStatus.Fail, LogLevel.Error);
+            logger.SystemLog($"Container {name} creation failed, status: {e.Response.StatusCode.ToString()}", TaskStatus.Fail, LogLevel.Warning);
+            logger.SystemLog($"Container {name} creation failed, response: {e.Response.Content}", TaskStatus.Fail, LogLevel.Error);
             return null;
         }
         catch (Exception e)
         {
-            logger.LogError(e, "创建容器失败");
+            logger.LogError(e, "Failed to create container");
             return null;
         }
 
         if (pod is null)
         {
-            logger.SystemLog($"创建容器实例 {config.Image.Split("/").LastOrDefault()} 失败", TaskStatus.Fail, LogLevel.Warning);
+            logger.SystemLog($"Failed to create container instance {config.Image.Split("/").LastOrDefault()}", TaskStatus.Fail, LogLevel.Warning);
             return null;
         }
 
@@ -176,7 +176,7 @@ public class K8sService : IContainerService
         }
         catch (Exception e)
         {
-            logger.LogError(e, "创建服务失败");
+            logger.LogError(e, "Failed to create service");
             return null;
         }
 
@@ -202,12 +202,12 @@ public class K8sService : IContainerService
                 container.Status = ContainerStatus.Destroyed;
                 return;
             }
-            logger.SystemLog($"容器 {container.ContainerId} 删除失败, 状态：{e.Response.StatusCode.ToString()}", TaskStatus.Fail, LogLevel.Warning);
-            logger.SystemLog($"容器 {container.ContainerId} 删除失败, 响应：{e.Response.Content}", TaskStatus.Fail, LogLevel.Error);
+            logger.SystemLog($"Container {container.ContainerId} deletion failed, status: {e.Response.StatusCode.ToString()}", TaskStatus.Fail, LogLevel.Warning);
+            logger.SystemLog($"Container {container.ContainerId} deletion failed, response: {e.Response.Content}", TaskStatus.Fail, LogLevel.Error);
         }
         catch (Exception e)
         {
-            logger.LogError(e, "删除容器失败");
+            logger.LogError(e, "Failed to delete container");
             return;
         }
 

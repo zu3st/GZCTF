@@ -3,12 +3,12 @@
 public interface IMonitorClient
 {
     /// <summary>
-    /// 接收到比赛事件信息
+    /// Received game event information
     /// </summary>
     public Task ReceivedGameEvent(GameEvent gameEvent);
 
     /// <summary>
-    /// 接收到比赛提交信息
+    /// Received game submission information
     /// </summary>
     public Task ReceivedSubmissions(Submission submission);
 }

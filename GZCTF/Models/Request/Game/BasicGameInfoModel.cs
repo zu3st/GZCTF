@@ -5,7 +5,7 @@ using MemoryPack;
 namespace CTFServer.Models.Request.Game;
 
 /// <summary>
-/// 比赛基本信息，不包含详细介绍与当前队伍报名状态
+/// Basic game information, not including detailed information and team registration status
 /// </summary>
 [MemoryPackable]
 public partial class BasicGameInfoModel
@@ -14,35 +14,35 @@ public partial class BasicGameInfoModel
     public int Id { get; set; }
 
     /// <summary>
-    /// 比赛标题
+    /// Game title
     /// </summary>
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// 比赛描述
+    /// Game summary
     /// </summary>
     public string Summary { get; set; } = string.Empty;
 
     /// <summary>
-    /// 头图
+    /// Game poster URL
     /// </summary>
     [JsonPropertyName("poster")]
     public string? PosterUrl { get; set; } = string.Empty;
 
     /// <summary>
-    /// 队员数量限制
+    /// Limit of team member count, 0 for no limit
     /// </summary>
     [JsonPropertyName("limit")]
     public int TeamMemberLimitCount { get; set; } = 0;
 
     /// <summary>
-    /// 开始时间
+    /// Game start time (UTC)
     /// </summary>
     [JsonPropertyName("start")]
     public DateTimeOffset StartTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// 结束时间
+    /// Game end time (UTC)
     /// </summary>
     [JsonPropertyName("end")]
     public DateTimeOffset EndTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);

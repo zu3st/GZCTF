@@ -3,7 +3,7 @@
 namespace CTFServer.Models.Data;
 
 /// <summary>
-/// 用于存放配置项
+/// Configuration
 /// </summary>
 public record Config : IEquatable<Config>
 {

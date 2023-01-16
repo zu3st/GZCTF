@@ -5,12 +5,12 @@ namespace CTFServer.Repositories.Interface;
 public interface ILogRepository : IRepository
 {
     /// <summary>
-    /// 获取指定数量和等级的日志
+    /// Get specified number of log entries for a specific level
     /// </summary>
-    /// <param name="skip">跳过数量</param>
-    /// <param name="count">数量</param>
-    /// <param name="level">等级</param>
-    /// <param name="token">操作取消token</param>
-    /// <returns>不超过指定数量的日志</returns>
+    /// <param name="skip">Number of log entries to skip</param>
+    /// <param name="count">Number of log entries to get</param>
+    /// <param name="level">Log level</param>
+    /// <param name="token">Operation cancellation token</param>
+    /// <returns>No more than <paramref name="count"/> log entries</returns>
     public Task<LogMessageModel[]> GetLogs(int skip, int count, string? level, CancellationToken token);
 }

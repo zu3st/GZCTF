@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace CTFServer.Controllers;
 
 /// <summary>
-/// 比赛数据交互接口
+/// Game data interaction interface
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
@@ -74,28 +74,28 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 获取最新的比赛
+    /// Get the latest game
     /// </summary>
     /// <remarks>
-    /// 获取最近十个比赛
+    /// Gets the latest ten games
     /// </remarks>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛信息</response>
+    /// <response code="200">List of the latest ten games</response>
     [HttpGet]
     [ProducesResponseType(typeof(BasicGameInfoModel[]), StatusCodes.Status200OK)]
     public async Task<IActionResult> Games(CancellationToken token)
          => Ok(await gameRepository.GetBasicGameInfo(10, 0, token));
 
     /// <summary>
-    /// 获取比赛详细信息
+    /// Get game details
     /// </summary>
     /// <remarks>
-    /// 获取比赛的详细信息
+    /// Gets the details of a game
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛信息</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Game information</response>
+    /// <response code="404">Game not found</response>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(DetailedGameInfoModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(RequestResponse), StatusCodes.Status404NotFound)]
@@ -104,7 +104,7 @@ public class GameController : ControllerBase
         var context = await GetContextInfo(id, token: token);
 
         if (context.Game is null)
-            return NotFound(new RequestResponse("比赛未找到"));
+            return NotFound(new RequestResponse("Game not found"));
 
         var count = await participationRepository.GetParticipationCount(context.Game, token);
 
@@ -113,17 +113,17 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 加入一个比赛
+    /// Join a game
     /// </summary>
     /// <remarks>
-    /// 加入一场比赛，需要User权限
+    /// Joins in a game, (User permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id</param>
     /// <param name="model"></param>
     /// <param name="token"></param>
-    /// <response code="200">成功加入比赛</response>
-    /// <response code="403">无权操作或操作无效</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Joined game successfully</response>
+    /// <response code="403">No permission or invalid operation</response>
+    /// <response code="404">Game not found</response>
     [RequireUser]
     [HttpPost("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -134,40 +134,40 @@ public class GameController : ControllerBase
         var game = await gameRepository.GetGameById(id, token);
 
         if (game is null)
-            return NotFound(new RequestResponse("比赛未找到", 404));
+            return NotFound(new RequestResponse("Game not found", 404));
 
         if (!game.PracticeMode && game.EndTimeUTC < DateTimeOffset.UtcNow)
-            return BadRequest(new RequestResponse("比赛已结束"));
+            return BadRequest(new RequestResponse("The competition is over"));
 
         if (!string.IsNullOrEmpty(game.InviteCode) && game.InviteCode != model.InviteCode)
-            return BadRequest(new RequestResponse("比赛邀请码错误"));
+            return BadRequest(new RequestResponse("Bad invite code"));
 
         if (game.Organizations is { Count: > 0 } && game.Organizations.All(o => o != model.Organization))
-            return BadRequest(new RequestResponse("无效的参赛单位"));
+            return BadRequest(new RequestResponse("Invalid organization"));
 
         var user = await userManager.GetUserAsync(User);
         var team = await teamRepository.GetTeamById(model.TeamId, token);
 
         if (team is null)
-            return NotFound(new RequestResponse("队伍未找到", 404));
+            return NotFound(new RequestResponse("Team not found", 404));
 
         if (team.Members.All(u => u.Id != user!.Id))
-            return BadRequest(new RequestResponse("您不是此队伍的队员"));
+            return BadRequest(new RequestResponse("You are not a member of the team"));
 
-        // 如果已经报名（非拒绝状态）
+        // If already participating (not rejected)
         if (await participationRepository.CheckRepeatParticipation(user!, game, token))
-            return BadRequest(new RequestResponse("您已经在其他队伍报名参赛"));
+            return BadRequest(new RequestResponse("You have already signed up for another team"));
 
-        // 移除所有的已经存在的报名
+        // Remove all existing participations
         await participationRepository.RemoveUserParticipations(user!, game, token);
 
-        // 根据队伍获取报名信息
+        // Get the registration information by team and game
         var part = await participationRepository.GetParticipation(team, game, token);
 
-        // 如果队伍未报名
+        // If the team is not registered
         if (part is null)
         {
-            // 创建新的队伍参与对象，不添加三元组
+            // Create a new team participation object, do not add a triple
             part = new()
             {
                 Game = game,
@@ -180,9 +180,9 @@ public class GameController : ControllerBase
         }
 
         if (game.TeamMemberCountLimit > 0 && part.Members.Count >= game.TeamMemberCountLimit)
-            return BadRequest(new RequestResponse("队伍参与人数超过比赛限制"));
+            return BadRequest(new RequestResponse("The number of participants in the team exceeds the competition limit"));
 
-        // 报名当前成员
+        // Register the current member
         part.Members.Add(new(user!, game, team));
 
         part.Organization = model.Organization;
@@ -195,22 +195,22 @@ public class GameController : ControllerBase
         if (game.AcceptWithoutReview)
             await participationRepository.UpdateParticipationStatus(part, ParticipationStatus.Accepted, token);
 
-        logger.Log($"[{team!.Name}] 成功报名了比赛 [{game.Title}]", user, TaskStatus.Success);
+        logger.Log($"[{team!.Name}] successfully joined the game [{game.Title}]", user, TaskStatus.Success);
 
         return Ok();
     }
 
     /// <summary>
-    /// 退出一个比赛
+    /// Leave a game
     /// </summary>
     /// <remarks>
-    /// 退出一场比赛，需要User权限
+    /// Leaves a game, (User permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id </param>
     /// <param name="token"></param>
-    /// <response code="200">成功退出比赛</response>
-    /// <response code="403">无权操作或操作无效</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Left game successfully</response>
+    /// <response code="403">No permission or invalid operation</response>
+    /// <response code="404">Game not found</response>
     [RequireUser]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -221,19 +221,20 @@ public class GameController : ControllerBase
         var game = await gameRepository.GetGameById(id, token);
 
         if (game is null)
-            return NotFound(new RequestResponse("比赛未找到", 404));
+            return NotFound(new RequestResponse("Game not found", 404));
 
         var user = await userManager.GetUserAsync(User);
 
         var part = await participationRepository.GetParticipation(user!, game, token);
 
         if (part is null || part.Members.All(u => u.UserId != user!.Id))
-            return BadRequest(new RequestResponse("无法退出未报名的比赛"));
+            return BadRequest(new RequestResponse("Unable to leave a game that has not been joined"));
 
         if (part.Status != ParticipationStatus.Pending && part.Status != ParticipationStatus.Denied)
-            return BadRequest(new RequestResponse("审核通过后无法退出比赛"));
+            return BadRequest(new RequestResponse("Unable to leave a game after approval"));
 
-        // FIXME: 审核通过后可以添加新用户、但不能退出？
+
+        // FIXME: After approval, new users can be added, but they cannot exit?
 
         part.Members.RemoveWhere(u => u.UserId == user!.Id);
 
@@ -246,15 +247,16 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 获取积分榜
+    /// Get Scoreboard
     /// </summary>
     /// <remarks>
-    /// 获取积分榜数据
+    /// Gets the scoreboard of the game
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛信息</response>
-    /// <response code="400">比赛未找到</response>
+    /// <response code="200">Scoreboard information</response>
+    /// <response code="400">Game has not started yet</response>
+    /// <response code="404">Game not found</response>
     [HttpGet("{id}/Scoreboard")]
     [ProducesResponseType(typeof(ScoreboardModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(RequestResponse), StatusCodes.Status404NotFound)]
@@ -263,26 +265,27 @@ public class GameController : ControllerBase
         var game = await gameRepository.GetGameById(id, token);
 
         if (game is null)
-            return NotFound(new RequestResponse("比赛未找到"));
+            return NotFound(new RequestResponse("Game not found"));
 
         if (DateTimeOffset.UtcNow < game.StartTimeUTC)
-            return BadRequest(new RequestResponse("比赛未开始"));
+            return BadRequest(new RequestResponse("Game has not started yet"));
 
         return Ok(await gameRepository.GetScoreboard(game, token));
     }
 
     /// <summary>
-    /// 获取比赛通知
+    /// Get game notices
     /// </summary>
     /// <remarks>
-    /// 获取比赛通知数据
+    /// Gets specified number of game notices
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id</param>
     /// <param name="count"></param>
     /// <param name="skip"></param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛通知</response>
-    /// <response code="400">比赛未找到</response>
+    /// <response code="200">List of notices</response>
+    /// <response code="400">Game has not started yet</response>
+    /// <response code="404">Game not found</response>
     [HttpGet("{id}/Notices")]
     [ProducesResponseType(typeof(GameNotice[]), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(RequestResponse), StatusCodes.Status404NotFound)]
@@ -291,27 +294,28 @@ public class GameController : ControllerBase
         var game = await gameRepository.GetGameById(id, token);
 
         if (game is null)
-            return NotFound(new RequestResponse("比赛未找到"));
+            return NotFound(new RequestResponse("Game not found"));
 
         if (DateTimeOffset.UtcNow < game.StartTimeUTC)
-            return BadRequest(new RequestResponse("比赛未开始"));
+            return BadRequest(new RequestResponse("Game has not started yet"));
 
         return Ok(await noticeRepository.GetNotices(game.Id, count, skip, token));
     }
 
     /// <summary>
-    /// 获取比赛事件
+    /// Get game events
     /// </summary>
     /// <remarks>
-    /// 获取比赛事件数据，需要Monitor权限
+    /// Gets specified number of game events (Monitor permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id</param>
     /// <param name="count"></param>
     /// <param name="hideContainer">隐藏容器</param>
     /// <param name="skip"></param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛事件</response>
-    /// <response code="400">比赛未找到</response>
+    /// <response code="200">List of game events</response>
+    /// <response code="400">Game has not started yet</response>
+    /// <response code="404">Game not found</response>
     [RequireMonitor]
     [HttpGet("{id}/Events")]
     [ProducesResponseType(typeof(GameEvent[]), StatusCodes.Status200OK)]
@@ -321,27 +325,28 @@ public class GameController : ControllerBase
         var game = await gameRepository.GetGameById(id, token);
 
         if (game is null)
-            return NotFound(new RequestResponse("比赛未找到"));
+            return NotFound(new RequestResponse("Game not found"));
 
         if (DateTimeOffset.UtcNow < game.StartTimeUTC)
-            return BadRequest(new RequestResponse("比赛未开始"));
+            return BadRequest(new RequestResponse("Game has not started yet"));
 
         return Ok(await eventRepository.GetEvents(game.Id, hideContainer, count, skip, token));
     }
 
     /// <summary>
-    /// 获取比赛提交
+    /// Get game submissions
     /// </summary>
     /// <remarks>
-    /// 获取比赛提交数据，需要Monitor权限
+    /// Gets specified number of game submissions (Monitor permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
-    /// <param name="type">提交类型</param>
+    /// <param name="id">Game id</param>
+    /// <param name="type">Submission type</param>
     /// <param name="count"></param>
     /// <param name="skip"></param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛提交</response>
-    /// <response code="400">比赛未找到</response>
+    /// <response code="200">List of submissions</response>
+    /// <response code="400">Game has not started yet</response>
+    /// <response code="404">Game not found</response>
     [RequireMonitor]
     [HttpGet("{id}/Submissions")]
     [ProducesResponseType(typeof(Submission[]), StatusCodes.Status200OK)]
@@ -351,25 +356,25 @@ public class GameController : ControllerBase
         var game = await gameRepository.GetGameById(id, token);
 
         if (game is null)
-            return NotFound(new RequestResponse("比赛未找到"));
+            return NotFound(new RequestResponse("Game not found"));
 
         if (DateTimeOffset.UtcNow < game.StartTimeUTC)
-            return BadRequest(new RequestResponse("比赛未开始"));
+            return BadRequest(new RequestResponse("Game has not started yet"));
 
         return Ok(await submissionRepository.GetSubmissions(game, type, count, skip, token));
     }
 
     /// <summary>
-    /// 获取全部比赛题目信息及当前队伍信息
+    /// Get game details of a team
     /// </summary>
     /// <remarks>
-    /// 获取比赛的全部题目，需要User权限，需要当前激活队伍已经报名
+    /// Gets game specific details of a team (requires User permission and team must be in the game)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛题目信息</response>
-    /// <response code="400">操作无效</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Game details</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="404">Game not found</response>
     [RequireUser]
     [HttpGet("{id}/Details")]
     [ProducesResponseType(typeof(GameDetailModel), StatusCodes.Status200OK)]
@@ -406,16 +411,16 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 获取全部比赛参与信息
+    /// Get all game participations
     /// </summary>
     /// <remarks>
-    /// 获取比赛的全部题目参与信息，需要Admin权限
+    /// Get all participations of a game (Admin permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛参与信息</response>
-    /// <response code="400">操作无效</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Game participations</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="404">Game not found</response>
     [RequireAdmin]
     [HttpGet("{id}/Participations")]
     [ProducesResponseType(typeof(ParticipationInfoModel[]), StatusCodes.Status200OK)]
@@ -426,23 +431,23 @@ public class GameController : ControllerBase
         var context = await GetContextInfo(id, token: token);
 
         if (context.Game is null)
-            return NotFound(new RequestResponse("比赛未找到"));
+            return NotFound(new RequestResponse("Game not found"));
 
         return Ok((await participationRepository.GetParticipations(context.Game!, token))
                     .Select(ParticipationInfoModel.FromParticipation));
     }
 
     /// <summary>
-    /// 下载比赛积分榜
+    /// Download game scoreboard
     /// </summary>
     /// <remarks>
-    /// 下载比赛积分榜，需要Monitor权限
+    /// Downloads game scoreboard (Monitor permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功下载比赛积分榜</response>
-    /// <response code="400">操作无效</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Downloaded scoreboard successfully</response>
+    /// <response code="400">Game has not started yet</response>
+    /// <response code="404">Game not found</response>
     [RequireMonitor]
     [HttpGet("{id}/ScoreboardSheet")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -453,10 +458,10 @@ public class GameController : ControllerBase
         var game = await gameRepository.GetGameById(id, token);
 
         if (game is null)
-            return NotFound(new RequestResponse("比赛未找到"));
+            return NotFound(new RequestResponse("Game not found"));
 
         if (DateTimeOffset.UtcNow < game.StartTimeUTC)
-            return BadRequest(new RequestResponse("比赛未开始"));
+            return BadRequest(new RequestResponse("Game has not started yet"));
 
         var scoreboard = await gameRepository.GetScoreboard(game, token);
 
@@ -469,16 +474,16 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 下载比赛全部提交
+    /// Download spreadsheet of all submissions
     /// </summary>
     /// <remarks>
-    /// 下载比赛全部提交，需要Monitor权限
+    /// Downloads a XLSX spreadsheet of all submissions of a game (Monitor permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
+    /// <param name="id">Game id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功下载比赛全部提交</response>
-    /// <response code="400">操作无效</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Downloaded spreadsheet successfully</response>
+    /// <response code="400">Game has not started yet</response>
+    /// <response code="404">Game not found</response>
     [RequireMonitor]
     [HttpGet("{id}/SubmissionSheet")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -489,10 +494,10 @@ public class GameController : ControllerBase
         var game = await gameRepository.GetGameById(id, token);
 
         if (game is null)
-            return NotFound(new RequestResponse("比赛未找到"));
+            return NotFound(new RequestResponse("Game not found"));
 
         if (DateTimeOffset.UtcNow < game.StartTimeUTC)
-            return BadRequest(new RequestResponse("比赛未开始"));
+            return BadRequest(new RequestResponse("Game has not started yet"));
 
         var submissions = await submissionRepository.GetSubmissions(game, count: 0, token: token);
 
@@ -505,17 +510,17 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 获取比赛题目信息
+    /// Get game challenge info
     /// </summary>
     /// <remarks>
-    /// 获取比赛题目信息，需要User权限，需要当前激活队伍已经报名
+    /// Gets game challenge info, (User permission required and must be in the game)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
-    /// <param name="challengeId">题目Id</param>
+    /// <param name="id">Game id</param>
+    /// <param name="challengeId">Challenge id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛题目信息</response>
-    /// <response code="400">操作无效</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Game challenge info</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="404">Game not found</response>
     [RequireUser]
     [HttpGet("{id}/Challenges/{challengeId}")]
     [ProducesResponseType(typeof(ChallengeDetailModel), StatusCodes.Status200OK)]
@@ -524,7 +529,7 @@ public class GameController : ControllerBase
     public async Task<IActionResult> GetChallenge([FromRoute] int id, [FromRoute] int challengeId, CancellationToken token)
     {
         if (id <= 0 || challengeId <= 0)
-            return NotFound(new RequestResponse("题目未找到", 404));
+            return NotFound(new RequestResponse("Game not found", 404));
 
         var context = await GetContextInfo(id, token: token);
 
@@ -534,24 +539,24 @@ public class GameController : ControllerBase
         var instance = await instanceRepository.GetInstance(context.Participation!, challengeId, token);
 
         if (instance is null)
-            return NotFound(new RequestResponse("题目未找到或动态附件分配失败", 404));
+            return NotFound(new RequestResponse("Challenge not found or dynamic attachment allocation failed", 404));
 
         return Ok(ChallengeDetailModel.FromInstance(instance));
     }
 
     /// <summary>
-    /// 提交 flag
+    /// Submit flag to checker queue
     /// </summary>
     /// <remarks>
-    /// 提交 flag，需要User权限，需要当前激活队伍已经报名
+    /// Submits flag for later checking (User permission required and must be in the game)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
-    /// <param name="challengeId">题目Id</param>
-    /// <param name="model">提交Flag</param>
+    /// <param name="id">Game id</param>
+    /// <param name="challengeId">Challenge id</param>
+    /// <param name="model">Flag text</param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛题目信息</response>
-    /// <response code="400">操作无效</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Submitted flag successfully</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="404">Game not found</response>
     [RequireUser]
     [HttpPost("{id}/Challenges/{challengeId}")]
     [EnableRateLimiting(nameof(RateLimiter.LimitPolicy.Submit))]
@@ -579,24 +584,24 @@ public class GameController : ControllerBase
 
         submission = await submissionRepository.AddSubmission(submission, token);
 
-        // send to flag checker service
+        // Send to flag checker service
         await checkerChannelWriter.WriteAsync(submission, token);
 
         return Ok(submission.Id);
     }
 
     /// <summary>
-    /// 查询 flag 状态
+    /// Query flag status
     /// </summary>
     /// <remarks>
-    /// 查询 flag 状态，需要User权限
+    /// Queries flag status (User permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
-    /// <param name="challengeId">题目Id</param>
-    /// <param name="submitId">提交id</param>
+    /// <param name="id">Game id</param>
+    /// <param name="challengeId">Challenge id</param>
+    /// <param name="submitId">Submission id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛提交状态</response>
-    /// <response code="404">提交未找到</response>
+    /// <response code="200">Flag status</response>
+    /// <response code="404">Submission not found</response>
     [RequireUser]
     [HttpGet("{id}/Challenges/{challengeId}/Status/{submitId}")]
     [ProducesResponseType(typeof(AnswerResult), StatusCodes.Status200OK)]
@@ -608,7 +613,7 @@ public class GameController : ControllerBase
         var submission = await submissionRepository.GetSubmission(id, challengeId, userId!, submitId, token);
 
         if (submission is null)
-            return NotFound(new RequestResponse("提交未找到", 404));
+            return NotFound(new RequestResponse("Submission not found", 404));
 
         return Ok(submission.Status switch
         {
@@ -618,16 +623,16 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 获取 Writeup 信息
+    /// Get Writeup
     /// </summary>
     /// <remarks>
-    /// 获取赛后题解提交情况，需要User权限
+    /// Gets Writeup (User permission required)
     /// </remarks>
     /// <param name="id"></param>
     /// <param name="token"></param>
-    /// <response code="200">成功提交 Writeup </response>
-    /// <response code="400">提交不符合要求</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Writeup info</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="404">Game not found</response>
     [RequireUser]
     [HttpGet("{id}/Writeup")]
     [ProducesResponseType(typeof(BasicWriteupInfoModel), StatusCodes.Status200OK)]
@@ -644,17 +649,17 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 提交 Writeup
+    /// Submit Writeup
     /// </summary>
     /// <remarks>
-    /// 提交赛后题解，需要User权限
+    /// Submits Writeup (User permission required)
     /// </remarks>
     /// <param name="id"></param>
-    /// <param name="file">文件</param>
+    /// <param name="file">File</param>
     /// <param name="token"></param>
-    /// <response code="200">成功提交 Writeup </response>
-    /// <response code="400">提交不符合要求</response>
-    /// <response code="404">比赛未找到</response>
+    /// <response code="200">Submitted writeup successfully</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="404">Game not found</response>
     [RequireUser]
     [HttpPost("{id}/Writeup")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -663,13 +668,13 @@ public class GameController : ControllerBase
     public async Task<IActionResult> SubmitWriteup([FromRoute] int id, IFormFile file, CancellationToken token)
     {
         if (file.Length == 0)
-            return BadRequest(new RequestResponse("文件非法"));
+            return BadRequest(new RequestResponse("File is invalid"));
 
         if (file.Length > 20 * 1024 * 1024)
-            return BadRequest(new RequestResponse("文件过大"));
+            return BadRequest(new RequestResponse("File is too large"));
 
         if (file.ContentType != "application/pdf" || Path.GetExtension(file.FileName) != ".pdf")
-            return BadRequest(new RequestResponse("请上传 pdf 文件"));
+            return BadRequest(new RequestResponse("Please upload a pdf file"));
 
         var context = await GetContextInfo(id, denyAfterEnded: false, token: token);
 
@@ -681,7 +686,7 @@ public class GameController : ControllerBase
         var team = part.Team;
 
         if (DateTimeOffset.UtcNow > game.WriteupDeadline)
-            return BadRequest(new RequestResponse("提交截止时间已过"));
+            return BadRequest(new RequestResponse("Writeup submission deadline has passed"));
 
         var wp = context.Participation!.Writeup;
 
@@ -691,29 +696,30 @@ public class GameController : ControllerBase
         wp = await fileService.CreateOrUpdateFile(file, $"Writeup-{game.Id}-{team.Id}-{DateTimeOffset.Now:yyyyMMdd-HH.mm.ssZ}.pdf", token);
 
         if (wp is null)
-            return BadRequest(new RequestResponse("保存文件失败"));
+            return BadRequest(new RequestResponse("Failed to save file"));
 
         part.Writeup = wp;
 
         await participationRepository.SaveAsync(token);
 
-        logger.Log($"{team.Name} 成功提交 {game.Title} 的 Writeup", context.User!, TaskStatus.Success);
+        logger.Log($"{team.Name} team successfully submitted Writeup for {game.Title}", context.User!, TaskStatus.Success);
 
         return Ok();
     }
 
     /// <summary>
-    /// 创建容器
+    /// Create Container instance
     /// </summary>
     /// <remarks>
-    /// 创建容器，需要User权限
+    /// Creates a container instance for a challenge (User permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
-    /// <param name="challengeId">题目Id</param>
+    /// <param name="id">Game id</param>
+    /// <param name="challengeId">Challenge id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛题目信息</response>
-    /// <response code="404">题目未找到</response>
-    /// <response code="400">题目不可创建容器</response>
+    /// <response code="200">Created container successfully</response>
+    /// <response code="404">Challenge not found</response>
+    /// <response code="400">Challenge type does not support container</response>
+    /// <response code="429">Too frequent container operations</response>
     [RequireUser]
     [HttpPost("{id}/Container/{challengeId}")]
     [EnableRateLimiting(nameof(RateLimiter.LimitPolicy.Container))]
@@ -731,13 +737,13 @@ public class GameController : ControllerBase
         var instance = await instanceRepository.GetInstance(context.Participation!, challengeId, token);
 
         if (instance is null)
-            return NotFound(new RequestResponse("题目未找到", 404));
+            return NotFound(new RequestResponse("Challenge not found", 404));
 
         if (!instance.Challenge.Type.IsContainer())
-            return BadRequest(new RequestResponse("题目不可创建容器"));
+            return BadRequest(new RequestResponse("Challenge type does not support container", 400));
 
         if (DateTimeOffset.UtcNow - instance.LastContainerOperation < TimeSpan.FromSeconds(10))
-            return new JsonResult(new RequestResponse("容器操作过于频繁", 429))
+            return new JsonResult(new RequestResponse("Too frequent container operations", 429))
             {
                 StatusCode = 429
             };
@@ -745,32 +751,32 @@ public class GameController : ControllerBase
         if (instance.Container is not null)
         {
             if (instance.Container.Status == ContainerStatus.Running)
-                return BadRequest(new RequestResponse("题目已经创建容器"));
+                return BadRequest(new RequestResponse("Container for this challenge already exists"));
 
             await containerRepository.RemoveContainer(instance.Container, token);
         }
 
         return await instanceRepository.CreateContainer(instance, context.Participation!.Team, context.User!, context.Game!.ContainerCountLimit, token) switch
         {
-            null or (TaskStatus.Fail, null) => BadRequest(new RequestResponse("题目创建容器失败")),
-            (TaskStatus.Denied, null) => BadRequest(new RequestResponse($"队伍容器数目不能超过 {context.Game.ContainerCountLimit}")),
+            null or (TaskStatus.Fail, null) => BadRequest(new RequestResponse("Failed to create container")),
+            (TaskStatus.Denied, null) => BadRequest(new RequestResponse($"Team container count cannot exceed {context.Game.ContainerCountLimit}")),
             (TaskStatus.Success, var x) => Ok(ContainerInfoModel.FromContainer(x!)),
             _ => throw new NotImplementedException(),
         };
     }
 
     /// <summary>
-    /// 延长容器时间
+    /// Prolong challenge container instance
     /// </summary>
     /// <remarks>
-    /// 延长容器时间，需要User权限，且只能在到期前十分钟延期两小时
+    /// Prolongs challenge container instance lifetime, (User permission required and max container lifetime is 2 hours)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
-    /// <param name="challengeId">题目Id</param>
+    /// <param name="id">Game id</param>
+    /// <param name="challengeId">Challenge id</param>
     /// <param name="token"></param>
-    /// <response code="200">成功获取比赛题目容器信息</response>
-    /// <response code="404">题目未找到</response>
-    /// <response code="400">容器未创建或无法延期</response>
+    /// <response code="200">Prolonged container successfully</response>
+    /// <response code="404">Instance not found</response>
+    /// <response code="400">Failed to prolong container</response>
     [RequireUser]
     [HttpPost("{id}/Container/{challengeId}/Prolong")]
     [EnableRateLimiting(nameof(RateLimiter.LimitPolicy.Container))]
@@ -787,16 +793,16 @@ public class GameController : ControllerBase
         var instance = await instanceRepository.GetInstance(context.Participation!, challengeId, token);
 
         if (instance is null)
-            return NotFound(new RequestResponse("题目未找到", 404));
+            return NotFound(new RequestResponse("Instance not found", 404));
 
         if (!instance.Challenge.Type.IsContainer())
-            return BadRequest(new RequestResponse("题目不可创建容器"));
+            return BadRequest(new RequestResponse("Challenge type does not support container"));
 
         if (instance.Container is null)
-            return BadRequest(new RequestResponse("题目未创建容器"));
+            return BadRequest(new RequestResponse("Challenge does not have container"));
 
         if (instance.Container.ExpectStopAt - DateTimeOffset.UtcNow < TimeSpan.FromMinutes(10))
-            return BadRequest(new RequestResponse("容器时间尚不可延长"));
+            return BadRequest(new RequestResponse("Container time is not extendable yet"));
 
         await instanceRepository.ProlongContainer(instance.Container, TimeSpan.FromHours(2), token);
 
@@ -804,17 +810,18 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
-    /// 删除容器
+    /// Delete Container instance
     /// </summary>
     /// <remarks>
-    /// 删除，需要User权限
+    /// Deletes a challenge container instance (User permission required)
     /// </remarks>
-    /// <param name="id">比赛Id</param>
-    /// <param name="challengeId">题目Id</param>
+    /// <param name="id">Game id</param>
+    /// <param name="challengeId">Challenge id</param>
     /// <param name="token"></param>
-    /// <response code="200">删除容器成功</response>
-    /// <response code="404">题目未找到</response>
-    /// <response code="400">题目不可创建容器</response>
+    /// <response code="200">Deleted container instance successfully</response>
+    /// <response code="404">Instance not found</response>
+    /// <response code="400">Challenge type does not support container</response>
+    /// <response code="429">Too frequent container operations</response>
     [RequireUser]
     [HttpDelete("{id}/Container/{challengeId}")]
     [EnableRateLimiting(nameof(RateLimiter.LimitPolicy.Container))]
@@ -832,16 +839,16 @@ public class GameController : ControllerBase
         var instance = await instanceRepository.GetInstance(context.Participation!, challengeId, token);
 
         if (instance is null)
-            return NotFound(new RequestResponse("题目未找到", 404));
+            return NotFound(new RequestResponse("Container instance not found", 404));
 
         if (!instance.Challenge.Type.IsContainer())
-            return BadRequest(new RequestResponse("题目不可创建容器"));
+            return BadRequest(new RequestResponse("Challenge type does not support container"));
 
         if (instance.Container is null)
-            return BadRequest(new RequestResponse("题目未创建容器"));
+            return BadRequest(new RequestResponse("Challenge does not have container"));
 
         if (DateTimeOffset.UtcNow - instance.LastContainerOperation < TimeSpan.FromSeconds(10))
-            return new JsonResult(new RequestResponse("容器操作过于频繁", 429))
+            return new JsonResult(new RequestResponse("Too frequent container operations", 429))
             {
                 StatusCode = 429
             };
@@ -849,7 +856,7 @@ public class GameController : ControllerBase
         var destroyId = instance.Container.Id;
 
         if (!await instanceRepository.DestroyContainer(instance.Container, token))
-            return BadRequest(new RequestResponse("题目删除容器失败"));
+            return BadRequest(new RequestResponse("Failed to delete container"));
 
         instance.LastContainerOperation = DateTimeOffset.UtcNow;
 
@@ -859,11 +866,10 @@ public class GameController : ControllerBase
             GameId = context.Game!.Id,
             TeamId = context.Participation!.TeamId,
             UserId = context.User!.Id,
-            Content = $"{instance.Challenge.Title}#{instance.Challenge.Id} 销毁容器实例"
+            Content = $"Destroyed container instance of {instance.Challenge.Title}#{instance.Challenge.Id}"
         }, token);
 
-        logger.Log($"{context.Participation!.Team.Name} 销毁题目 {instance.Challenge.Title} 的容器实例 [{destroyId}]", context.User, TaskStatus.Success);
-
+        logger.Log($"{context.Participation!.Team.Name} destroyed container instance of {instance.Challenge.Title} [{destroyId}]", context.User, TaskStatus.Success);
         return Ok();
     }
 
@@ -891,30 +897,30 @@ public class GameController : ControllerBase
         };
 
         if (res.Game is null)
-            return res.WithResult(NotFound(new RequestResponse("比赛未找到", 404)));
+            return res.WithResult(NotFound(new RequestResponse("Game not found", 404)));
 
         var part = await participationRepository.GetParticipation(res.User!, res.Game, token);
 
         if (part is null)
-            return res.WithResult(BadRequest(new RequestResponse("您尚未参赛")));
+            return res.WithResult(BadRequest(new RequestResponse("You are not participating in this game")));
 
         res.Participation = part;
 
         if (part.Status != ParticipationStatus.Accepted)
-            return res.WithResult(BadRequest(new RequestResponse("您的参赛申请尚未通过或被禁赛")));
+            return res.WithResult(BadRequest(new RequestResponse("Your participation request has not been accepted or you are banned")));
 
         if (DateTimeOffset.UtcNow < res.Game.StartTimeUTC)
-            return res.WithResult(BadRequest(new RequestResponse("比赛未开始")));
+            return res.WithResult(BadRequest(new RequestResponse("Game has not started yet")));
 
         if (denyAfterEnded && !res.Game.PracticeMode && res.Game.EndTimeUTC < DateTimeOffset.UtcNow)
-            return res.WithResult(BadRequest(new RequestResponse("比赛已结束")));
+            return res.WithResult(BadRequest(new RequestResponse("Game has ended")));
 
         if (challengeId > 0)
         {
             var challenge = await challengeRepository.GetChallenge(id, challengeId, withFlag, token);
 
             if (challenge is null)
-                return res.WithResult(NotFound(new RequestResponse("题目未找到", 404)));
+                return res.WithResult(NotFound(new RequestResponse("Challenge not found", 404)));
 
             res.Challenge = challenge;
         }

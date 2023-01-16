@@ -12,36 +12,36 @@ public class Submission
     public int Id { get; set; }
 
     /// <summary>
-    /// 提交的答案字符串
+    /// Answer text
     /// </summary>
     [MaxLength(127)]
     public string Answer { get; set; } = string.Empty;
 
     /// <summary>
-    /// 提交的答案状态
+    /// Submission status
     /// </summary>
     public AnswerResult Status { get; set; } = AnswerResult.Accepted;
 
     /// <summary>
-    /// 答案提交的时间
+    /// Submit time (UTC)
     /// </summary>
     [JsonPropertyName("time")]
     public DateTimeOffset SubmitTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// 提交用户
+    /// Submitter name
     /// </summary>
     [JsonPropertyName("user")]
     public string UserName => User?.UserName ?? string.Empty;
 
     /// <summary>
-    /// 提交队伍
+    /// Submitter team name
     /// </summary>
     [JsonPropertyName("team")]
     public string TeamName => Team?.Name ?? string.Empty;
 
     /// <summary>
-    /// 提交题目
+    /// Challenge name
     /// </summary>
     [JsonPropertyName("challenge")]
     public string ChallengeName => Challenge?.Title ?? string.Empty;
@@ -49,61 +49,61 @@ public class Submission
     #region Db Relationship
 
     /// <summary>
-    /// 用户数据库Id
+    /// Submitter user id
     /// </summary>
     [JsonIgnore]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// 用户
+    /// Submitter user object
     /// </summary>
     [JsonIgnore]
     public UserInfo User { get; set; } = default!;
 
     /// <summary>
-    /// 参与队伍 Id
+    /// Submitter team id
     /// </summary>
     [JsonIgnore]
     public int TeamId { get; set; }
 
     /// <summary>
-    /// 队伍
+    /// Submitter team object
     /// </summary>
     [JsonIgnore]
     public Team Team { get; set; } = default!;
 
     /// <summary>
-    /// 参与对象 Id
+    /// Participation id
     /// </summary>
     [JsonIgnore]
     public int ParticipationId { get; set; }
 
     /// <summary>
-    /// 队伍参赛对象
+    /// Participation object
     /// </summary>
     [JsonIgnore]
     public Participation Participation { get; set; } = default!;
 
     /// <summary>
-    /// 比赛Id
+    /// Game id
     /// </summary>
     [JsonIgnore]
     public int GameId { get; set; }
 
     /// <summary>
-    /// 比赛
+    /// Game object
     /// </summary>
     [JsonIgnore]
     public Game Game { get; set; } = default!;
 
     /// <summary>
-    /// 题目数据库Id
+    /// Challenge id
     /// </summary>
     [JsonIgnore]
     public int ChallengeId { get; set; }
 
     /// <summary>
-    /// 题目
+    /// Challenge object
     /// </summary>
     [JsonIgnore]
     public Challenge Challenge { get; set; } = default!;

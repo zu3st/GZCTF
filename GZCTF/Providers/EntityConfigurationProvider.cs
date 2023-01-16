@@ -52,7 +52,7 @@ public class EntityConfigurationProvider : ConfigurationProvider, IDisposable
             }
             catch (Exception ex)
             {
-                Log.Logger?.Error(ex, "全局配置重载失败");
+                Log.Logger?.Error(ex, "Failed to reload global configuration");
             }
         }
     }
@@ -101,7 +101,7 @@ public class EntityConfigurationProvider : ConfigurationProvider, IDisposable
 
         if (context is null || !context.Configs.Any())
         {
-            Log.Logger.Debug("初始化数据库……");
+            Log.Logger.Debug("Initializing database...");
 
             var configs = DefaultConfigs();
 

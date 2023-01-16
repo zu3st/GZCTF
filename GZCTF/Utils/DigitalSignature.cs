@@ -6,7 +6,7 @@ using Org.BouncyCastle.Utilities.Encoders;
 namespace CTFServer.Utils;
 
 /// <summary>
-/// 签名算法
+/// Signature algorithm
 /// </summary>
 public enum SignAlgorithm
 {

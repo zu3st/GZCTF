@@ -14,111 +14,111 @@ public class Challenge
     public int Id { get; set; }
 
     /// <summary>
-    /// 题目名称
+    /// Challenge title
     /// </summary>
-    [Required(ErrorMessage = "标题是必需的")]
-    [MinLength(1, ErrorMessage = "标题过短")]
+    [Required(ErrorMessage = "Title cannot be empty")]
+    [MinLength(1, ErrorMessage = "Title too short")]
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// 题目内容
+    /// Challenge content
     /// </summary>
-    [Required(ErrorMessage = "题目内容是必需的")]
+    [Required(ErrorMessage = "Body cannot be empty")]
     public string Content { get; set; } = string.Empty;
 
     /// <summary>
-    /// 是否启用题目
+    /// Whether the challenge is enabled
     /// </summary>
     public bool IsEnabled { get; set; } = false;
 
     /// <summary>
-    /// 题目标签
+    /// Challenge tag
     /// </summary>
     [Required]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public ChallengeTag Tag { get; set; } = ChallengeTag.Misc;
 
     /// <summary>
-    /// 题目类型，创建后不可更改
+    /// Challenge type, cannot be changed after creation
     /// </summary>
     [Required]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public ChallengeType Type { get; set; } = ChallengeType.StaticAttachment;
 
     /// <summary>
-    /// 题目提示
+    /// Challenge hints
     /// </summary>
     public List<string>? Hints { get; set; }
 
     /// <summary>
-    /// Flag 模版，用于根据 Token 和题目、比赛信息生成 Flag
+    /// Flag template, used to generate Flag based on Token and Challenge and Game information
     /// </summary>
     public string? FlagTemplate { get; set; }
 
     /// <summary>
-    /// 镜像名称与标签
+    /// Container image
     /// </summary>
     public string? ContainerImage { get; set; } = string.Empty;
 
     /// <summary>
-    /// 运行内存限制 (MB)
+    /// Memory limit (MB)
     /// </summary>
     public int? MemoryLimit { get; set; } = 64;
 
     /// <summary>
-    /// 存储限制 (MB)
+    /// Storage limit (MB)
     /// </summary>
     public int? StorageLimit { get; set; } = 256;
 
     /// <summary>
-    /// CPU 运行数量限制
+    /// CPU count limit
     /// </summary>
     public int? CPUCount { get; set; } = 1;
 
     /// <summary>
-    /// 镜像暴露端口
+    /// Exposed container port
     /// </summary>
     public int? ContainerExposePort { get; set; } = 80;
 
     /// <summary>
-    /// 是否为特权容器
+    /// Whether the container is privileged
     /// </summary>
     public bool? PrivilegedContainer { get; set; } = false;
 
     /// <summary>
-    /// 解决题目人数
+    /// Number of times the challenge has been solved
     /// </summary>
     [Required]
     public int AcceptedCount { get; set; } = 0;
 
     /// <summary>
-    /// 提交答案的数量
+    /// Number of answers submitted
     /// </summary>
     [Required]
     [JsonIgnore]
     public int SubmissionCount { get; set; } = 0;
 
     /// <summary>
-    /// 初始分数
+    /// Initial score
     /// </summary>
     [Required]
     public int OriginalScore { get; set; } = 500;
 
     /// <summary>
-    /// 最低分数比例
+    /// Minimum score ratio
     /// </summary>
     [Required]
     [Range(0, 1)]
     public double MinScoreRate { get; set; } = 0.25;
 
     /// <summary>
-    /// 难度系数
+    /// Difficulty factor
     /// </summary>
     [Required]
     public double Difficulty { get; set; } = 5;
 
     /// <summary>
-    /// 当前题目分值
+    /// Current score
     /// </summary>
     [NotMapped]
     public int CurrentScore =>
@@ -128,59 +128,59 @@ public class Challenge
         ));
 
     /// <summary>
-    /// 下载文件名称，仅用于动态附件统一文件名
+    /// Unified file name (only for dynamic attachment)
     /// </summary>
     public string? FileName { get; set; } = "attachment";
 
     #region Db Relationship
 
     /// <summary>
-    /// 题目附件 Id
+    /// Attachment Id
     /// </summary>
     public int? AttachmentId { get; set; }
 
     /// <summary>
-    /// 题目附件（动态附件存放于 FlagContext）
+    /// Challenge attachment (dynamic attachment is stored in FlagInfoModel)
     /// </summary>
     public Attachment? Attachment { get; set; }
 
     /// <summary>
-    /// 测试容器 Id
+    /// Test container Id
     /// </summary>
     public string? TestContainerId { get; set; }
 
     /// <summary>
-    /// 测试容器
+    /// Test container
     /// </summary>
     public Container? TestContainer { get; set; }
 
     /// <summary>
-    /// 题目对应的 Flag 列表
+    /// List of accepted flags
     /// </summary>
     public List<FlagContext> Flags { get; set; } = new();
 
     /// <summary>
-    /// 提交
+    /// List of submissions
     /// </summary>
     public List<Submission> Submissions { get; set; } = new();
 
     /// <summary>
-    /// 赛题实例
+    /// List of instances
     /// </summary>
     public List<Instance> Instances { get; set; } = new();
 
     /// <summary>
-    /// 激活赛题的队伍
+    /// Teams that participated in this challenge
     /// </summary>
     public HashSet<Participation> Teams { get; set; } = new();
 
     /// <summary>
-    /// 比赛 Id
+    /// Game id this challenge belongs to
     /// </summary>
     public int GameId { get; set; }
 
     /// <summary>
-    /// 比赛对象
+    /// Game this challenge belongs to
     /// </summary>
     public Game Game { get; set; } = default!;
 
@@ -222,7 +222,7 @@ public class Challenge
         Tag = model.Tag ?? Tag;
         Hints = model.Hints ?? Hints;
         IsEnabled = model.IsEnabled ?? IsEnabled;
-        // only set FlagTemplate to null when it pass an empty string (but not null)
+        // Only set FlagTemplate to null when it pass an empty string (but not null)
         FlagTemplate = model.FlagTemplate is null ? FlagTemplate :
             string.IsNullOrWhiteSpace(model.FlagTemplate) ? null : model.FlagTemplate;
         CPUCount = model.CPUCount ?? CPUCount;

@@ -3,34 +3,34 @@
 namespace CTFServer.Models.Request.Edit;
 
 /// <summary>
-/// 文章对象（Edit）
+/// Post edit (Edit)
 /// </summary>
 public class PostEditModel
 {
     /// <summary>
-    /// 通知标题
+    /// Post title
     /// </summary>
-    [Required(ErrorMessage = "标题是必需的")]
-    [MaxLength(50, ErrorMessage = "标题过长")]
+    [Required(ErrorMessage = "Title cannot be empty")]
+    [MaxLength(50, ErrorMessage = "Title too long")]
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// 文章总结
+    /// Post summary
     /// </summary>
     public string Summary { get; set; } = string.Empty;
 
     /// <summary>
-    /// 文章内容
+    /// Post content
     /// </summary>
     public string Content { get; set; } = string.Empty;
 
     /// <summary>
-    /// 文章标签
+    /// Post tags
     /// </summary>
     public string[] Tags { get; set; } = Array.Empty<string>();
 
     /// <summary>
-    /// 是否置顶
+    /// Whether the post is pinned
     /// </summary>
     public bool IsPinned { get; set; } = false;
 }

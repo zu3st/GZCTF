@@ -3,32 +3,32 @@
 public class CheatCheckInfo
 {
     /// <summary>
-    /// 检查结果
+    /// Check result
     /// </summary>
     public AnswerResult AnswerResult { get; set; } = AnswerResult.WrongAnswer;
 
     /// <summary>
-    /// 相关题目
+    /// Related challenge
     /// </summary>
     public Challenge? Challenge { get; set; }
 
     /// <summary>
-    /// 作弊队伍
+    /// Cheating team
     /// </summary>
     public Team? CheatTeam { get; set; }
 
     /// <summary>
-    /// Flag 原属队伍
+    /// Flag source team
     /// </summary>
     public Team? SourceTeam { get; set; }
 
     /// <summary>
-    /// 作弊用户
+    /// Cheating user
     /// </summary>
     public UserInfo? CheatUser { get; set; }
 
     /// <summary>
-    /// Flag 文本
+    /// Flag text
     /// </summary>
     public string? Flag { get; set; }
 }

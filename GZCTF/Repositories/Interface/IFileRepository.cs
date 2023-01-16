@@ -3,44 +3,44 @@
 public interface IFileRepository : IRepository
 {
     /// <summary>
-    /// 创建或更新一个文件
+    /// Create or update a file
     /// </summary>
-    /// <param name="file">文件对象</param>
-    /// <param name="fileName">保存文件名</param>
-    /// <param name="token">取消Token</param>
-    /// <returns>文件Id</returns>
+    /// <param name="file">File object</param>
+    /// <param name="fileName">Fle name</param>
+    /// <param name="token">Cancelleation token</param>
+    /// <returns>File id</returns>
     public Task<LocalFile> CreateOrUpdateFile(IFormFile file, string? fileName = null, CancellationToken token = default);
 
     /// <summary>
-    /// 删除一个文件
+    /// Delete a file
     /// </summary>
-    /// <param name="file">文件对象</param>
-    /// <param name="token">取消Token</param>
-    /// <returns>任务状态</returns>
+    /// <param name="file">File object</param>
+    /// <param name="token">Cancelleation token</param>
+    /// <returns>Task status</returns>
     public Task<TaskStatus> DeleteFile(LocalFile file, CancellationToken token = default);
 
     /// <summary>
-    /// 根据哈希删除一个文件
+    /// Delete a file by hash
     /// </summary>
-    /// <param name="fileHash">文件哈希</param>
-    /// <param name="token">取消Token</param>
-    /// <returns>任务状态</returns>
+    /// <param name="fileHash">File hash</param>
+    /// <param name="token">Cancelleation token</param>
+    /// <returns>Task status</returns>
     public Task<TaskStatus> DeleteFileByHash(string fileHash, CancellationToken token = default);
 
     /// <summary>
-    /// 根据文件哈希获取文件
+    /// Get file by hash
     /// </summary>
-    /// <param name="fileHash">文件哈希</param>
-    /// <param name="token">取消Token</param>
-    /// <returns>文件对象</returns>
+    /// <param name="fileHash">File hash</param>
+    /// <param name="token">Cancelleation token</param>
+    /// <returns>File object</returns>
     public Task<LocalFile?> GetFileByHash(string? fileHash, CancellationToken token = default);
 
     /// <summary>
-    /// 获取全部文件
+    /// Get all files
     /// </summary>
-    /// <param name="count">数量</param>
-    /// <param name="skip">跳过</param>
-    /// <param name="token">取消Token</param>
-    /// <returns>文件对象列表</returns>
+    /// <param name="count">Number of files to return</param>
+    /// <param name="skip">Number of files to skip</param>
+    /// <param name="token">Cancelleation token</param>
+    /// <returns>List of file objects</returns>
     public Task<List<LocalFile>> GetFiles(int count, int skip, CancellationToken token = default);
 }

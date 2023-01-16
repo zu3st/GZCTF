@@ -26,8 +26,8 @@ public static class PrelaunchHelper
             {
                 UpdateTimeUTC = DateTimeOffset.UtcNow,
                 Title = "Welcome to GZ::CTF!",
-                Summary = "一个开源的CTF比赛平台。",
-                Content = "项目基于 AGPL-3.0 许可证，开源于 [GZTimeWalker/GZCTF](https://github.com/GZTimeWalker/GZCTF)。"
+                Summary = "An open-source CTF platform.",
+                Content = "The project is based on the AGPL-3.0 license and open-sourced at [GZTimeWalker/GZCTF](https://github.com/GZTimeWalker/GZCTF)。"
             });
 
             await context.SaveChangesAsync();
@@ -55,7 +55,7 @@ public static class PrelaunchHelper
         }
 
         if (!cache.CacheCheck())
-            Program.ExitWithFatalMessage("缓存配置无效，请检查 RedisCache 字段配置。如不使用 Redis 请将配置项置空。");
+            Program.ExitWithFatalMessage("Cache configuration is invalid. Please check the configuration of the RedisCache field. If you are not using Redis, please leave the configuration item blank.");
     }
 
     public static bool CacheCheck(this IDistributedCache cache)

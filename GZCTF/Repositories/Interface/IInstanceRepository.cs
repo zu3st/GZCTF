@@ -6,62 +6,62 @@ namespace CTFServer.Repositories.Interface;
 public interface IInstanceRepository : IRepository
 {
     /// <summary>
-    /// 获取或创建队伍的题目实例
+    /// Get or create instance
     /// </summary>
-    /// <param name="team">队伍</param>
-    /// <param name="challengeId">题目Id</param>
+    /// <param name="team">Team</param>
+    /// <param name="challengeId">Challenge id</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<Instance?> GetInstance(Participation team, int challengeId, CancellationToken token = default);
 
     /// <summary>
-    /// 验证答案
+    /// Verify answer
     /// </summary>
-    /// <param name="submission">当前提交</param>
+    /// <param name="submission">Submission</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<(SubmissionType, AnswerResult)> VerifyAnswer(Submission submission, CancellationToken token = default);
 
     /// <summary>
-    /// 获取题目实例
+    /// Get challenge instances
     /// </summary>
-    /// <param name="challenge">当前题目</param>
+    /// <param name="challenge">Challenge</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<Instance[]> GetInstances(Challenge challenge, CancellationToken token = default);
 
     /// <summary>
-    /// 检查抄袭行为
+    /// Check for cheating
     /// </summary>
-    /// <param name="submission">当前提交</param>
+    /// <param name="submission">Submission</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<CheatCheckInfo> CheckCheat(Submission submission, CancellationToken token = default);
 
     /// <summary>
-    /// 创建容器实例
+    /// Create container instance
     /// </summary>
-    /// <param name="instance">实例对象</param>
-    /// <param name="team">队伍信息</param>
-    /// <param name="containerLimit">容器数量限制</param>
-    /// <param name="user">用户对象</param>
+    /// <param name="instance">instance object</param>
+    /// <param name="team">team object</param>
+    /// <param name="containerLimit">Concurrent container limit</param>
+    /// <param name="user">User object</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<TaskResult<Container>> CreateContainer(Instance instance, Team team, UserInfo user, int containerLimit = 3, CancellationToken token = default);
 
     /// <summary>
-    /// 销毁容器实例
+    /// Destroy container instance
     /// </summary>
-    /// <param name="container">容器实例对象</param>
+    /// <param name="container">Container instance object</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<bool> DestroyContainer(Container container, CancellationToken token = default);
 
     /// <summary>
-    /// 容器延期
+    /// Prolong container
     /// </summary>
-    /// <param name="container">容器实例对象</param>
-    /// <param name="time">延长时间</param>
+    /// <param name="container">Container instance object</param>
+    /// <param name="time">Extension time</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task ProlongContainer(Container container, TimeSpan time, CancellationToken token = default);

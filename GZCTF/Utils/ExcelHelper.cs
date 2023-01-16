@@ -6,13 +6,13 @@ namespace CTFServer.Utils;
 
 public static class ExcelHelper
 {
-    private static readonly string[] CommonScoreboardHeader = { "排名", "战队", "解题数量", "得分时间", "总分" };
-    private static readonly string[] CommonSubmissionHeader = { "提交状态", "提交时间", "战队", "用户", "题目", "提交内容", "用户邮箱" };
+    private static readonly string[] CommonScoreboardHeader = { "Rank", "Team", "Solved Task Count", "Score Time", "Total Score" };
+    private static readonly string[] CommonSubmissionHeader = { "Submission Status", "Submission Time", "Team", "User", "Task", "Submission Content", "User Email" };
 
     public static MemoryStream GetScoreboardExcel(ScoreboardModel scoreboard, Game game)
     {
         var workbook = new XSSFWorkbook();
-        var boardSheet = workbook.CreateSheet("排行榜");
+        var boardSheet = workbook.CreateSheet("Leaderboard");
         var headerStyle = GetHeaderStyle(workbook);
         var challIds = WriteBoardHeader(boardSheet, headerStyle, scoreboard, game);
         WriteBoardContent(boardSheet, scoreboard, challIds, game);
@@ -25,7 +25,7 @@ public static class ExcelHelper
     public static MemoryStream GetSubmissionExcel(IEnumerable<Submission> submissions, Game game)
     {
         var workbook = new XSSFWorkbook();
-        var subSheet = workbook.CreateSheet("全部提交");
+        var subSheet = workbook.CreateSheet("All Submissions");
         var headerStyle = GetHeaderStyle(workbook);
         WriteSubmissionHeader(subSheet, headerStyle);
         WriteSubmissionContent(subSheet, submissions);
@@ -97,7 +97,7 @@ public static class ExcelHelper
         if (game.Organizations is not null && game.Organizations.Count > 0)
         {
             var cell = row.CreateCell(colIndex++);
-            cell.SetCellValue("所属组织");
+            cell.SetCellValue("Affiliation");
             cell.CellStyle = style;
         }
 

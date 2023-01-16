@@ -9,65 +9,65 @@ public class Container
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     /// <summary>
-    /// 镜像名称
+    /// Image name
     /// </summary>
     [Required]
     public string Image { get; set; } = string.Empty;
 
     /// <summary>
-    /// 容器 ID
+    /// Container id
     /// </summary>
     [Required]
     public string ContainerId { get; set; } = string.Empty;
 
     /// <summary>
-    /// 容器状态
+    /// Container state
     /// </summary>
     [Required]
     public ContainerStatus Status { get; set; } = ContainerStatus.Pending;
 
     /// <summary>
-    /// 容器创建时间
+    /// Container start time
     /// </summary>
     [Required]
     public DateTimeOffset StartedAt { get; set; } = DateTimeOffset.UtcNow;
 
     /// <summary>
-    /// 容器期望终止时间
+    /// Expected container stop time
     /// </summary>
     [Required]
     public DateTimeOffset ExpectStopAt { get; set; } = DateTimeOffset.UtcNow + TimeSpan.FromHours(2);
 
     /// <summary>
-    /// 是否具备反向代理
+    /// Whether this container is proxied
     /// </summary>
     [Required]
     public bool IsProxy { get; set; } = false;
 
     /// <summary>
-    /// 本地 IP
+    /// Local ip
     /// </summary>
     [Required]
     public string IP { get; set; } = string.Empty;
 
     /// <summary>
-    /// 本地端口
+    /// Local port
     /// </summary>
     [Required]
     public int Port { get; set; }
 
     /// <summary>
-    /// 公开 IP
+    /// Public ip
     /// </summary>
     public string? PublicIP { get; set; }
 
     /// <summary>
-    /// 公开端口
+    /// Public port
     /// </summary>
     public int? PublicPort { get; set; }
 
     /// <summary>
-    /// 容器实例访问方式
+    /// Container instance access method
     /// </summary>
     [NotMapped]
     public string Entry => $"{PublicIP ?? IP}:{PublicPort ?? Port}";
@@ -75,12 +75,12 @@ public class Container
     #region Db Relationship
 
     /// <summary>
-    /// 比赛题目实例对象
+    /// Instance of the game challenge
     /// </summary>
     public Instance? Instance { get; set; }
 
     /// <summary>
-    /// 实例对象ID
+    /// Instance object ID
     /// </summary>
     public int InstanceId { get; set; }
 

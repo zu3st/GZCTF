@@ -3,46 +3,46 @@
 public interface ISubmissionRepository : IRepository
 {
     /// <summary>
-    /// 获取比赛的提交，按时间降序
+    /// Get game submissions by page, in descending order of submission time
     /// </summary>
-    /// <param name="game">比赛对象</param>
-    /// <param name="type">提交类型</param>
-    /// <param name="count">数量</param>
-    /// <param name="skip">跳过数量</param>
+    /// <param name="game">Game to get submissions from</param>
+    /// <param name="type">Submission type</param>
+    /// <param name="count">Number of submissions to get</param>
+    /// <param name="skip">Number of submissions to skip</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<Submission[]> GetSubmissions(Game game, AnswerResult? type = null, int count = 100, int skip = 0, CancellationToken token = default);
 
     /// <summary>
-    /// 获取题目的提交，按时间降序
+    /// Get challenge submissions by page, in descending order of submission time
     /// </summary>
-    /// <param name="challenge">题目对象</param>
-    /// <param name="type">提交类型</param>
-    /// <param name="count">数量</param>
-    /// <param name="skip">跳过数量</param>
+    /// <param name="challenge">Challenge to get submissions from</param>
+    /// <param name="type">Submission type</param>
+    /// <param name="count">Number of submissions to get</param>
+    /// <param name="skip">Number of submissions to skip</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<Submission[]> GetSubmissions(Challenge challenge, AnswerResult? type = null, int count = 100, int skip = 0, CancellationToken token = default);
 
     /// <summary>
-    /// 通过 signalR 发送提交给检查者
+    /// Submit a submission to the queue
     /// </summary>
     /// <param name="submission"></param>
     public Task SendSubmission(Submission submission);
 
     /// <summary>
-    /// 获取队伍的提交，按时间降序
+    /// Get team submissions by page, in descending order of submission time
     /// </summary>
-    /// <param name="team">队伍参赛对象</param>
-    /// <param name="type">提交类型</param>
-    /// <param name="count">数量</param>
-    /// <param name="skip">跳过数量</param>
+    /// <param name="team">Team to get submissions from</param>
+    /// <param name="type">Submission type</param>
+    /// <param name="count">Number of submissions to get</param>
+    /// <param name="skip">Number of submissions to skip</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<Submission[]> GetSubmissions(Participation team, AnswerResult? type = null, int count = 100, int skip = 0, CancellationToken token = default);
 
     /// <summary>
-    /// 添加提交
+    /// Add a submission
     /// </summary>
     /// <param name="submission">提交对象</param>
     /// <param name="token"></param>
@@ -50,19 +50,19 @@ public interface ISubmissionRepository : IRepository
     public Task<Submission> AddSubmission(Submission submission, CancellationToken token = default);
 
     /// <summary>
-    /// 获取未检查的 flag
+    /// Get unchecked flags
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<Submission[]> GetUncheckedFlags(CancellationToken token = default);
 
     /// <summary>
-    /// 获取提交
+    /// Get a submission
     /// </summary>
-    /// <param name="gameId">比赛Id</param>
-    /// <param name="challengeId">题目Id</param>
-    /// <param name="userId">用户Id</param>
-    /// <param name="submitId">提交Id</param>
+    /// <param name="gameId">Game Id</param>
+    /// <param name="challengeId">Challenge Id</param>
+    /// <param name="userId">User Id</param>
+    /// <param name="submitId">Submission Id</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<Submission?> GetSubmission(int gameId, int challengeId, string userId, int submitId, CancellationToken token = default);

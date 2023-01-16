@@ -3,17 +3,17 @@
 namespace CTFServer.Models.Request.Admin;
 
 /// <summary>
-/// 全局配置更新对象
+/// Configurations edit
 /// </summary>
 public class ConfigEditModel
 {
     /// <summary>
-    /// 用户策略
+    /// Account policy
     /// </summary>
     public AccountPolicy? AccountPolicy { get; set; }
 
     /// <summary>
-    /// 全局配置项
+    /// Global configuration
     /// </summary>
     public GlobalConfig? GlobalConfig { get; set; }
 }

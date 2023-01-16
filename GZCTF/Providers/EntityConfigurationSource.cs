@@ -10,7 +10,7 @@ public class EntityConfigurationSource : IConfigurationSource
     public EntityConfigurationSource(Action<DbContextOptionsBuilder> _optionsAction, int _pollingInterval = 180000)
     {
         OptionsAction = _optionsAction;
-        PollingInterval = _pollingInterval; // default to 3min
+        PollingInterval = _pollingInterval; // Defaults to 3min
     }
 
     public IConfigurationProvider Build(IConfigurationBuilder builder)

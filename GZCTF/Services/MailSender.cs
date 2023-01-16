@@ -42,12 +42,12 @@ public class MailSender : IMailSender
             await client.SendAsync(msg);
             await client.DisconnectAsync(true);
 
-            logger.SystemLog("发送邮件：" + to, TaskStatus.Success, LogLevel.Information);
+            logger.SystemLog("Sent email to: " + to, TaskStatus.Success, LogLevel.Information);
             return true;
         }
         catch (Exception e)
         {
-            logger.LogError(e, "邮件发送遇到问题");
+            logger.LogError(e, "Error occurred while sending email");
             return false;
         }
     }
@@ -56,7 +56,7 @@ public class MailSender : IMailSender
     {
         if (email is null || userName is null || title is null)
         {
-            logger.SystemLog("无效的邮件发送调用！", TaskStatus.Fail);
+            logger.SystemLog("Bad email sending call!", TaskStatus.Fail);
             return;
         }
 
@@ -75,7 +75,7 @@ public class MailSender : IMailSender
             .Replace("{url}", url)
             .Replace("{nowtime}", DateTimeOffset.UtcNow.ToString("u"));
         if (!await SendEmailAsync(title, emailContent, email))
-            logger.SystemLog("邮件发送失败！", TaskStatus.Fail);
+            logger.SystemLog("Failed to send email!", TaskStatus.Fail);
     }
 
     private bool SendUrlIfPossible(string? title, string? information, string? btnmsg, string? userName, string? email, string? url)
@@ -88,22 +88,22 @@ public class MailSender : IMailSender
     }
 
     public bool SendConfirmEmailUrl(string? userName, string? email, string? confirmLink)
-        => SendUrlIfPossible("验证你的注册邮箱",
-            "需要验证你的邮箱：" + email,
-            "确认邮箱", userName, email, confirmLink);
+        => SendUrlIfPossible("Confirm your email",
+            "You need to confirm your email: " + email,
+            "Confirm your email", userName, email, confirmLink);
 
     public bool SendResetPwdUrl(string? userName, string? email, string? resetLink)
-        => SendUrlIfPossible("重置密码",
-            "点击下方按钮重置你的密码。",
-            "重置密码", userName, email, resetLink);
+        => SendUrlIfPossible("Reset your password",
+            "Click the button below to reset your password.",
+            "Reset your password", userName, email, resetLink);
 
     public bool SendChangeEmailUrl(string? userName, string? email, string? resetLink)
-        => SendUrlIfPossible("更改邮箱",
-            "点击下方按钮更改你的邮箱。",
-            "更改邮箱", userName, email, resetLink);
+        => SendUrlIfPossible("Change your email",
+            "Click the button below to change your email.",
+            "Change your email", userName, email, resetLink);
 
     public bool SendResetPasswordUrl(string? userName, string? email, string? resetLink)
-        => SendUrlIfPossible("重置密码",
-            "点击下方按钮重置你的密码。",
-            "重置密码", userName, email, resetLink);
+        => SendUrlIfPossible("Reset your password",
+            "Click the button below to reset your password.",
+            "Reset your password", userName, email, resetLink);
 }

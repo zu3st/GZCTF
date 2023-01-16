@@ -7,15 +7,15 @@ namespace CTFServer.Extensions;
 public interface IRecaptchaExtension
 {
     /// <summary>
-    /// 异步校验 token
+    /// Verify token asynchronously
     /// </summary>
-    /// <param name="token">google recaptcha token</param>
-    /// <param name="ip">user ip</param>
-    /// <returns>校验结果</returns>
+    /// <param name="token">Google recaptcha token</param>
+    /// <param name="ip">User ip</param>
+    /// <returns>Verify result</returns>
     Task<bool> VerifyAsync(string token, string ip);
 
     /// <summary>
-    /// 获取 Sitekey
+    /// Get Sitekey
     /// </summary>
     /// <returns>Sitekey</returns>
     string SiteKey();

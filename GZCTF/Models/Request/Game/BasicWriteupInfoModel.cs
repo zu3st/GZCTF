@@ -5,27 +5,27 @@ using CTFServer.Models.Request.Info;
 namespace CTFServer.Models.Request.Game;
 
 /// <summary>
-/// 比赛 Writeup 提交信息
+/// Game writeup information
 /// </summary>
 public class BasicWriteupInfoModel
 {
     /// <summary>
-    /// 是否已经提交
+    /// Whether the writeup has been submitted
     /// </summary>
     public bool Submitted { get; set; } = false;
 
     /// <summary>
-    /// 文件名称
+    /// Writeup file name
     /// </summary>
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// 文件大小
+    /// File size
     /// </summary>
     public long FileSize { get; set; } = 0;
 
     /// <summary>
-    /// Writeup 附加说明
+    /// Additional writeup notes
     /// </summary>
     [JsonPropertyName("note")]
     public string WriteupNote { get; set; } = string.Empty;

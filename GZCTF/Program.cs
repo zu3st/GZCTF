@@ -57,7 +57,7 @@ if (IsTesting || (builder.Environment.IsDevelopment() && !builder.Configuration.
 else
 {
     if (!builder.Configuration.GetSection("ConnectionStrings").GetSection("Database").Exists())
-        ExitWithFatalMessage("未找到数据库连接字符串字段 ConnectionStrings，请检查 appsettings.json 是否正常挂载及配置");
+        ExitWithFatalMessage("Database connection string field ConnectionStrings not found, please check if appsettings.json is mounted and correctly configured");
 
     builder.Services.AddDbContext<AppDbContext>(
         options =>
@@ -90,8 +90,8 @@ if (!IsTesting)
     catch
     {
         if (builder.Configuration.GetSection("ConnectionStrings").GetSection("Database").Exists())
-            Log.Logger.Error($"当前连接字符串：{builder.Configuration.GetConnectionString("Database")}");
-        ExitWithFatalMessage("数据库连接失败，请检查 Database 连接字符串配置");
+            Log.Logger.Error($"Current connection string：{builder.Configuration.GetConnectionString("Database")}");
+        ExitWithFatalMessage("Database connection failed, please check the database connection string");
     }
 }
 #endregion Configuration
@@ -103,7 +103,7 @@ builder.Services.AddOpenApiDocument(settings =>
     settings.DocumentName = "v1";
     settings.Version = "v1";
     settings.Title = "GZCTF Server API";
-    settings.Description = "GZCTF Server 接口文档";
+    settings.Description = "GZCTF Server Interface Documentation";
     settings.UseControllerSummaryAsTagDescription = true;
     settings.SerializerSettings = SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(new JsonSerializerOptions
     {
@@ -233,7 +233,7 @@ builder.Services.AddControllersWithViews().ConfigureApiBehaviorOptions(options =
     options.InvalidModelStateResponseFactory = context =>
     {
         var errmsg = context.ModelState.Values.FirstOrDefault()?.Errors.FirstOrDefault()?.ErrorMessage;
-        return new JsonResult(new RequestResponse(errmsg ?? "验证失败，请检查输入。"))
+        return new JsonResult(new RequestResponse(errmsg ?? "Validation failed, please check your input."))
         {
             StatusCode = 400
         };
@@ -292,12 +292,12 @@ try
 }
 catch (Exception exception)
 {
-    logger.LogError(exception, "因异常，应用程序意外终止");
+    logger.LogError(exception, "Application terminated unexpectedly due to an unhandled exception.");
     throw;
 }
 finally
 {
-    logger.SystemLog("服务器已退出", CTFServer.TaskStatus.Exit, LogLevel.Debug);
+    logger.SystemLog("Server has exited", CTFServer.TaskStatus.Exit, LogLevel.Debug);
     Log.CloseAndFlush();
 }
 

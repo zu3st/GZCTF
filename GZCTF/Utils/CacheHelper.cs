@@ -32,34 +32,34 @@ public static class CacheHelper
         var bytes = MemoryPackSerializer.Serialize(result);
 
         await cache.SetAsync(key, bytes, cacheOptions, token);
-        logger.SystemLog($"重建缓存：{key} @ {bytes.Length} bytes", TaskStatus.Success, LogLevel.Debug);
+        logger.SystemLog($"Rebuilt cache: {key} @ {bytes.Length} bytes", TaskStatus.Success, LogLevel.Debug);
 
         return result;
     }
 }
 
 /// <summary>
-/// 缓存标识
+/// Cache item keys
 /// </summary>
 public static class CacheKey
 {
     /// <summary>
-    /// 积分榜缓存
+    /// Scoreboard cache
     /// </summary>
     public static string ScoreBoard(int id) => $"_ScoreBoard_{id}";
 
     /// <summary>
-    /// 比赛通知缓存
+    /// Game notice cache
     /// </summary>
     public static string GameNotice(int id) => $"_GameNotice_{id}";
 
     /// <summary>
-    /// 比赛基础信息缓存
+    /// Basic game information cache
     /// </summary>
     public const string BasicGameInfo = "_BasicGameInfo";
 
     /// <summary>
-    /// 文章
+    /// Posts cache
     /// </summary>
     public const string Posts = "_Posts";
 }

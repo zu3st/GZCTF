@@ -3,26 +3,26 @@
 namespace CTFServer.Models.Request.Account;
 
 /// <summary>
-/// 账号密码重置
+/// Password reset
 /// </summary>
 public class PasswordResetModel
 {
     /// <summary>
-    /// 密码
+    /// Password
     /// </summary>
-    [MinLength(6, ErrorMessage = "密码过短")]
-    [Required(ErrorMessage = "密码是必需的")]
+    [MinLength(6, ErrorMessage = "Password too short")]
+    [Required(ErrorMessage = "Password is required")]
     public string Password { get; set; } = string.Empty;
 
     /// <summary>
-    /// 邮箱
+    /// Email
     /// </summary>
-    [Required(ErrorMessage = "邮箱是必需的")]
+    [Required(ErrorMessage = "Email is required")]
     public string Email { get; set; } = string.Empty;
 
     /// <summary>
-    /// 邮箱接收到的Base64格式Token
+    /// Token in Base64 format received in the email
     /// </summary>
-    [Required(ErrorMessage = "Token是必需的")]
+    [Required(ErrorMessage = "Token is required")]
     public string? RToken { get; set; }
 }

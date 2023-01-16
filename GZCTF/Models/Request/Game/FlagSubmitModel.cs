@@ -3,15 +3,15 @@
 namespace CTFServer.Models.Request.Edit;
 
 /// <summary>
-/// flag 提交
+/// Flag submit
 /// </summary>
 public class FlagSubmitModel
 {
     /// <summary>
-    /// flag 内容
-    /// fix: 防止前端的意外提交 (number/float/null) 可能被错误转换
+    /// Flag text
+    /// fix: Prevent the unexpected conversion (number/float/null) on submission by the front end
     /// </summary>
-    [Required(ErrorMessage = "flag 是必需的")]
-    [MaxLength(126, ErrorMessage = "flag 过长")]
+    [Required(ErrorMessage = "Flag cannot be empty)]
+    [MaxLength(126, ErrorMessage = "Flag too long")]
     public string Flag { get; set; } = string.Empty;
 }

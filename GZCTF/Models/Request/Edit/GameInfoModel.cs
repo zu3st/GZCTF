@@ -5,107 +5,107 @@ using CTFServer.Utils;
 namespace CTFServer.Models.Request.Edit;
 
 /// <summary>
-/// 比赛信息（Edit）
+/// Game information (Edit)
 /// </summary>
 public class GameInfoModel
 {
     /// <summary>
-    /// 比赛 Id
+    /// Game id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// 比赛标题
+    /// Game title
     /// </summary>
     [Required]
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// 是否隐藏
+    /// Whether the game is hidden
     /// </summary>
     public bool Hidden { get; set; } = false;
 
     /// <summary>
-    /// 比赛描述
+    /// Game summary
     /// </summary>
     public string Summary { get; set; } = string.Empty;
 
     /// <summary>
-    /// 比赛详细介绍
+    /// Game details
     /// </summary>
     public string Content { get; set; } = string.Empty;
 
     /// <summary>
-    /// 报名队伍免审核
+    /// Whether to enroll teams without manual review
     /// </summary>
     public bool AcceptWithoutReview { get; set; } = false;
 
     /// <summary>
-    /// 比赛邀请码
+    /// Game invite code
     /// </summary>
-    [MaxLength(32, ErrorMessage = "邀请码过长")]
+    [MaxLength(32, ErrorMessage = "Invite code too long")]
     public string? InviteCode { get; set; }
 
     /// <summary>
-    /// 参赛所属单位列表
+    /// List of participating organizations
     /// </summary>
     public HashSet<string>? Organizations { get; set; }
 
     /// <summary>
-    /// 队员数量限制, 0 为无上限
+    /// Limit of team member count, 0 for no limit
     /// </summary>
     public int TeamMemberCountLimit { get; set; } = 0;
 
     /// <summary>
-    /// 队伍同时开启的容器数量限制
+    /// Limit of concurrent containers per team, 0 for no limit
     /// </summary>
     public int ContainerCountLimit { get; set; } = 3;
 
     /// <summary>
-    /// 比赛头图
+    /// Game poster URL
     /// </summary>
     [JsonPropertyName("poster")]
     public string? PosterUrl { get; set; } = string.Empty;
 
     /// <summary>
-    /// 比赛签名公钥
+    /// Game signature public key
     /// </summary>
     public string PublicKey { get; set; } = string.Empty;
 
     /// <summary>
-    /// 比赛是否为练习模式（比赛结束够依然可以访问）
+    /// Whether the game is in practice mode (accessible after the game ends)
     /// </summary>
     public bool PracticeMode { get; set; } = true;
 
-    /// <summary>
-    /// 开始时间
+    /// <summary>un
+    /// Start time (UTC)
     /// </summary>
     [Required]
     [JsonPropertyName("start")]
     public DateTimeOffset StartTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// 结束时间
+    /// End time (UTC)
     /// </summary>
     [Required]
     [JsonPropertyName("end")]
     public DateTimeOffset EndTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// Writeup 提交截止时间
+    /// Writeup submission deadline
     /// </summary>
     [Required]
     [JsonPropertyName("wpddl")]
     public DateTimeOffset WriteupDeadline { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// Writeup 附加说明
+    /// Writeup additional notes
     /// </summary>
     [JsonPropertyName("wpNote")]
     public string WriteupNote { get; set; } = string.Empty;
 
     /// <summary>
-    /// 三血加分
+    /// First three bloods bonus amount
     /// </summary>
     [JsonPropertyName("bloodBonus")]
     public long BloodBonusValue { get; set; } = BloodBonus.DefaultValue;

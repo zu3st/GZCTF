@@ -36,7 +36,7 @@ public class DockerService : IContainerService
             };
         }
 
-        logger.SystemLog($"Docker 服务已启动 ({(string.IsNullOrEmpty(this.options.Uri) ? "localhost" : this.options.Uri)})", TaskStatus.Success, LogLevel.Debug);
+        logger.SystemLog($"Docker service started ({(string.IsNullOrEmpty(this.options.Uri) ? "localhost" : this.options.Uri)})", TaskStatus.Success, LogLevel.Debug);
     }
 
     public Task<Container?> CreateContainerAsync(ContainerConfig config, CancellationToken token = default)
@@ -53,24 +53,24 @@ public class DockerService : IContainerService
         }
         catch (DockerContainerNotFoundException)
         {
-            logger.SystemLog($"容器 {container.ContainerId} 已被销毁", TaskStatus.Success, LogLevel.Debug);
+            logger.SystemLog($"Container {container.ContainerId} has been destroyed", TaskStatus.Success, LogLevel.Debug);
         }
         catch (DockerApiException e)
         {
             if (e.StatusCode == HttpStatusCode.NotFound)
             {
-                logger.SystemLog($"容器 {container.ContainerId} 已被销毁", TaskStatus.Success, LogLevel.Debug);
+                logger.SystemLog($"Container {container.ContainerId} has been destroyed", TaskStatus.Success, LogLevel.Debug);
             }
             else
             {
-                logger.SystemLog($"容器 {container.ContainerId} 删除失败, 状态：{e.StatusCode.ToString()}", TaskStatus.Fail, LogLevel.Warning);
-                logger.SystemLog($"容器 {container.ContainerId} 删除失败, 响应：{e.ResponseBody}", TaskStatus.Fail, LogLevel.Error);
+                logger.SystemLog($"Container {container.ContainerId} deletion failed, status: {e.StatusCode.ToString()}", TaskStatus.Fail, LogLevel.Warning);
+                logger.SystemLog($"Container {container.ContainerId} deletion failed, response: {e.ResponseBody}", TaskStatus.Fail, LogLevel.Error);
                 return;
             }
         }
         catch (Exception e)
         {
-            logger.LogError(e, $"容器 {container.ContainerId} 删除失败");
+            logger.LogError(e, $"Container {container.ContainerId} deletion failed");
             return;
         }
 
@@ -150,21 +150,21 @@ public class DockerService : IContainerService
         {
             if (e.StatusCode == HttpStatusCode.Conflict && retry < 3)
             {
-                logger.SystemLog($"容器 {parameters.Service.Name} 已存在，尝试移除后重新创建", TaskStatus.Duplicate, LogLevel.Warning);
+                logger.SystemLog($"Container {parameters.Service.Name} already exists, trying to remove and recreate", TaskStatus.Duplicate, LogLevel.Warning);
                 await dockerClient.Swarm.RemoveServiceAsync(parameters.Service.Name, token);
                 retry++;
                 goto CreateContainer;
             }
             else
             {
-                logger.SystemLog($"容器 {parameters.Service.Name} 创建失败, 状态：{e.StatusCode.ToString()}", TaskStatus.Fail, LogLevel.Warning);
-                logger.SystemLog($"容器 {parameters.Service.Name} 创建失败, 响应：{e.ResponseBody}", TaskStatus.Fail, LogLevel.Error);
+                logger.SystemLog($"Container {parameters.Service.Name} creation failed, status: {e.StatusCode.ToString()}", TaskStatus.Fail, LogLevel.Warning);
+                logger.SystemLog($"Container {parameters.Service.Name} creation failed, response: {e.ResponseBody}", TaskStatus.Fail, LogLevel.Error);
                 return null;
             }
         }
         catch (Exception e)
         {
-            logger.LogError(e, $"容器 {parameters.Service.Name} 删除失败");
+            logger.LogError(e, $"Container {parameters.Service.Name} creation failed");
             return null;
         }
 
@@ -182,7 +182,7 @@ public class DockerService : IContainerService
             retry++;
             if (retry == 3)
             {
-                logger.SystemLog($"容器 {parameters.Service.Name} 创建后未获取到端口暴露信息，创建失败", TaskStatus.Fail, LogLevel.Warning);
+                logger.SystemLog($"Container {parameters.Service.Name} failed to get exposed port info after creation", TaskStatus.Fail, LogLevel.Warning);
                 return null;
             }
             if (res is not { Endpoint.Ports.Count: > 0 })
@@ -213,7 +213,7 @@ public class DockerService : IContainerService
         }
         catch (DockerImageNotFoundException)
         {
-            logger.SystemLog($"拉取容器镜像 {config.Image}", TaskStatus.Pending, LogLevel.Information);
+            logger.SystemLog($"Pulling container image {config.Image}", TaskStatus.Pending, LogLevel.Information);
 
             await dockerClient.Images.CreateImageAsync(new()
             {
@@ -225,7 +225,7 @@ public class DockerService : IContainerService
         }
         catch (Exception e)
         {
-            logger.LogError(e, $"容器 {parameters.Name} 创建失败");
+            logger.LogError(e, $"Container {parameters.Name} creation failed");
             return null;
         }
 
@@ -235,7 +235,7 @@ public class DockerService : IContainerService
         }
         catch (Exception e)
         {
-            logger.LogError(e, $"容器 {parameters.Name} 创建失败");
+            logger.LogError(e, $"Container {parameters.Name} creation failed");
             return null;
         }
 
@@ -254,7 +254,7 @@ public class DockerService : IContainerService
             retry++;
             if (retry == 3)
             {
-                logger.SystemLog($"启动容器实例 {container.Id} ({config.Image.Split("/").LastOrDefault()}) 失败", TaskStatus.Fail, LogLevel.Warning);
+                logger.SystemLog($"Failed to start container instance {container.Id} ({config.Image.Split("/").LastOrDefault()})", TaskStatus.Fail, LogLevel.Warning);
                 return null;
             }
             if (!started)
@@ -268,7 +268,7 @@ public class DockerService : IContainerService
 
         if (container.Status != ContainerStatus.Running)
         {
-            logger.SystemLog($"创建 {config.Image.Split("/").LastOrDefault()} 实例遇到错误：{info.State.Error}", TaskStatus.Fail, LogLevel.Warning);
+            logger.SystemLog($"Failed to create {config.Image.Split("/").LastOrDefault()} instance: {info.State.Error}", TaskStatus.Fail, LogLevel.Warning);
             return null;
         }
 
@@ -283,7 +283,7 @@ public class DockerService : IContainerService
         if (int.TryParse(port, out var numport))
             container.Port = numport;
         else
-            logger.SystemLog($"无法转换端口号：{port}，这是非预期的行为", TaskStatus.Fail, LogLevel.Warning);
+            logger.SystemLog($"Failed to parse port number: {port}, this is unexpected behavior", TaskStatus.Fail, LogLevel.Warning);
 
         container.IP = info.NetworkSettings.IPAddress;
 

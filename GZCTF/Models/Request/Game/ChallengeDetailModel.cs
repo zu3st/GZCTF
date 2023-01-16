@@ -1,47 +1,47 @@
 ﻿namespace CTFServer.Models.Request.Game;
 
 /// <summary>
-/// 题目详细信息
+/// Challenge detail information
 /// </summary>
 public class ChallengeDetailModel
 {
     /// <summary>
-    /// 题目 Id
+    /// Challenge Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// 题目名称
+    /// Challenge title
     /// </summary>
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// 题目内容
+    /// Challenge body
     /// </summary>
     public string Content { get; set; } = string.Empty;
 
     /// <summary>
-    /// 题目标签
+    /// Challenge tag
     /// </summary>
     public ChallengeTag Tag { get; set; } = ChallengeTag.Misc;
 
     /// <summary>
-    /// 题目提示
+    /// Challenge hints
     /// </summary>
     public List<string>? Hints { get; set; }
 
     /// <summary>
-    /// 题目当前分值
+    /// Challenge score
     /// </summary>
     public int Score { get; set; }
 
     /// <summary>
-    /// 题目类型
+    /// Challenge type
     /// </summary>
     public ChallengeType Type { get; set; } = ChallengeType.StaticAttachment;
 
     /// <summary>
-    /// Flag 上下文
+    /// Flag context
     /// </summary>
     public ClientFlagContext Context { get; set; } = default!;
 

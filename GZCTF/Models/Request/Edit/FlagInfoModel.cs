@@ -3,7 +3,7 @@
 namespace CTFServer.Models.Request.Edit;
 
 /// <summary>
-/// Flag 信息（Edit）
+/// Flag information（Edit）
 /// </summary>
 public class FlagInfoModel
 {
@@ -13,12 +13,12 @@ public class FlagInfoModel
     public int Id { get; set; }
 
     /// <summary>
-    /// Flag文本
+    /// Flag text
     /// </summary>
     public string Flag { get; set; } = string.Empty;
 
     /// <summary>
-    /// Flag 对应附件
+    /// Flag attachment
     /// </summary>
     public Attachment? Attachment { get; set; }
 

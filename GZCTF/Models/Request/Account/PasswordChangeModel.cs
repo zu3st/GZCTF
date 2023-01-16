@@ -3,21 +3,21 @@
 namespace CTFServer.Models.Request.Account;
 
 /// <summary>
-/// 密码更改
+/// Password change
 /// </summary>
 public class PasswordChangeModel
 {
     /// <summary>
-    /// 旧密码
+    /// Old password
     /// </summary>
-    [Required(ErrorMessage = "旧密码是必需的")]
-    [MinLength(6, ErrorMessage = "旧密码过短")]
+    [Required(ErrorMessage = "Old password is required")]
+    [MinLength(6, ErrorMessage = "Old password too short")]
     public string Old { get; set; } = string.Empty;
 
     /// <summary>
-    /// 新密码
+    /// New password
     /// </summary>
-    [Required(ErrorMessage = "新密码是必需的")]
-    [MinLength(6, ErrorMessage = "新密码过短")]
+    [Required(ErrorMessage = "New password is required")]
+    [MinLength(6, ErrorMessage = "New password too short")]
     public string New { get; set; } = string.Empty;
 }

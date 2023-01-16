@@ -3,74 +3,74 @@
 namespace CTFServer.Models.Request.Edit;
 
 /// <summary>
-/// 题目更新信息（Edit）
+/// Challenge update information (Edit)
 /// </summary>
 public class ChallengeUpdateModel
 {
     /// <summary>
-    /// 题目名称
+    /// Challenge title
     /// </summary>
-    [MinLength(1, ErrorMessage = "标题过短")]
+    [MinLength(1, ErrorMessage = "Title too short")]
     public string? Title { get; set; }
 
     /// <summary>
-    /// 题目内容
+    /// Challenge body
     /// </summary>
     public string? Content { get; set; }
 
     /// <summary>
-    /// Flag 模版，用于根据 Token 和题目、比赛信息生成 Flag
+    /// Flag template, used to generate flag based on token, challenge, and game information
     /// </summary>
-    [MaxLength(120, ErrorMessage = "flag 字符串过长")]
+    [MaxLength(120, ErrorMessage = "Flag template too long")]
     public string? FlagTemplate { get; set; }
 
     /// <summary>
-    /// 题目标签
+    /// Challenge tag
     /// </summary>
     public ChallengeTag? Tag { get; set; }
 
     /// <summary>
-    /// 题目提示
+    /// Challenge hints
     /// </summary>
     public List<string>? Hints { get; set; }
 
     /// <summary>
-    /// 是否启用题目
+    /// Whether the challenge is enabled
     /// </summary>
     public bool? IsEnabled { get; set; }
 
     #region Container
 
     /// <summary>
-    /// 镜像名称与标签
+    /// Container image
     /// </summary>
     public string? ContainerImage { get; set; }
 
     /// <summary>
-    /// 运行内存限制 (MB)
+    /// Memory limit (MB)
     /// </summary>
-    [Range(32, 1048576, ErrorMessage = "{0} 的值必须介于 {1} - {2}")]
+    [Range(32, 1048576, ErrorMessage = "{0} must be between {1} - {2}")]
     public int? MemoryLimit { get; set; }
 
     /// <summary>
-    /// CPU 运行数量限制
+    /// CPU count limit
     /// </summary>
-    [Range(1, 1024, ErrorMessage = "{0} 的值必须介于 {1} - {2}")]
+    [Range(1, 1024, ErrorMessage = "{0} must be between {1} - {2}")]
     public int? CPUCount { get; set; }
 
     /// <summary>
-    /// 存储限制 (MB)
+    /// Storage limit (MB)
     /// </summary>
-    [Range(128, 1048576, ErrorMessage = "{0} 的值必须介于 {1} - {2}")]
+    [Range(128, 1048576, ErrorMessage = "{0} must be between {1} - {2}")]
     public int? StorageLimit { get; set; }
 
     /// <summary>
-    /// 镜像暴露端口
+    /// Exposed container port
     /// </summary>
     public int? ContainerExposePort { get; set; }
 
     /// <summary>
-    /// 是否为特权容器
+    /// Whether the container is privileged
     /// </summary>
     public bool? PrivilegedContainer { get; set; } = false;
 
@@ -79,25 +79,25 @@ public class ChallengeUpdateModel
     #region Score
 
     /// <summary>
-    /// 初始分数
+    /// Initial score
     /// </summary>
     public int? OriginalScore { get; set; }
 
     /// <summary>
-    /// 最低分数比例
+    /// Minimum score ratio
     /// </summary>
     [Range(0, 1)]
     public double? MinScoreRate { get; set; }
 
     /// <summary>
-    /// 难度系数
+    /// Difficulty factor
     /// </summary>
     public double? Difficulty { get; set; }
 
     #endregion Score
 
     /// <summary>
-    /// 统一文件名
+    /// Uniform file name
     /// </summary>
     public string? FileName { get; set; }
 }

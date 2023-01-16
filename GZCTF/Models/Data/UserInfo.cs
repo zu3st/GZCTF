@@ -11,76 +11,76 @@ namespace CTFServer.Models;
 public partial class UserInfo : IdentityUser
 {
     /// <summary>
-    /// 用户角色
+    /// User Role
     /// </summary>
     [ProtectedPersonalData]
     public Role Role { get; set; } = Role.User;
 
     /// <summary>
-    /// 用户最近访问IP
+    /// Most recent IP
     /// </summary>
     [ProtectedPersonalData]
     public string IP { get; set; } = "0.0.0.0";
 
     /// <summary>
-    /// 用户最近登录时间
+    /// Last signed in time
     /// </summary>
     public DateTimeOffset LastSignedInUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// 用户最近访问时间
+    /// Last visited time
     /// </summary>
     public DateTimeOffset LastVisitedUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// 用户注册时间
+    /// Register time
     /// </summary>
     public DateTimeOffset RegisterTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// 个性签名
+    /// Bio
     /// </summary>
     [MaxLength(63)]
     public string Bio { get; set; } = string.Empty;
 
     /// <summary>
-    /// 真实姓名
+    /// Real name
     /// </summary>
     [MaxLength(7)]
     [ProtectedPersonalData]
     public string RealName { get; set; } = string.Empty;
 
     /// <summary>
-    /// 学工号
+    /// Matriculation number
     /// </summary>
     [MaxLength(31)]
     [ProtectedPersonalData]
     public string StdNumber { get; set; } = string.Empty;
 
-    #region 数据库关系
+    #region Db Relationship
 
     /// <summary>
-    /// 头像哈希
+    /// Avatar hash
     /// </summary>
     [MaxLength(64)]
     public string? AvatarHash { get; set; }
 
     /// <summary>
-    /// 个人提交记录
+    /// List of submissions
     /// </summary>
     [MemoryPackIgnore]
     public List<Submission> Submissions { get; set; } = new();
 
     /// <summary>
-    /// 参与的队伍
+    /// Teams participated in
     /// </summary>
     [MemoryPackIgnore]
     public List<Team> Teams { get; set; } = new();
 
-    #endregion 数据库关系
+    #endregion Db Relationship
 
     /// <summary>
-    /// 通过Http请求更新用户最新访问时间和IP
+    ///  Update user's last visited time and IP by http request
     /// </summary>
     /// <param name="context"></param>
     public void UpdateByHttpContext(HttpContext context)

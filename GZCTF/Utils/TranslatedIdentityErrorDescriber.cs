@@ -9,7 +9,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(ConcurrencyFailure),
-            Description = "发生并发错误，请稍后再试"
+            Description = "Concurrency error occurred, please try again later"
         };
     }
 
@@ -18,7 +18,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(DefaultError),
-            Description = "发生错误，请稍后再试"
+            Description = "An error occurred, please try again later"
         };
     }
 
@@ -27,7 +27,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(DuplicateEmail),
-            Description = $"邮箱地址 {email} 已存在"
+            Description = $"Email {email} already exists"
         };
     }
 
@@ -36,7 +36,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(DuplicateRoleName),
-            Description = $"角色名 {role} 已存在"
+            Description = $"Role {role} already exists"
         };
     }
 
@@ -45,7 +45,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(DuplicateUserName),
-            Description = $"用户名 {userName} 已存在"
+            Description = $"User {userName} already exists"
         };
     }
 
@@ -54,7 +54,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(InvalidEmail),
-            Description = $"邮箱地址 {email} 无效"
+            Description = $"Email {email} is invalid"
         };
     }
 
@@ -63,7 +63,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(InvalidRoleName),
-            Description = $"角色名 {role} 无效"
+            Description = $"Role {role} is invalid"
         };
     }
 
@@ -72,7 +72,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(InvalidToken),
-            Description = "验证码无效"
+            Description = "Invalid token"
         };
     }
 
@@ -81,7 +81,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(InvalidUserName),
-            Description = $"用户名 {userName} 无效"
+            Description = $"User name {userName} is invalid"
         };
     }
 
@@ -90,7 +90,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(LoginAlreadyAssociated),
-            Description = "登录已经关联"
+            Description = "Login already associated"
         };
     }
 
@@ -99,7 +99,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(PasswordMismatch),
-            Description = "密码输入错误"
+            Description = "Incorrect password"
         };
     }
 
@@ -108,7 +108,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(PasswordRequiresDigit),
-            Description = "密码中需要数字"
+            Description = "Password must have at least one digit ('0'-'9')"
         };
     }
 
@@ -117,7 +117,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(PasswordRequiresLower),
-            Description = "密码中需要小写字母"
+            Description = "Passwords must have at least one lowercase ('a'-'z')"
         };
     }
 
@@ -126,7 +126,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(PasswordRequiresNonAlphanumeric),
-            Description = "密码中需要符号"
+            Description = "Passwords must have at least one non alphanumeric character"
         };
     }
 
@@ -135,7 +135,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(PasswordRequiresUniqueChars),
-            Description = $"密码中至少需要 {uniqueChars} 种不同的字符"
+            Description = $"Passwords must have at least {uniqueChars} unique characters"
         };
     }
 
@@ -144,7 +144,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(PasswordRequiresUpper),
-            Description = "密码中需要大写字母"
+            Description = "Passwords must have at least one uppercase ('A'-'Z')"
         };
     }
 
@@ -153,7 +153,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(PasswordTooShort),
-            Description = $"密码长度 {length} 太短"
+            Description = $"Passwords must be at least {length} characters"
         };
     }
 
@@ -162,7 +162,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(RecoveryCodeRedemptionFailed),
-            Description = "恢复代码找回失败"
+            Description = "Recovery code redemption failed"
         };
     }
 
@@ -171,7 +171,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(UserAlreadyHasPassword),
-            Description = "用户密码已存在"
+            Description = "User already has a password set"
         };
     }
 
@@ -180,7 +180,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(UserAlreadyInRole),
-            Description = $"用户已在角色 {role} 中"
+            Description = $"User already in role {role}"
         };
     }
 
@@ -189,7 +189,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(UserLockoutNotEnabled),
-            Description = "用户锁定未启用"
+            Description = "User lockout is not enabled"
         };
     }
 
@@ -198,7 +198,7 @@ public class TranslatedIdentityErrorDescriber : IdentityErrorDescriber
         return new IdentityError
         {
             Code = nameof(UserNotInRole),
-            Description = $"用户在角色 {role} 中不存在"
+            Description = $"User not in role {role}"
         };
     }
 }

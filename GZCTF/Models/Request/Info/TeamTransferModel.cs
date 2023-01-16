@@ -5,7 +5,7 @@ namespace CTFServer.Models.Request.Info;
 public class TeamTransferModel
 {
     /// <summary>
-    /// 新队长 Id
+    /// New captain id
     /// </summary>
     [Required]
     public string NewCaptainId { get; set; } = string.Empty;

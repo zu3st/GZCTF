@@ -3,21 +3,21 @@
 public interface IContainerRepository : IRepository
 {
     /// <summary>
-    /// 获取全部容器信息
+    /// Get all containers
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<List<Container>> GetContainers(CancellationToken token = default);
 
     /// <summary>
-    /// 获取全部待销毁容器
+    /// Get all containers to be destroyed
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
     public Task<List<Container>> GetDyingContainers(CancellationToken token = default);
 
     /// <summary>
-    /// 移除指定的容器（已经销毁的容器）
+    /// Remove the specified container (the container has been destroyed)
     /// </summary>
     /// <param name="container">容器对象</param>
     /// <param name="token"></param>

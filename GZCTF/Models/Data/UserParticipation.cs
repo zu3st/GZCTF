@@ -16,46 +16,46 @@ public class UserParticipation
     }
 
     /// <summary>
-    /// 参赛用户 Id
+    /// Particpating user id
     /// </summary>
     [Required]
     public string UserId { get; set; } = string.Empty;
 
     /// <summary>
-    /// 参赛用户
+    /// Participating user
     /// </summary>
     public UserInfo User { get; set; } = default!;
 
     /// <summary>
-    /// 参赛队伍 Id
+    /// Participating team id
     /// </summary>
     [Required]
     public int TeamId { get; set; }
 
     /// <summary>
-    /// 参赛队伍
+    /// Participating team
     /// </summary>
     public Team Team { get; set; } = default!;
 
     /// <summary>
-    /// 比赛 Id
+    /// Game Id
     /// </summary>
     [Required]
     public int GameId { get; set; }
 
     /// <summary>
-    /// 比赛
+    /// Game
     /// </summary>
     public Game Game { get; set; } = default!;
 
     /// <summary>
-    /// 参与对象 Id
+    /// Participation id
     /// </summary>
     [Required]
     public int ParticipationId { get; set; }
 
     /// <summary>
-    /// 参赛对象
+    /// Participation
     /// </summary>
     public Participation Participation = default!;
 }

@@ -3,51 +3,51 @@
 namespace CTFServer.Models.Request.Info;
 
 /// <summary>
-/// 文章信息
+/// Post information
 /// </summary>
 public class PostInfoModel
 {
     /// <summary>
-    /// 文章 Id
+    /// Post id
     /// </summary>
     [Required]
     public string Id { get; set; } = string.Empty;
 
     /// <summary>
-    /// 文章标题
+    /// Post title
     /// </summary>
     [Required]
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// 文章总结
+    /// Post summary
     /// </summary>
     [Required]
     public string Summary { get; set; } = string.Empty;
 
     /// <summary>
-    /// 是否置顶
+    /// Whether the post is pinned
     /// </summary>
     [Required]
     public bool IsPinned { get; set; } = false;
 
     /// <summary>
-    /// 文章标签
+    /// Post tags
     /// </summary>
     public List<string>? Tags { get; set; }
 
     /// <summary>
-    /// 作者头像
+    /// Author avatar
     /// </summary>
     public string? AuthorAvatar { get; set; }
 
     /// <summary>
-    /// 作者名称
+    /// Author name
     /// </summary>
     public string? AuthorName { get; set; }
 
     /// <summary>
-    /// 更新时间
+    /// Release time
     /// </summary>
     [Required]
     public DateTimeOffset Time { get; set; } = DateTimeOffset.UtcNow;

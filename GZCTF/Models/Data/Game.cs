@@ -18,100 +18,100 @@ public class Game
     public int Id { get; set; }
 
     /// <summary>
-    /// 比赛标题
+    /// Game title
     /// </summary>
     [Required]
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// Token 签名公钥
+    /// Game signature public key
     /// </summary>
     [Required]
     public string PublicKey { get; set; } = string.Empty;
 
     /// <summary>
-    /// Token 签名私钥
+    /// Game signature private key
     /// </summary>
     [Required]
     public string PrivateKey { get; set; } = string.Empty;
 
     /// <summary>
-    /// 是否隐藏
+    /// Whether the game is hidden
     /// </summary>
     [Required]
     public bool Hidden { get; set; } = false;
 
     /// <summary>
-    /// 头图哈希
+    /// Poster image hash
     /// </summary>
     [MaxLength(64)]
     public string? PosterHash { get; set; }
 
     /// <summary>
-    /// 比赛描述
+    /// Game summary
     /// </summary>
     public string Summary { get; set; } = string.Empty;
 
     /// <summary>
-    /// 比赛详细介绍
+    /// Game details
     /// </summary>
     public string Content { get; set; } = string.Empty;
 
     /// <summary>
-    /// 报名队伍免审核
+    /// Whether to enroll teams without manual review
     /// </summary>
     public bool AcceptWithoutReview { get; set; } = false;
 
     /// <summary>
-    /// 比赛邀请码
+    /// Game invite code
     /// </summary>
     public string? InviteCode { get; set; }
 
     /// <summary>
-    /// 参赛所属单位列表
+    /// List of participating organizations
     /// </summary>
     public HashSet<string>? Organizations { get; set; }
 
     /// <summary>
-    /// 队员数量限制, 0 为无上限
+    /// Limit of team member count, 0 for no limit
     /// </summary>
     public int TeamMemberCountLimit { get; set; } = 0;
 
     /// <summary>
-    /// 队伍同时开启的容器数量限制
+    /// Limit of concurrent containers per team, 0 for no limit
     /// </summary>
     public int ContainerCountLimit { get; set; } = 3;
 
     /// <summary>
-    /// 开始时间
+    ///  Start time (UTC)
     /// </summary>
     [Required]
     [JsonPropertyName("start")]
     public DateTimeOffset StartTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// 结束时间
+    /// End time (UTC)
     /// </summary>
     [Required]
     [JsonPropertyName("end")]
     public DateTimeOffset EndTimeUTC { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// Writeup 提交截止时间
+    /// Writeup submission deadline
     /// </summary>
     [Required]
     [JsonPropertyName("wpddl")]
     public DateTimeOffset WriteupDeadline { get; set; } = DateTimeOffset.FromUnixTimeSeconds(0);
 
     /// <summary>
-    /// Writeup 附加说明
+    /// Writeup additional notes
     /// </summary>
     [Required]
     [JsonPropertyName("wpnote")]
     public string WriteupNote { get; set; } = string.Empty;
 
     /// <summary>
-    /// 三血加分
+    /// First three bloods bonus amount
     /// </summary>
     [Required]
     public BloodBonus BloodBonus { get; set; } = BloodBonus.Default;
@@ -123,43 +123,43 @@ public class Game
     #region Db Relationship
 
     /// <summary>
-    /// 比赛事件
+    /// Game events of this game
     /// </summary>
     [JsonIgnore]
     public List<GameEvent> GameEvents { get; set; } = new();
 
     /// <summary>
-    /// 比赛通知
+    /// Game notices of this game
     /// </summary>
     [JsonIgnore]
     public List<GameNotice> GameNotices { get; set; } = new();
 
     /// <summary>
-    /// 比赛题目
+    /// Challenges of this game
     /// </summary>
     [JsonIgnore]
     public List<Challenge> Challenges { get; set; } = new();
 
     /// <summary>
-    /// 比赛提交
+    /// Submissions of this game
     /// </summary>
     [JsonIgnore]
     public List<Submission> Submissions { get; set; } = new();
 
     /// <summary>
-    /// 比赛队伍参赛对象
+    /// Participations of this game
     /// </summary>
     [JsonIgnore]
     public HashSet<Participation> Participations { get; set; } = new();
 
     /// <summary>
-    /// 比赛队伍
+    /// Teams competing in this game
     /// </summary>
     [JsonIgnore]
     public ICollection<Team>? Teams { get; set; }
 
     /// <summary>
-    /// 比赛是否为练习模式（比赛结束够依然可以进行大部分操作）
+    /// Whether the game is in practice mode (accessible after the game ends)
     /// </summary>
     public bool PracticeMode { get; set; } = true;
 

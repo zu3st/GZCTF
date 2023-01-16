@@ -3,18 +3,18 @@
 namespace CTFServer.Models.Request.Admin;
 
 /// <summary>
-/// 日志信息（Admin）
+/// Log message (Admin)
 /// </summary>
 public class LogMessageModel
 {
     /// <summary>
-    /// 日志时间
+    /// Log time
     /// </summary>
     [JsonPropertyName("time")]
     public DateTimeOffset Time { get; set; }
 
     /// <summary>
-    /// 用户名
+    /// User name
     /// </summary>
     [JsonPropertyName("name")]
     public string? UserName { get; set; }
@@ -23,19 +23,19 @@ public class LogMessageModel
     public string? Level { get; set; }
 
     /// <summary>
-    /// IP地址
+    /// IP address
     /// </summary>
     [JsonPropertyName("ip")]
     public string? IP { get; set; }
 
     /// <summary>
-    /// 日志信息
+    /// Log message
     /// </summary>
     [JsonPropertyName("msg")]
     public string? Msg { get; set; }
 
     /// <summary>
-    /// 任务状态
+    /// Log status
     /// </summary>
     [JsonPropertyName("status")]
     public string? Status { get; set; }

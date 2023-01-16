@@ -3,15 +3,15 @@
 namespace CTFServer.Models.Request.Account;
 
 /// <summary>
-/// 找回账号
+/// Account recovery
 /// </summary>
 public class RecoveryModel
 {
     /// <summary>
-    /// 用户邮箱
+    /// User email
     /// </summary>
-    [Required(ErrorMessage = "邮箱是必需的")]
-    [EmailAddress(ErrorMessage = "邮箱地址无效")]
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Invalid email address")]
     public string? Email { get; set; }
 
     /// <summary>

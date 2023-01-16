@@ -20,7 +20,7 @@ public class ParticipationRepository : RepositoryBase, IParticipationRepository
     {
         var challenges = await context.Challenges.Where(c => c.Game == game).ToArrayAsync(token);
 
-        // requery instead of Entry
+        // Requery instead of Entry
         part = await context.Participations.Include(p => p.Challenges).AsSplitQuery().SingleAsync(p => p.Id == part.Id, token);
 
         bool update = false;
@@ -70,13 +70,13 @@ public class ParticipationRepository : RepositoryBase, IParticipationRepository
         {
             part.Team.Locked = true;
 
-            // will also update participation status, update team lock
-            // will call SaveAsync
+            // Will also update participation status, update team lock
+            // Will call SaveAsync
             if (await EnsureInstances(part, part.Game, token))
-                // flush scoreboard when instances are updated
+                // Flush scoreboard when instances are updated
                 gameRepository.FlushScoreboardCache(part.Game.Id);
         }
-        // team will unlock automatically when request occur
+        // Team will unlock automatically when request occur
         else
             await SaveAsync(token);
     }

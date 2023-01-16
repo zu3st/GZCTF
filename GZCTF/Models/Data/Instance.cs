@@ -6,22 +6,22 @@ namespace CTFServer.Models;
 public class Instance
 {
     /// <summary>
-    /// 题目是否已经解决
+    /// Whether the instance is solved
     /// </summary>
     public bool IsSolved { get; set; } = false;
 
     /// <summary>
-    /// 题目是否已经加载
+    /// Whether the instance is loaded   
     /// </summary>
     public bool IsLoaded { get; set; } = false;
 
     /// <summary>
-    /// 自定义成绩 (unused)
+    /// Custom score (unused)
     /// </summary>
     public int Score { get; set; } = 0;
 
     /// <summary>
-    /// 最后一次容器操作的时间，确保单题目容器操作不会过于频繁
+    /// The last time a container operation was performed on this instance, used to prevent too frequent operations
     /// </summary>
     public DateTimeOffset LastContainerOperation { get; set; } = DateTimeOffset.MinValue;
 
@@ -30,7 +30,7 @@ public class Instance
     public int? FlagId { get; set; }
 
     /// <summary>
-    /// Flag 上下文对象
+    /// Flag Context
     /// </summary>
     public FlagContext? FlagContext { get; set; } = default!;
 
@@ -38,14 +38,14 @@ public class Instance
     public int ChallengeId { get; set; }
 
     /// <summary>
-    /// 赛题对象
+    /// Challenge belonging to this instance
     /// </summary>
     public Challenge Challenge { get; set; } = default!;
 
     public string? ContainerId { get; set; }
 
     /// <summary>
-    /// 容器对象
+    /// Container object
     /// </summary>
     public Container? Container { get; set; }
 
@@ -53,20 +53,20 @@ public class Instance
     public int ParticipationId { get; set; }
 
     /// <summary>
-    /// 参与队伍对象
+    /// Participation object
     /// </summary>
     public Participation Participation { get; set; } = default!;
 
     #endregion Db Relationship
 
     /// <summary>
-    /// 获取实例附件
+    /// Gets instance attachment
     /// </summary>
     internal Attachment? Attachment => Challenge.Type == ChallengeType.DynamicAttachment ?
         FlagContext?.Attachment : Challenge.Attachment;
 
     /// <summary>
-    /// 获取实例附件链接
+    /// Gets instance attachment link
     /// </summary>
     internal string? AttachmentUrl => Challenge.Type == ChallengeType.DynamicAttachment ?
         FlagContext?.Attachment?.UrlWithName(Challenge.FileName) :

@@ -3,47 +3,47 @@
 public class ContainerConfig
 {
     /// <summary>
-    /// 容器镜像
+    /// Container image
     /// </summary>
     public string Image { get; set; } = string.Empty;
 
     /// <summary>
-    /// 队伍 Id
+    /// Team id
     /// </summary>
     public string TeamId { get; set; } = string.Empty;
 
     /// <summary>
-    /// 用户 Id
+    /// User id
     /// </summary>
     public string UserId { get; set; } = string.Empty;
 
     /// <summary>
-    /// 容器需要暴露的端口
+    /// Exposed container port
     /// </summary>
     public int ExposedPort { get; set; }
 
     /// <summary>
-    /// Flag文本
+    /// Flag text
     /// </summary>
     public string? Flag { get; set; } = string.Empty;
 
     /// <summary>
-    /// 是否为特权容器
+    /// Whether the container is privileged
     /// </summary>
     public bool PrivilegedContainer { get; set; } = false;
 
     /// <summary>
-    /// 内存限制（MB）
+    /// Memory limit (MB)
     /// </summary>
     public int MemoryLimit { get; set; } = 64;
 
     /// <summary>
-    /// CPU 数量
+    /// CPU count limit
     /// </summary>
     public int CPUCount { get; set; } = 1;
 
     /// <summary>
-    /// 存储写入限制
+    /// Storage limit (MB)
     /// </summary>
     public int StorageLimit { get; set; } = 256;
 }

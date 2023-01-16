@@ -38,13 +38,13 @@ public class FlagChecker : IHostedService
 
     private async Task Checker(int id, CancellationToken token = default)
     {
-        logger.SystemLog($"检查线程 #{id} 已启动", TaskStatus.Pending, LogLevel.Debug);
+        logger.SystemLog($"Checker thread #{id} started", TaskStatus.Pending, LogLevel.Debug);
 
         try
         {
             await foreach (var item in channelReader.ReadAllAsync(token))
             {
-                logger.SystemLog($"检查线程 #{id} 开始处理提交：{item.Answer}", TaskStatus.Pending, LogLevel.Debug);
+                logger.SystemLog($"Checker thread #{id} started processing submission: {item.Answer}", TaskStatus.Pending, LogLevel.Debug);
 
                 await using var scope = serviceScopeFactory.CreateAsyncScope();
 
@@ -59,16 +59,16 @@ public class FlagChecker : IHostedService
                     var (type, ans) = await instanceRepository.VerifyAnswer(item, token);
 
                     if (ans == AnswerResult.NotFound)
-                        logger.Log($"[实例未知] 未找到队伍 [{item.Team.Name}] 提交题目 [{item.Challenge.Title}] 的实例", item.User!, TaskStatus.NotFound, LogLevel.Warning);
+                        logger.Log($"[Instance not found] Team [{item.Team.Name}] submitted answer [{item.Answer}] for challenge [{item.Challenge.Title}]", item.User!, TaskStatus.NotFound, LogLevel.Warning);
                     else if (ans == AnswerResult.Accepted)
                     {
-                        logger.Log($"[提交正确] 队伍 [{item.Team.Name}] 提交题目 [{item.Challenge.Title}] 的答案 [{item.Answer}]", item.User!, TaskStatus.Success, LogLevel.Information);
+                        logger.Log($"[Submission accepted] Team [{item.Team.Name}] submitted answer [{item.Answer}] for challenge [{item.Challenge.Title}]", item.User!, TaskStatus.Success, LogLevel.Information);
 
                         await eventRepository.AddEvent(GameEvent.FromSubmission(item, type, ans), token);
                     }
                     else
                     {
-                        logger.Log($"[提交错误] 队伍 [{item.Team.Name}] 提交题目 [{item.Challenge.Title}] 的答案 [{item.Answer}]", item.User!, TaskStatus.Fail, LogLevel.Information);
+                        logger.Log($"[Submission failed] Team [{item.Team.Name}] submitted answer [{item.Answer}] for challenge [{item.Challenge.Title}]", item.User!, TaskStatus.Fail, LogLevel.Information);
 
                         await eventRepository.AddEvent(GameEvent.FromSubmission(item, type, ans), token);
 
@@ -77,11 +77,11 @@ public class FlagChecker : IHostedService
 
                         if (ans == AnswerResult.CheatDetected)
                         {
-                            logger.Log($"[作弊检查] 队伍 [{item.Team.Name}] 疑似违规 [{item.Challenge.Title}]，相关队伍 [{result.SourceTeam!.Name}]", item.User!, TaskStatus.Success, LogLevel.Information);
+                            logger.Log($"[Cheat check] Team [{item.Team.Name}] suspected of cheating in [{item.Challenge.Title}], related teams [{result.SourceTeam!.Name}]", item.User!, TaskStatus.Success, LogLevel.Information);
                             await eventRepository.AddEvent(new()
                             {
                                 Type = EventType.CheatDetected,
-                                Content = $"题目 [{item.Challenge.Title}] 疑似发生违规，相关队伍 [{item.Team.Name}] 和 [{result.SourceTeam!.Name}]",
+                                Content = $"Suspected cheating in challenge [{item.Challenge.Title}], related teams [{item.Team.Name}] and [{result.SourceTeam!.Name}]",
                                 TeamId = item.TeamId,
                                 UserId = item.UserId,
                                 GameId = item.GameId,
@@ -101,7 +101,7 @@ public class FlagChecker : IHostedService
                 }
                 catch (Exception e)
                 {
-                    logger.SystemLog($"检查线程 #{id} 发生异常", TaskStatus.Fail, LogLevel.Debug);
+                    logger.SystemLog($"Checker thread #{id} encountered an exception", TaskStatus.Fail, LogLevel.Debug);
                     logger.LogError(e.Message, e);
                 }
 
@@ -110,11 +110,11 @@ public class FlagChecker : IHostedService
         }
         catch (OperationCanceledException)
         {
-            logger.SystemLog($"任务取消，检查线程 #{id} 将退出", TaskStatus.Exit, LogLevel.Debug);
+            logger.SystemLog($"Task cancelled, checker thread #{id} will exit", TaskStatus.Exit, LogLevel.Debug);
         }
         finally
         {
-            logger.SystemLog($"检查线程 #{id} 已退出", TaskStatus.Exit, LogLevel.Debug);
+            logger.SystemLog($"Checker thread #{id} exited", TaskStatus.Exit, LogLevel.Debug);
         }
     }
 
@@ -134,16 +134,16 @@ public class FlagChecker : IHostedService
             await channelWriter.WriteAsync(item, TokenSource.Token);
 
         if (flags.Length > 0)
-            logger.SystemLog($"重新开始检查 {flags.Length} 个 flag", TaskStatus.Pending, LogLevel.Debug);
+            logger.SystemLog($"Restarted checking {flags.Length} flags", TaskStatus.Pending, LogLevel.Debug);
 
-        logger.SystemLog("Flag 检查已启用", TaskStatus.Success, LogLevel.Debug);
+        logger.SystemLog("Flag checker started", TaskStatus.Success, LogLevel.Debug);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
         TokenSource.Cancel();
 
-        logger.SystemLog("Flag 检查已停止", TaskStatus.Exit, LogLevel.Debug);
+        logger.SystemLog("Flag checker stopped", TaskStatus.Exit, LogLevel.Debug);
 
         return Task.CompletedTask;
     }

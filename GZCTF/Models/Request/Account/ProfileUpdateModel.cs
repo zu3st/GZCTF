@@ -3,38 +3,38 @@
 namespace CTFServer.Models.Request.Account;
 
 /// <summary>
-/// 基本账号信息更改
+/// Profile update
 /// </summary>
 public class ProfileUpdateModel
 {
     /// <summary>
-    /// 用户名
+    /// Username
     /// </summary>
-    [MinLength(3, ErrorMessage = "用户名过短")]
-    [MaxLength(15, ErrorMessage = "用户名过长")]
+    [MinLength(3, ErrorMessage = "Username too short")]
+    [MaxLength(15, ErrorMessage = "Username too long")]
     public string? UserName { get; set; }
 
     /// <summary>
-    /// 描述
+    /// Bio
     /// </summary>
-    [MaxLength(55, ErrorMessage = "描述过长")]
+    [MaxLength(55, ErrorMessage = "Bio too long")]
     public string? Bio { get; set; }
 
     /// <summary>
-    /// 手机号
+    /// Phone
     /// </summary>
-    [Phone(ErrorMessage = "手机号格式错误")]
+    [Phone(ErrorMessage = "Bad phone number")]
     public string? Phone { get; set; }
 
     /// <summary>
-    /// 真实姓名
+    /// Real name
     /// </summary>
-    [MaxLength(7, ErrorMessage = "真实姓名过长")]
+    [MaxLength(7, ErrorMessage = "Real name too long")]
     public string? RealName { get; set; }
 
     /// <summary>
-    /// 学工号
+    /// Matriculation number
     /// </summary>
-    [MaxLength(15, ErrorMessage = "学工号过长")]
+    [MaxLength(15, ErrorMessage = "Matriculation number too long")]
     public string? StdNumber { get; set; }
 }

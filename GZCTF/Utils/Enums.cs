@@ -3,92 +3,92 @@
 namespace CTFServer;
 
 /// <summary>
-/// 用户权限枚举
+/// User Permission Level
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Role : byte
 {
     /// <summary>
-    /// 小黑屋用户权限
+    /// Banned user permission
     /// </summary>
     Banned = 0,
 
     /// <summary>
-    /// 常规用户权限
+    /// Regular user permission
     /// </summary>
     User = 1,
 
     /// <summary>
-    /// 监控者权限，可查询提交日志
+    /// Monitor permission, can view submission logs
     /// </summary>
     Monitor = 2,
 
     /// <summary>
-    /// 管理员权限，可查看系统日志
+    /// Administrator permission, can view system logs
     /// </summary>
     Admin = 3,
 }
 
 /// <summary>
-/// 登录响应状态
+/// Login Response Status
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum RegisterStatus : byte
 {
     /// <summary>
-    /// 注册成功已经登录
+    /// Successfully registered and logged in
     /// </summary>
     LoggedIn = 0,
 
     /// <summary>
-    /// 等待管理员确认
+    /// Waiting for administrator confirmation
     /// </summary>
     AdminConfirmationRequired = 1,
 
     /// <summary>
-    /// 等待邮箱确认
+    /// Waiting for email confirmation
     /// </summary>
     EmailConfirmationRequired = 2
 }
 
 /// <summary>
-/// 任务执行状态
+/// Task completed successfully
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum TaskStatus : sbyte
 {
     /// <summary>
-    /// 任务正在进行
+    /// Task is currently in progress
     /// </summary>
     Pending = -1,
 
     /// <summary>
-    /// 任务成功完成
+    /// Task completed successfully
     /// </summary>
     Success = 0,
 
     /// <summary>
-    /// 任务执行失败
+    /// Task execution failed
     /// </summary>
     Fail = 1,
 
     /// <summary>
-    /// 任务遇到重复错误
+    /// Task encountered duplicate error
     /// </summary>
     Duplicate = 2,
 
     /// <summary>
-    /// 任务处理被拒绝
+    /// Task processing was denied
     /// </summary>
     Denied = 3,
 
     /// <summary>
-    /// 任务请求未找到
+    /// Task request not found
     /// </summary>
     NotFound = 4,
 
     /// <summary>
-    /// 任务线程将要退出
+    /// Task thread is exiting
     /// </summary>
     Exit = 5,
 }
@@ -97,77 +97,77 @@ public enum TaskStatus : sbyte
 public enum FileType : byte
 {
     /// <summary>
-    /// 无附件
-    /// 正常情况下 Attachment 不会是此值，若无附件则 Attachment 为 null
+    /// No attachment
+    /// Indicates that no file is attached to the submission
     /// </summary>
     None = 0,
 
     /// <summary>
-    /// 本地文件
+    /// Local file
     /// </summary>
     Local = 1,
 
     /// <summary>
-    /// 远程文件
+    /// Remote file
     /// </summary>
     Remote = 2,
 }
 
 /// <summary>
-/// 容器状态
+/// Container status Type
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ContainerStatus : byte
 {
     /// <summary>
-    /// 正在启动
+    /// Starting
     /// </summary>
     Pending = 0,
 
     /// <summary>
-    /// 正在运行
+    /// Running
     /// </summary>
     Running = 1,
 
     /// <summary>
-    /// 已销毁
+    /// Destroyed
     /// </summary>
     Destroyed = 2
 }
 
 /// <summary>
-/// 比赛公告类型
+/// Game Announcement Type
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum NoticeType : byte
 {
     /// <summary>
-    /// 常规公告
+    /// General announcement
     /// </summary>
     Normal = 0,
 
     /// <summary>
-    /// 一血公告
+    /// First blood announcement
     /// </summary>
     FirstBlood = 1,
 
     /// <summary>
-    /// 二血公告
+    /// Second blood announcement
     /// </summary>
     SecondBlood = 2,
 
     /// <summary>
-    /// 三血公告
+    /// Third blood announcement
     /// </summary>
     ThirdBlood = 3,
 
     /// <summary>
-    /// 发布新的提示
+    /// New hint announcement
     /// </summary>
     NewHint = 4,
 
     /// <summary>
-    /// 发布新的题目
+    /// New challenge announcement
     /// </summary>
     NewChallenge = 5,
 }
@@ -177,73 +177,73 @@ public static class SubmissionTypeExtensions
     public static string ToBloodString(this SubmissionType type)
         => type switch
         {
-            SubmissionType.FirstBlood => "一血",
-            SubmissionType.SecondBlood => "二血",
-            SubmissionType.ThirdBlood => "三血",
+            SubmissionType.FirstBlood => "First Blood",
+            SubmissionType.SecondBlood => "Second Blood",
+            SubmissionType.ThirdBlood => "Third Blood",
             _ => throw new ArgumentException(type.ToString(), nameof(type))
         };
 }
 
 /// <summary>
-/// 比赛事件类型
+/// Game Event Type
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum EventType : byte
 {
     /// <summary>
-    /// 常规信息
+    /// General event
     /// </summary>
     Normal = 0,
 
     /// <summary>
-    /// 容器启动信息
+    /// Container Start Event
     /// </summary>
     ContainerStart = 1,
 
     /// <summary>
-    /// 容器销毁信息
+    /// Container Destroy Event
     /// </summary>
     ContainerDestroy = 2,
 
     /// <summary>
-    /// Flag 提交信息
+    /// Flag Submit Event
     /// </summary>
     FlagSubmit = 3,
 
     /// <summary>
-    /// 作弊信息
+    /// Cheat Detected Event
     /// </summary>
     CheatDetected = 4
 }
 
 /// <summary>
-/// 提交类型
+/// Submission Type
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SubmissionType : byte
 {
     /// <summary>
-    /// 未解出
+    /// Unaccepted
     /// </summary>
     Unaccepted = 0,
 
     /// <summary>
-    /// 一血
+    /// First Blood
     /// </summary>
     FirstBlood = 1,
 
     /// <summary>
-    /// 二血
+    /// Second Blood
     /// </summary>
     SecondBlood = 2,
 
     /// <summary>
-    /// 三血
+    /// Third Blood
     /// </summary>
     ThirdBlood = 3,
 
     /// <summary>
-    /// 解出
+    /// Solved
     /// </summary>
     Normal = 4,
 }
@@ -252,27 +252,27 @@ public enum SubmissionType : byte
 public enum ParticipationStatus : byte
 {
     /// <summary>
-    /// 已报名
+    /// Registered
     /// </summary>
     Pending = 0,
 
     /// <summary>
-    /// 已接受
+    /// Accepted
     /// </summary>
     Accepted = 1,
 
     /// <summary>
-    /// 已拒绝
+    /// Rejected
     /// </summary>
     Denied = 2,
 
     /// <summary>
-    /// 已取消
+    /// Cancelled
     /// </summary>
     Forfeited = 3,
 
     /// <summary>
-    /// 未提交
+    /// Not submitted
     /// </summary>
     Unsubmitted = 4,
 }
@@ -281,26 +281,26 @@ public enum ParticipationStatus : byte
 public enum ChallengeType : byte
 {
     /// <summary>
-    /// 静态题目
-    /// 所有队伍使用统一附件、统一 flag
+    /// Static attachment challenge
+    /// All teams use the same attachment and the same flag
     /// </summary>
     StaticAttachment = 0b00,
 
     /// <summary>
-    /// 容器静态题目
-    /// 所有队伍使用统一 docker，统一 flag
+    /// Static container challenge
+    /// All teams use the same container and the same flag
     /// </summary>
     StaticContainer = 0b01,
 
     /// <summary>
-    /// 动态附件题目
-    /// 随机分发附件，随附件实现 flag 特异性
+    /// Dynamic attachment challenge
+    /// Randomly distributed attachments with individual flags
     /// </summary>
     DynamicAttachment = 0b10,
 
     /// <summary>
-    /// 容器动态题目
-    /// 随机分发容器，动态 flag 随环境变量传入
+    /// Dynamic container challenge
+    /// Randomly distributed containers with individual flags passed as environment variables
     /// </summary>
     DynamicContainer = 0b11
 }
@@ -308,28 +308,28 @@ public enum ChallengeType : byte
 public static class ChallengeTypeExtensions
 {
     /// <summary>
-    /// 是否为静态题目
+    /// Whether it is a static challenge
     /// </summary>
     public static bool IsStatic(this ChallengeType type) => ((byte)type & 0b10) == 0;
 
     /// <summary>
-    /// 是否为动态题目
+    /// Whether it is a dynamic challenge
     /// </summary>
     public static bool IsDynamic(this ChallengeType type) => ((byte)type & 0b10) != 0;
 
     /// <summary>
-    /// 是否为附件题目
+    /// Whether it is an attachment challenge
     /// </summary>
     public static bool IsAttachment(this ChallengeType type) => ((byte)type & 0b01) == 0;
 
     /// <summary>
-    /// 是否为容器题目
+    /// Whether it is a container challenge
     /// </summary>
     public static bool IsContainer(this ChallengeType type) => ((byte)type & 0b01) != 0;
 }
 
 /// <summary>
-/// 题目标签
+/// Challenge Tags
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ChallengeTag : byte
@@ -347,33 +347,33 @@ public enum ChallengeTag : byte
 }
 
 /// <summary>
-/// 判定结果
+/// Assessment Result
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum AnswerResult : byte
 {
     /// <summary>
-    /// 成功提交
+    /// Successfully submitted
     /// </summary>
     FlagSubmitted = 0,
 
     /// <summary>
-    /// 答案正确
+    /// Correct answer
     /// </summary>
     Accepted = 1,
 
     /// <summary>
-    /// 答案错误
+    /// Incorrect answer
     /// </summary>
     WrongAnswer = 2,
 
     /// <summary>
-    /// 提交的题目实例未找到
+    /// Submitted challenge instance not found
     /// </summary>
     NotFound = 3,
 
     /// <summary>
-    /// 检测到抄袭
+    /// Cheating detected
     /// </summary>
     CheatDetected = 4
 }
@@ -383,11 +383,11 @@ public static class AnswerResultExtensions
     public static string ToShortString(this AnswerResult result)
         => result switch
         {
-            AnswerResult.FlagSubmitted => "成功提交",
-            AnswerResult.Accepted => "答案正确",
-            AnswerResult.WrongAnswer => "答案错误",
-            AnswerResult.NotFound => "实例未知",
-            AnswerResult.CheatDetected => "作弊检测",
+            AnswerResult.FlagSubmitted => "Flag Submitted",
+            AnswerResult.Accepted => "Accepted",
+            AnswerResult.WrongAnswer => "Wrong Answer",
+            AnswerResult.NotFound => "Challenge instance not found",
+            AnswerResult.CheatDetected => "Cheating detected",
             _ => "??"
         };
 }

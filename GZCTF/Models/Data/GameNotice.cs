@@ -5,8 +5,8 @@ using MemoryPack;
 namespace CTFServer.Models;
 
 /// <summary>
-/// 比赛通知，会发往客户端。
-/// 信息涵盖一二三血通知、提示发布通知、题目开启通知等
+/// Game notice, will be sent to the client.
+/// First blood, second blood, third blood, hint, challenge open, etc.
 /// </summary>
 [MemoryPackable]
 public partial class GameNotice
@@ -16,19 +16,19 @@ public partial class GameNotice
     public int Id { get; set; }
 
     /// <summary>
-    /// 通知类型
+    /// Notice type
     /// </summary>
     [Required]
     public NoticeType Type { get; set; } = NoticeType.Normal;
 
     /// <summary>
-    /// 通知内容
+    /// Notice content
     /// </summary>
     [Required]
     public string Content { get; set; } = string.Empty;
 
     /// <summary>
-    /// 发布时间
+    /// Publish time (UTC)
     /// </summary>
     [Required]
     [JsonPropertyName("time")]
@@ -53,6 +53,6 @@ public partial class GameNotice
                 _ => NoticeType.Normal
             },
             GameId = submission.GameId,
-            Content = $"恭喜 {submission.Team.Name} 获得 ⌈{submission.Challenge.Title}⌋ 的{type.ToBloodString()}"
+            Content = $"Congratulations to {submission.Team.Name} for getting the {type.ToBloodString()} of ⌈{submission.Challenge.Title}⌋"
         };
 }

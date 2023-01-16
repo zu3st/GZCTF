@@ -3,42 +3,42 @@
 namespace CTFServer.Models.Request.Admin;
 
 /// <summary>
-/// 比赛队伍详细信息，用于审核查看（Admin）
+/// Detailed information of the team for review (Admin)
 /// </summary>
 public class TeamWithDetailedUserInfo
 {
     /// <summary>
-    /// 队伍 Id
+    /// Team Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// 队伍名称
+    /// Team name
     /// </summary>
     public string? Name { get; set; }
 
     /// <summary>
-    /// 队伍签名
+    /// Team bio
     /// </summary>
     public string? Bio { get; set; }
 
     /// <summary>
-    /// 头像链接
+    /// Team avatar
     /// </summary>
     public string? Avatar { get; set; }
 
     /// <summary>
-    /// 是否锁定
+    /// Whether the team is locked
     /// </summary>
     public bool Locked { get; set; }
 
     /// <summary>
-    /// 队长 Id
+    /// Captain Id
     /// </summary>
     public string CaptainId { get; set; } = string.Empty;
 
     /// <summary>
-    /// 队伍成员
+    /// Team members
     /// </summary>
     public ProfileUserInfoModel[]? Members { get; set; }
 

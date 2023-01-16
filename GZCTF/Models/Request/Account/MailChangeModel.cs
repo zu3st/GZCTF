@@ -3,14 +3,14 @@
 namespace CTFServer.Models.Request.Account;
 
 /// <summary>
-/// 邮箱更改
+/// Email change
 /// </summary>
 public class MailChangeModel
 {
     /// <summary>
-    /// 新邮箱
+    /// New email
     /// </summary>
-    [Required(ErrorMessage = "邮箱是必需的")]
-    [EmailAddress(ErrorMessage = "邮箱地址无效")]
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Invalid email address")]
     public string NewMail { get; set; } = string.Empty;
 }

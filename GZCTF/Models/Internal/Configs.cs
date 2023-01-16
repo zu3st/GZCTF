@@ -3,48 +3,48 @@
 namespace CTFServer.Models.Internal;
 
 /// <summary>
-/// 账户策略
+/// Account Policy
 /// </summary>
 public class AccountPolicy
 {
     /// <summary>
-    /// 允许用户注册
+    /// Whether to allow registration
     /// </summary>
     public bool AllowRegister { get; set; } = true;
 
     /// <summary>
-    /// 注册时直接激活账户
+    /// Whether to activate account on registration
     /// </summary>
     public bool ActiveOnRegister { get; set; } = true;
 
     /// <summary>
-    /// 使用谷歌验证码校验
+    /// Whether to use Google reCAPTCHA
     /// </summary>
     public bool UseGoogleRecaptcha { get; set; } = false;
 
     /// <summary>
-    /// 注册、更换邮箱、找回密码需要邮件确认
+    /// Whether to require email confirmation
     /// </summary>
     public bool EmailConfirmationRequired { get; set; } = false;
 
     /// <summary>
-    /// 邮箱后缀域名，以逗号分割
+    /// List of email domains allowed to register
     /// </summary>
     public string EmailDomainList { get; set; } = string.Empty;
 }
 
 /// <summary>
-/// 全局设置
+/// Global configuration
 /// </summary>
 public class GlobalConfig
 {
     /// <summary>
-    /// 平台前缀名称
+    /// Platform title
     /// </summary>
     public string Title { get; set; } = "GZ";
 
     /// <summary>
-    /// 平台标语
+    /// Platform slogan
     /// </summary>
     public string Slogan { get; set; } = "Hack for fun not for profit";
 }

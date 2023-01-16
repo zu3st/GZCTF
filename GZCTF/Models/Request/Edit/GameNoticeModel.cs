@@ -3,13 +3,13 @@
 namespace CTFServer.Models.Request.Edit;
 
 /// <summary>
-/// 比赛通知（Edit）
+/// Game notice (Edit)
 /// </summary>
 public class GameNoticeModel
 {
     /// <summary>
-    /// 通知内容
+    /// Notice content
     /// </summary>
-    [Required(ErrorMessage = "内容是必需的")]
+    [Required(ErrorMessage = "Content cannot be empty")]
     public string Content { get; set; } = string.Empty;
 }

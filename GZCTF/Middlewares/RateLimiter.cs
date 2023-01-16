@@ -8,29 +8,29 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace CTFServer.Middlewares;
 
 /// <summary>
-/// 请求频率限制
+/// Rate Limiter
 /// </summary>
 public class RateLimiter
 {
     public enum LimitPolicy
     {
         /// <summary>
-        /// 并发操作限制
+        /// Concurrency limit
         /// </summary>
         Concurrency,
 
         /// <summary>
-        /// 注册请求限制
+        /// Register request limit
         /// </summary>
         Register,
 
         /// <summary>
-        /// 容器操作限制
+        /// Container operation limit
         /// </summary>
         Container,
 
         /// <summary>
-        /// 提交请求限制
+        /// Submit request limit
         /// </summary>
         Submit
     }
@@ -70,7 +70,7 @@ public class RateLimiter
                 context?.HttpContext?.RequestServices?
                     .GetService<ILoggerFactory>()?
                     .CreateLogger<RateLimiter>()
-                    .Log($"请求过于频繁：{context.HttpContext.Request.Path}",
+                    .Log($"Too many requests: {context.HttpContext.Request.Path}",
                         context.HttpContext, TaskStatus.Denied, LogLevel.Debug);
 
                 return new ValueTask();

@@ -10,36 +10,36 @@ public class Team
     public int Id { get; set; }
 
     /// <summary>
-    /// 队伍名称
+    /// Team name
     /// </summary>
     [Required]
     [MaxLength(15)]
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// 队伍 Bio
+    /// Team bio
     /// </summary>
     [MaxLength(31)]
     public string? Bio { get; set; } = string.Empty;
 
     /// <summary>
-    /// 头像哈希
+    /// Team avatar hash
     /// </summary>
     [MaxLength(64)]
     public string? AvatarHash { get; set; }
 
     /// <summary>
-    /// 队伍是否为锁定状态
+    /// Whether the team is locked
     /// </summary>
     public bool Locked { get; set; } = false;
 
     /// <summary>
-    /// 邀请 Token
+    /// Invite token
     /// </summary>
     public string InviteToken { get; set; } = Guid.NewGuid().ToString("N");
 
     /// <summary>
-    /// 邀请 Code
+    /// Invite code
     /// </summary>
     [NotMapped]
     public string InviteCode => $"{Name}:{Id}:{InviteToken}";
@@ -47,27 +47,27 @@ public class Team
     #region Db Relationship
 
     /// <summary>
-    /// 队长用户ID
+    ///  Captain User Id
     /// </summary>
     public string CaptainId { get; set; } = string.Empty;
 
     /// <summary>
-    /// 队长
+    /// Captain of the team
     /// </summary>
     public UserInfo? Captain { get; set; }
 
     /// <summary>
-    /// 比赛参与对象
+    /// Team participations
     /// </summary>
     public List<Participation> Participations { get; set; } = new();
 
     /// <summary>
-    /// 比赛对象
+    /// Games participated in
     /// </summary>
     public HashSet<Game>? Games { get; set; }
 
     /// <summary>
-    /// 队员
+    /// Team members
     /// </summary>
     public HashSet<UserInfo> Members { get; set; } = new();
 

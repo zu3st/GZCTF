@@ -5,30 +5,30 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CTFServer.Utils;
 
 /// <summary>
-/// 任务结果
+/// Task Result
 /// </summary>
-/// <typeparam name="TResult">返回值类型</typeparam>
-/// <param name="Status">状态</param>
-/// <param name="Result">结果</param>
+/// <typeparam name="TResult">Return value type</typeparam>
+/// <param name="Status">Status</param>
+/// <param name="Result">Result</param>
 public record TaskResult<TResult>(TaskStatus Status, TResult? Result = default);
 
 /// <summary>
-/// 请求响应
+/// Request Response
 /// </summary>
-/// <param name="Title">响应信息</param>
-/// <param name="Status">状态码</param>
+/// <param name="Title">Response message</param>
+/// <param name="Status">Status code</param>
 public record RequestResponse(string Title, int Status = 400);
 
 /// <summary>
-/// 请求响应
+/// Request Response
 /// </summary>
-/// <param name="Title">响应信息</param>
-/// <param name="Data">数据</param>
-/// <param name="Status">状态码</param>
+/// <param name="Title">Response message</param>
+/// <param name="Data">Data</param>
+/// <param name="Status">Status code</param>
 public record RequestResponse<T>(string Title, T Data, int Status = 400);
 
 /// <summary>
-/// 列表响应
+/// Array Response
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class ArrayResponse<T> where T : class
@@ -40,25 +40,25 @@ public class ArrayResponse<T> where T : class
     }
 
     /// <summary>
-    /// 数据
+    /// Data
     /// </summary>
     [Required]
     public T[] Data { get; set; }
 
     /// <summary>
-    /// 数据长度
+    /// Data Length
     /// </summary>
     [Required]
     public int Length => Data.Length;
 
     /// <summary>
-    /// 总长度
+    /// Total
     /// </summary>
     public int Total { get; set; }
 }
 
 /// <summary>
-/// 三血加分
+/// Three first blood bonuses
 /// </summary>
 public struct BloodBonus
 {

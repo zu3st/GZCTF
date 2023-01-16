@@ -8,7 +8,7 @@ namespace CTFServer.Utils;
 public partial class Codec
 {
     /// <summary>
-    /// Base64编解码
+    /// Base64 encoding
     /// </summary>
     public static class Base64
     {
@@ -191,10 +191,10 @@ public partial class Codec
     }
 
     /// <summary>
-    /// 字节数组转换为16进制字符串
+    /// Convert a byte array to a hex string
     /// </summary>
-    /// <param name="bytes">原始字节数组</param>
-    /// <param name="useLower">是否使用小写</param>
+    /// <param name="bytes">Original byte array</param>
+    /// <param name="useLower">Whether to use lowercase</param>
     /// <returns></returns>
     public static string BytesToHex(byte[] bytes, bool useLower = true)
     {
@@ -203,11 +203,11 @@ public partial class Codec
     }
 
     /// <summary>
-    /// 根据xor进行byte数异或
+    /// Perform XOR operation on a byte array, with a given key
     /// </summary>
-    /// <param name="data">原始数据</param>
-    /// <param name="xor">xor密钥</param>
-    /// <returns>异或结果</returns>
+    /// <param name="data">Original data</param>
+    /// <param name="xor">XOR key</param>
+    /// <returns>XOR result</returns>
     public static byte[] Xor(byte[] data, byte[] xor)
     {
         var res = new byte[data.Length];
@@ -219,9 +219,9 @@ public partial class Codec
     }
 
     /// <summary>
-    /// 获取字符串ASCII数组
+    /// Get the ASCII array of a string
     /// </summary>
-    /// <param name="str">原字符串</param>
+    /// <param name="str">Original string</param>
     /// <returns></returns>
     public static List<int> ASCII(string str)
     {
@@ -233,18 +233,18 @@ public partial class Codec
     }
 
     /// <summary>
-    /// 转换为对应进制
+    /// Convert a string to a base
     /// </summary>
-    /// <param name="source">源数据</param>
-    /// <param name="tobase">进制支持2,8,10,16</param>
+    /// <param name="source">Source data</param>
+    /// <param name="tobase">Target base, supporting 2, 8, 10, 16</param>
     /// <returns></returns>
     public static List<string> ToBase(List<int> source, int tobase)
         => new(source.ConvertAll((a) => Convert.ToString(a, tobase)));
 
     /// <summary>
-    /// 反转字符串
+    /// Reverse a string
     /// </summary>
-    /// <param name="s">原字符串</param>
+    /// <param name="s">Original string</param>
     /// <returns></returns>
     public static string Reverse(string s)
     {
@@ -254,10 +254,10 @@ public partial class Codec
     }
 
     /// <summary>
-    /// 获取字符串MD5哈希摘要
+    /// Get the MD5 hash digest of a string
     /// </summary>
-    /// <param name="str">原始字符串</param>
-    /// <param name="useBase64">是否使用Base64编码</param>
+    /// <param name="str">Original String</param>
+    /// <param name="useBase64">Whether to use Base64 encoding</param>
     /// <returns></returns>
     public static string StrMD5(string str, bool useBase64 = false)
     {
@@ -268,10 +268,10 @@ public partial class Codec
     }
 
     /// <summary>
-    /// 获取SHA256哈希摘要
+    /// Get the SHA256 hash digest of a string
     /// </summary>
-    /// <param name="str">原始字符串</param>
-    /// <param name="useBase64">是否使用Base64编码</param>
+    /// <param name="str">Original string</param>
+    /// <param name="useBase64">Whether to use Base64 encoding</param>
     /// <returns></returns>
     public static string StrSHA256(string str, bool useBase64 = false)
     {
@@ -282,27 +282,27 @@ public partial class Codec
     }
 
     /// <summary>
-    /// 获取MD5哈希字节摘要
+    /// Get the MD5 hash digest of a string
     /// </summary>
-    /// <param name="str">原始字符串</param>
+    /// <param name="str">Original string</param>
     /// <returns></returns>
     public static byte[] BytesMD5(string str)
         => MD5.HashData(Encoding.Default.GetBytes(str));
 
     /// <summary>
-    /// 获取SHA256哈希字节摘要
+    /// Get the SHA256 hash digest of a string
     /// </summary>
-    /// <param name="str">原始字符串</param>
+    /// <param name="str">Original string</param>
     /// <returns></returns>
     public static byte[] BytesSHA256(string str)
         => SHA256.HashData(Encoding.Default.GetBytes(str));
 
     /// <summary>
-    /// 将文件打包为 zip 文件
+    /// Pack multiple files into a zip archive
     /// </summary>
-    /// <param name="files">文件列表</param>
-    /// <param name="basepath">根目录</param>
-    /// <param name="zipName">压缩包根目录</param>
+    /// <param name="files">File list</param>
+    /// <param name="basepath">Base path</param>
+    /// <param name="zipName">Zip file name</param>
     /// <param name="token"></param>
     /// <returns></returns>
     public async static Task<Stream> ZipFilesAsync(IEnumerable<LocalFile> files, string basepath, string zipName, CancellationToken token = default)

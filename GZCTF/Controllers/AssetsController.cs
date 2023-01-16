@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.StaticFiles;
 namespace CTFServer.Controllers;
 
 /// <summary>
-/// 文件交互接口
+/// Asset-related Interfaces
 /// </summary>
 [ApiController]
 [ProducesResponseType(typeof(RequestResponse), StatusCodes.Status401Unauthorized)]
@@ -33,15 +33,15 @@ public class AssetsController : ControllerBase
     }
 
     /// <summary>
-    /// 获取文件接口
+    /// Download File by Hash
     /// </summary>
     /// <remarks>
-    /// 根据哈希获取文件，不匹配文件名
+    /// Downloads files by hash
     /// </remarks>
-    /// <param name="hash">文件哈希</param>
-    /// <param name="filename">下载文件名</param>
-    /// <response code="200">成功获取文件</response>
-    /// <response code="404">文件未找到</response>
+    /// <param name="hash">File Hash</param>
+    /// <param name="filename">Downloaded File Name</param>
+    /// <response code="200">Download File</response>
+    /// <response code="404">File not found</response>
     [HttpGet("[controller]/{hash:length(64)}/{filename:minlength(1)}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(RequestResponse), StatusCodes.Status404NotFound)]
@@ -53,8 +53,8 @@ public class AssetsController : ControllerBase
 
         if (!System.IO.File.Exists(path))
         {
-            logger.Log($"尝试获取不存在的文件 [{hash[..8]}] {filename}", HttpContext.Connection?.RemoteIpAddress?.ToString() ?? "0.0.0.0", TaskStatus.NotFound, LogLevel.Warning);
-            return NotFound(new RequestResponse("文件不存在", 404));
+            logger.Log($"Tried to get non-existent file [{hash[..8]}] {filename}", HttpContext.Connection?.RemoteIpAddress?.ToString() ?? "0.0.0.0", TaskStatus.NotFound, LogLevel.Warning);
+            return NotFound(new RequestResponse("File not found", 404));
         }
 
         if (!extProvider.TryGetContentType(filename, out string? contentType))
@@ -67,18 +67,18 @@ public class AssetsController : ControllerBase
     }
 
     /// <summary>
-    /// 上传文件接口
+    /// Upload File
     /// </summary>
     /// <remarks>
-    /// 上传一个或多个文件
+    /// Uploads one or more files
     /// </remarks>
     /// <param name="files"></param>
-    /// <param name="filename">统一文件名</param>
+    /// <param name="filename"></param>
     /// <param name="token"></param>
-    /// <response code="200">成功上传文件</response>
-    /// <response code="400">上传文件失败</response>
-    /// <response code="401">未授权用户</response>
-    /// <response code="403">无权访问</response>
+    /// <response code="200">Upload File Path</response>
+    /// <response code="400">Failed to upload file</response>
+    /// <response code="401">Unauthorized</response>
+    /// <response code="403">Forbidden</response>
     [RequireAdmin]
     [HttpPost("api/[controller]")]
     [ProducesResponseType(typeof(List<LocalFile>), StatusCodes.Status200OK)]
@@ -93,7 +93,7 @@ public class AssetsController : ControllerBase
                 if (file.Length > 0)
                 {
                     var res = await fileRepository.CreateOrUpdateFile(file, filename, token);
-                    logger.SystemLog($"更新文件 [{res.Hash[..8]}] {filename ?? file.FileName} - {file.Length} Bytes", TaskStatus.Success, LogLevel.Debug);
+                    logger.SystemLog($"Updated file [{res.Hash[..8]}] {filename ?? file.FileName} - {file.Length} Bytes", TaskStatus.Success, LogLevel.Debug);
                     results.Add(res);
                 }
             }
@@ -102,22 +102,22 @@ public class AssetsController : ControllerBase
         catch (Exception ex)
         {
             logger.LogError(ex, ex.Message);
-            return BadRequest(new RequestResponse("遇到IO错误"));
+            return BadRequest(new RequestResponse("Encountered IO error while uploading file"));
         }
     }
 
     /// <summary>
-    /// 删除文件接口
+    /// Delete File
     /// </summary>
     /// <remarks>
-    /// 按照文件哈希删除文件
+    /// Deletes file by hash
     /// </remarks>
     /// <param name="hash"></param>
     /// <param name="token"></param>
-    /// <response code="200">成功删除文件</response>
-    /// <response code="400">上传文件失败</response>
-    /// <response code="401">未授权用户</response>
-    /// <response code="403">无权访问</response>
+    /// <response code="200">File deleted successfully</response>
+    /// <response code="400">Failed to delete file</response>
+    /// <response code="401">Unauthorized</response>
+    /// <response code="403">Forbidden</response>
     [RequireAdmin]
     [HttpDelete("api/[controller]/{hash:length(64)}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -127,13 +127,13 @@ public class AssetsController : ControllerBase
     {
         var result = await fileRepository.DeleteFileByHash(hash, token);
 
-        logger.SystemLog($"删除文件 [{hash[..8]}]...", result, LogLevel.Information);
+        logger.SystemLog($"Deleted file [{hash[..8]}]...", result, LogLevel.Information);
 
         return result switch
         {
             TaskStatus.Success => Ok(),
             TaskStatus.NotFound => NotFound(),
-            _ => BadRequest(new RequestResponse("文件删除失败"))
+            _ => BadRequest(new RequestResponse("Failed to delete file"))
         };
     }
 }

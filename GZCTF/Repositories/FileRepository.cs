@@ -24,7 +24,7 @@ public class FileRepository : RepositoryBase, IFileRepository
         using Stream tmp = file.Length <= 16 * 1024 * 1024 ? new MemoryStream() :
                 File.Create(Path.GetTempFileName(), 4096, FileOptions.DeleteOnClose);
 
-        logger.SystemLog($"缓存位置：{tmp.GetType()}", TaskStatus.Pending, LogLevel.Trace);
+        logger.SystemLog($"Cache location: {tmp.GetType()}", TaskStatus.Pending, LogLevel.Trace);
 
         await file.CopyToAsync(tmp, token);
 
@@ -41,7 +41,7 @@ public class FileRepository : RepositoryBase, IFileRepository
             localFile.UploadTimeUTC = DateTimeOffset.UtcNow; // update upload time
             localFile.ReferenceCount++; // same hash, add ref count
 
-            logger.SystemLog($"文件引用计数 [{localFile.Hash[..8]}] {localFile.Name} => {localFile.ReferenceCount}", TaskStatus.Success, LogLevel.Debug);
+            logger.SystemLog($"File reference count [{localFile.Hash[..8]}] {localFile.Name} => {localFile.ReferenceCount}", TaskStatus.Success, LogLevel.Debug);
 
             context.Update(localFile);
         }
@@ -72,16 +72,16 @@ public class FileRepository : RepositoryBase, IFileRepository
 
         if (file.ReferenceCount > 1)
         {
-            file.ReferenceCount--; // other ref exists, decrease ref count
+            file.ReferenceCount--; // Other ref exists, decrease ref count
 
-            logger.SystemLog($"文件引用计数 [{file.Hash[..8]}] {file.Name} => {file.ReferenceCount}", TaskStatus.Success, LogLevel.Debug);
+            logger.SystemLog($"File reference count [{file.Hash[..8]}] {file.Name} => {file.ReferenceCount}", TaskStatus.Success, LogLevel.Debug);
 
             await SaveAsync(token);
 
             return TaskStatus.Success;
         }
 
-        logger.SystemLog($"删除文件 [{file.Hash[..8]}] {file.Name}", TaskStatus.Pending, LogLevel.Information);
+        logger.SystemLog($"Deleting file [{file.Hash[..8]}] {file.Name}", TaskStatus.Pending, LogLevel.Information);
 
         if (File.Exists(path))
         {

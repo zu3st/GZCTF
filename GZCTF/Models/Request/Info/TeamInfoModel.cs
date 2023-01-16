@@ -1,37 +1,37 @@
 ﻿namespace CTFServer.Models.Request.Info;
 
 /// <summary>
-/// 队伍信息
+/// Team information
 /// </summary>
 public class TeamInfoModel
 {
     /// <summary>
-    /// 队伍 Id
+    /// Team id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// 队伍名称
+    /// Team name
     /// </summary>
     public string? Name { get; set; }
 
     /// <summary>
-    /// 队伍签名
+    /// Team bio
     /// </summary>
     public string? Bio { get; set; }
 
     /// <summary>
-    /// 头像链接
+    /// Team avatar
     /// </summary>
     public string? Avatar { get; set; }
 
     /// <summary>
-    /// 是否锁定
+    /// Whether the team is locked
     /// </summary>
     public bool Locked { get; set; }
 
     /// <summary>
-    /// 队伍成员
+    /// Team members
     /// </summary>
     public List<TeamUserInfoModel>? Members { get; set; } = new();
 

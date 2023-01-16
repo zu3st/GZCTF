@@ -32,7 +32,7 @@ public class GameRepository : RepositoryBase, IGameRepository
         game.GenerateKeyPair(xorkey);
 
         if (xorkey is null)
-            logger.SystemLog("配置文件中的异或密钥未设置，比赛私钥将会被明文存储至数据库。", TaskStatus.Pending, LogLevel.Warning);
+            logger.SystemLog("The xor key in the configuration file is not set, the private key of the game will be stored in plain text in the database.", TaskStatus.Pending, LogLevel.Warning);
 
         await context.AddAsync(game, token);
         await SaveAsync(token);
@@ -216,7 +216,7 @@ public class GameRepository : RepositoryBase, IGameRepository
                                 };
                             }).ToList()
                 };
-            }).OrderByDescending(j => j.Score).ThenBy(j => j.LastSubmissionTime) //成绩倒序，最后提交时间正序
+            }).OrderByDescending(j => j.Score).ThenBy(j => j.LastSubmissionTime) // Results are sorted by score and last submission time.
             .Select((j, i) =>
             {
                 j.Rank = i + 1;
@@ -272,7 +272,7 @@ public class GameRepository : RepositoryBase, IGameRepository
                 return new TimeLine()
                 {
                     Score = score,
-                    Time = i.SubmitTimeUTC!.Value // 此处不为 null
+                    Time = i.SubmitTimeUTC!.Value // This isn't null
                 };
             });
     }

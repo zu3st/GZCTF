@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 namespace CTFServer.Middlewares;
 
 /// <summary>
-/// 需要权限访问
+/// Require privilege to access
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class RequirePrivilegeAttribute : Attribute, IAsyncAuthorizationFilter
 {
     /// <summary>
-    /// 所需权限
+    /// Required privilege
     /// </summary>
     private readonly Role RequiredPrivilege;
 
@@ -24,8 +24,8 @@ public class RequirePrivilegeAttribute : Attribute, IAsyncAuthorizationFilter
     public static IActionResult GetResult(string msg, int code)
         => new JsonResult(new RequestResponse(msg, code)) { StatusCode = code };
 
-    public static IActionResult RequireLoginResult => GetResult("请先登录", StatusCodes.Status401Unauthorized);
-    public static IActionResult ForbiddenResult => GetResult("无权访问", StatusCodes.Status403Forbidden);
+    public static IActionResult RequireLoginResult => GetResult("Please login first", StatusCodes.Status401Unauthorized);
+    public static IActionResult ForbiddenResult => GetResult("Forbidden", StatusCodes.Status403Forbidden);
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
@@ -47,13 +47,13 @@ public class RequirePrivilegeAttribute : Attribute, IAsyncAuthorizationFilter
         if (DateTimeOffset.UtcNow - user.LastVisitedUTC > TimeSpan.FromSeconds(5))
         {
             user.UpdateByHttpContext(context.HttpContext);
-            await dbcontext.SaveChangesAsync(); // avoid to update ConcurrencyStamp
+            await dbcontext.SaveChangesAsync(); // Avoid to update ConcurrencyStamp
         }
 
         if (user.Role < RequiredPrivilege)
         {
             if (RequiredPrivilege > Role.User)
-                logger.Log($"未经授权的访问：{context.HttpContext.Request.Path}", user, TaskStatus.Denied);
+                logger.Log($"Unauthorized access: {context.HttpContext.Request.Path}", user, TaskStatus.Denied);
 
             context.Result = ForbiddenResult;
         }
@@ -61,7 +61,7 @@ public class RequirePrivilegeAttribute : Attribute, IAsyncAuthorizationFilter
 }
 
 /// <summary>
-/// 需要已登录用户权限
+/// Require logged in user
 /// </summary>
 public class RequireUserAttribute : RequirePrivilegeAttribute
 {
@@ -71,7 +71,7 @@ public class RequireUserAttribute : RequirePrivilegeAttribute
 }
 
 /// <summary>
-/// 需要监控者权限
+/// Require Monitor privilege
 /// </summary>
 public class RequireMonitorAttribute : RequirePrivilegeAttribute
 {
@@ -81,7 +81,7 @@ public class RequireMonitorAttribute : RequirePrivilegeAttribute
 }
 
 /// <summary>
-/// 需要Admin权限
+/// Require Admin privilege
 /// </summary>
 public class RequireAdminAttribute : RequirePrivilegeAttribute
 {

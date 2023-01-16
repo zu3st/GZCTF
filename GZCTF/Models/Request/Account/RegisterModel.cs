@@ -3,30 +3,30 @@
 namespace CTFServer.Models.Request.Account;
 
 /// <summary>
-/// 注册账号
+/// Register
 /// </summary>
 public class RegisterModel
 {
     /// <summary>
-    /// 用户名
+    /// Username
     /// </summary>
-    [Required(ErrorMessage = "用户名是必需的")]
-    [MinLength(3, ErrorMessage = "用户名过短")]
-    [MaxLength(15, ErrorMessage = "用户名过长")]
+    [Required(ErrorMessage = "Username is required")]
+    [MinLength(3, ErrorMessage = "Username too short")]
+    [MaxLength(15, ErrorMessage = "Username too long")]
     public string UserName { get; set; } = string.Empty;
 
     /// <summary>
-    /// 密码
+    /// Password
     /// </summary>
-    [Required(ErrorMessage = "密码是必需的")]
+    [Required(ErrorMessage = "Password is required")]
     [MinLength(6)]
     public string Password { get; set; } = string.Empty;
 
     /// <summary>
-    /// 邮箱
+    /// Email
     /// </summary>
-    [Required(ErrorMessage = "邮箱是必需的")]
-    [EmailAddress(ErrorMessage = "邮箱地址无效")]
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Invalid email address")]
     public string Email { get; set; } = string.Empty;
 
     /// <summary>

@@ -11,8 +11,8 @@ public static class ListExtensions
 public static class IQueryableExtensions
 {
     /// <summary>
-    /// 如果 count 大于 0 则只获取部分
-    /// Warn: 可能造成恶意参数注入获取全部数据
+    /// If count is greater than 0, then only get part of it
+    /// Warn: May cause malicious parameter injection to get all data
     /// </summary>
     /// <returns></returns>
     public static IQueryable<T> TakeAllIfZero<T>(this IQueryable<T> items, int count = 100, int skip = 0)

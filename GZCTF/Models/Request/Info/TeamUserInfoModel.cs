@@ -3,43 +3,43 @@
 namespace CTFServer.Models.Request.Info;
 
 /// <summary>
-/// 队员信息
+/// Team user information
 /// </summary>
 public class TeamUserInfoModel
 {
     /// <summary>
-    /// 用户ID
+    /// User id
     /// </summary>
     public string? Id { get; set; }
 
     /// <summary>
-    /// 用户名
+    /// Username
     /// </summary>
     public string? UserName { get; set; }
 
     /// <summary>
-    /// 签名
+    /// Bio
     /// </summary>
     public string? Bio { get; set; }
 
     /// <summary>
-    /// 头像链接
+    /// Avatar url
     /// </summary>
     public string? Avatar { get; set; }
 
     /// <summary>
-    /// 是否是队长
+    /// Whether the user is the captain
     /// </summary>
     public bool Captain { get; set; }
 
     /// <summary>
-    /// 真实姓名，用于生成积分榜
+    /// Real name
     /// </summary>
     [JsonIgnore]
     public string? RealName { get; set; }
 
     /// <summary>
-    /// 学号，用于生成积分榜
+    /// Matriculation number
     /// </summary>
     [JsonIgnore]
     public string? StudentNumber { get; set; }

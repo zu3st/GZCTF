@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 namespace CTFServer.Controllers;
 
 /// <summary>
-/// 用户账户相关接口
+/// User account-related interfaces
 /// </summary>
 [ApiController]
 [Route("api/[controller]/[action]")]
@@ -51,14 +51,14 @@ public class AccountController : ControllerBase
     }
 
     /// <summary>
-    /// 用户注册接口
+    /// User registration interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口注册新用户，Dev环境下不校验 GToken，邮件URL：/verify
+    /// Registers new user，Dev environment does not verify GToken，Mail-URL：/verify
     /// </remarks>
     /// <param name="model"></param>
-    /// <response code="200">注册成功</response>
-    /// <response code="400">校验失败或用户已存在</response>
+    /// <response code="200">Registration succeeded</response>
+    /// <response code="400">Verification failed or user already exists</response>
     [HttpPost]
     [EnableRateLimiting(nameof(RateLimiter.LimitPolicy.Register))]
     [ProducesResponseType(typeof(RequestResponse<RegisterStatus>), StatusCodes.Status200OK)]
@@ -66,18 +66,18 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> Register([FromBody] RegisterModel model)
     {
         if (!accountPolicy.Value.AllowRegister)
-            return BadRequest(new RequestResponse("注册功能已禁用"));
+            return BadRequest(new RequestResponse("Registration is disabled"));
 
         if (accountPolicy.Value.UseGoogleRecaptcha && (
                 model.GToken is null || HttpContext.Connection.RemoteIpAddress is null ||
                 !await recaptcha.VerifyAsync(model.GToken, HttpContext.Connection.RemoteIpAddress.ToString())
             ))
-            return BadRequest(new RequestResponse("Google reCAPTCHA 校验失败"));
+            return BadRequest(new RequestResponse("Google reCAPTCHA checksum failure"));
 
         var mailDomain = model.Email!.Split('@')[1];
         if (!string.IsNullOrWhiteSpace(accountPolicy.Value.EmailDomainList) &&
             accountPolicy.Value.EmailDomainList.Split(',').All(d => d != mailDomain))
-            return BadRequest(new RequestResponse($"可用邮箱后缀：{accountPolicy.Value.EmailDomainList}"));
+            return BadRequest(new RequestResponse($"Valid Email TLDs：{accountPolicy.Value.EmailDomainList}"));
 
         var user = new UserInfo
         {
@@ -95,10 +95,10 @@ public class AccountController : ControllerBase
             var current = await userManager.FindByEmailAsync(model.Email);
 
             if (current is null)
-                return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "未知错误"));
+                return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "Unknown error"));
 
             if (await userManager.IsEmailConfirmedAsync(current))
-                return BadRequest(new RequestResponse("此账户已存在"));
+                return BadRequest(new RequestResponse("Account already exists"));
 
             user = current;
         }
@@ -109,18 +109,18 @@ public class AccountController : ControllerBase
             await userManager.UpdateAsync(user);
             await signInManager.SignInAsync(user, true);
 
-            logger.Log("用户成功注册", user, TaskStatus.Success);
-            return Ok(new RequestResponse<RegisterStatus>("注册成功", RegisterStatus.LoggedIn, 200));
+            logger.Log("User successfully registered", user, TaskStatus.Success);
+            return Ok(new RequestResponse<RegisterStatus>("Successfully registered", RegisterStatus.LoggedIn, 200));
         }
 
         if (!accountPolicy.Value.EmailConfirmationRequired)
         {
-            logger.Log("用户成功注册，待审核", user, TaskStatus.Success);
-            return Ok(new RequestResponse<RegisterStatus>("注册成功，等待管理员审核",
+            logger.Log("User successfully registered, pending administrator confirmaton", user, TaskStatus.Success);
+            return Ok(new RequestResponse<RegisterStatus>("Successfully registered, pending administrator confirmation",
                     RegisterStatus.AdminConfirmationRequired, 200));
         }
 
-        logger.Log("发送用户邮箱验证邮件", user, TaskStatus.Pending);
+        logger.Log("Sending user verification email", user, TaskStatus.Pending);
 
         var token = Codec.Base64.Encode(await userManager.GenerateEmailConfirmationTokenAsync(user));
         if (environment.IsDevelopment())
@@ -131,23 +131,23 @@ public class AccountController : ControllerBase
         {
             if (!mailSender.SendConfirmEmailUrl(user.UserName, user.Email,
                 $"https://{HttpContext.Request.Host}/account/verify?token={token}&email={Codec.Base64.Encode(model.Email)}"))
-                return BadRequest(new RequestResponse("邮件无法发送，请联系管理员"));
+                return BadRequest(new RequestResponse("Mail cannot be sent, please contact the administrator"));
         }
 
-        return Ok(new RequestResponse<RegisterStatus>("注册成功，等待邮箱验证",
+        return Ok(new RequestResponse<RegisterStatus>("Successful registration, pending email verification",
                     RegisterStatus.EmailConfirmationRequired, 200));
     }
 
     /// <summary>
-    /// 用户找回密码请求接口
+    /// User password recovery request interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口请求找回密码，向用户邮箱发送邮件，邮件URL：/reset
+    /// Requests password recovery, sending recovery email to user, Mail-URL：/reset
     /// </remarks>
     /// <param name="model"></param>
-    /// <response code="200">用户密码重置邮件发送成功</response>
-    /// <response code="400">校验失败</response>
-    /// <response code="404">用户不存在</response>
+    /// <response code="200">User password reset email sent</response>
+    /// <response code="400">Verification failed</response>
+    /// <response code="404">User does not exist</response>
     [HttpPost]
     [EnableRateLimiting(nameof(RateLimiter.LimitPolicy.Register))]
     [ProducesResponseType(typeof(RequestResponse), StatusCodes.Status200OK)]
@@ -159,19 +159,19 @@ public class AccountController : ControllerBase
                 model.GToken is null || HttpContext.Connection.RemoteIpAddress is null ||
                 !await recaptcha.VerifyAsync(model.GToken, HttpContext.Connection.RemoteIpAddress.ToString())
             ))
-            return BadRequest(new RequestResponse("Google reCAPTCHA 校验失败"));
+            return BadRequest(new RequestResponse("Google reCAPTCHA verification failure"));
 
         var user = await userManager.FindByEmailAsync(model.Email!);
         if (user is null)
-            return NotFound(new RequestResponse("用户不存在", 404));
+            return NotFound(new RequestResponse("User does not exist", 404));
 
         if (!user.EmailConfirmed)
-            return NotFound(new RequestResponse("账户未激活，请重新注册", 404));
+            return NotFound(new RequestResponse("Account not active, please re-register", 404));
 
         if (!accountPolicy.Value.EmailConfirmationRequired)
-            return BadRequest(new RequestResponse("请联系管理员重置密码"));
+            return BadRequest(new RequestResponse("Please contact the administrator to reset your password"));
 
-        logger.Log("发送用户密码重置邮件", HttpContext, TaskStatus.Pending);
+        logger.Log("Sending user password reset email", HttpContext, TaskStatus.Pending);
 
         var token = Codec.Base64.Encode(await userManager.GeneratePasswordResetTokenAsync(user));
 
@@ -183,21 +183,21 @@ public class AccountController : ControllerBase
         {
             if (!mailSender.SendResetPasswordUrl(user.UserName, user.Email,
                 $"https://{HttpContext.Request.Host}/account/reset?token={token}&email={Codec.Base64.Encode(model.Email)}"))
-                return BadRequest(new RequestResponse("邮件无法发送，请联系管理员"));
+                return BadRequest(new RequestResponse("Mail cannot be sent, please contact the administrator"));
         }
 
-        return Ok(new RequestResponse("邮件发送成功", 200));
+        return Ok(new RequestResponse("Email sent successfully", 200));
     }
 
     /// <summary>
-    /// 用户重置密码接口
+    /// User password reset interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口重置密码，需要邮箱验证码
+    /// Resets user password, requiring a valid reset token
     /// </remarks>
     /// <param name="model"></param>
-    /// <response code="200">用户成功重置密码</response>
-    /// <response code="400">校验失败</response>
+    /// <response code="200">User password reset successfully</response>
+    /// <response code="400">Verification failed</response>
     [HttpPost]
     [EnableRateLimiting(nameof(RateLimiter.LimitPolicy.Register))]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -206,30 +206,30 @@ public class AccountController : ControllerBase
     {
         var user = await userManager.FindByEmailAsync(Codec.Base64.Decode(model.Email));
         if (user is null)
-            return BadRequest(new RequestResponse("无效的邮件地址"));
+            return BadRequest(new RequestResponse("Invalid email address"));
 
         user.UpdateByHttpContext(HttpContext);
 
         var result = await userManager.ResetPasswordAsync(user, Codec.Base64.Decode(model.RToken), model.Password);
 
         if (!result.Succeeded)
-            return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "未知错误"));
+            return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "Unknown error"));
 
-        logger.Log("用户成功重置密码", user, TaskStatus.Success);
+        logger.Log("Successfully reset user's password", user, TaskStatus.Success);
 
         return Ok();
     }
 
     /// <summary>
-    /// 用户邮箱确认接口
+    /// User email confirmation interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口通过邮箱验证码确认邮箱
+    /// Confirms user email, requiring a valid verification code
     /// </remarks>
     /// <param name="model"></param>
-    /// <response code="200">用户通过邮箱验证</response>
-    /// <response code="400">校验失败</response>
-    /// <response code="401">邮箱验证失败</response>
+    /// <response code="200">User email confirmed</response>
+    /// <response code="400">Verification failed</response>
+    /// <response code="401">Email verification failed</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(RequestResponse), StatusCodes.Status400BadRequest)]
@@ -239,14 +239,14 @@ public class AccountController : ControllerBase
         var user = await userManager.FindByEmailAsync(Codec.Base64.Decode(model.Email));
 
         if (user is null || user.EmailConfirmed)
-            return BadRequest(new RequestResponse("无效的邮件地址"));
+            return BadRequest(new RequestResponse("Invalid email address"));
 
         var result = await userManager.ConfirmEmailAsync(user, Codec.Base64.Decode(model.Token));
 
         if (!result.Succeeded)
-            return Unauthorized(new RequestResponse("邮箱验证失败", 401));
+            return Unauthorized(new RequestResponse("Email verification failed", 401));
 
-        logger.Log("通过邮箱验证", user, TaskStatus.Success);
+        logger.Log("User's email address verified", user, TaskStatus.Success);
         await signInManager.SignInAsync(user, true);
 
         user.LastSignedInUTC = DateTimeOffset.UtcNow;
@@ -256,21 +256,21 @@ public class AccountController : ControllerBase
         result = await userManager.UpdateAsync(user);
 
         if (!result.Succeeded)
-            return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "未知错误"));
+            return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "Unknown error"));
 
         return Ok();
     }
 
     /// <summary>
-    /// 用户登录接口
+    /// User login interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口登录账户
+    /// Logs in to the system, requiring a valid username and password
     /// </remarks>
     /// <param name="model"></param>
-    /// <response code="200">用户成功登录</response>
-    /// <response code="400">校验失败</response>
-    /// <response code="401">用户名或密码错误</response>
+    /// <response code="200">Logged in successfully</response>
+    /// <response code="400">Verification failed</response>
+    /// <response code="401">Incorrect username or password</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(RequestResponse), StatusCodes.Status401Unauthorized)]
@@ -281,10 +281,10 @@ public class AccountController : ControllerBase
         user ??= await userManager.FindByEmailAsync(model.UserName);
 
         if (user is null)
-            return Unauthorized(new RequestResponse("用户名或密码错误", 401));
+            return Unauthorized(new RequestResponse("Incorrect username or password", 401));
 
         if (user.Role == Role.Banned)
-            return Unauthorized(new RequestResponse("用户已被禁用", 401));
+            return Unauthorized(new RequestResponse("User is banned", 401));
 
         user.LastSignedInUTC = DateTimeOffset.UtcNow;
         user.UpdateByHttpContext(HttpContext);
@@ -294,21 +294,21 @@ public class AccountController : ControllerBase
         var result = await signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
         if (!result.Succeeded)
-            return Unauthorized(new RequestResponse("用户名或密码错误", 401));
+            return Unauthorized(new RequestResponse("Incorrect username or password", 401));
 
-        logger.Log("用户成功登录", user, TaskStatus.Success);
+        logger.Log("User successfully logged in", user, TaskStatus.Success);
 
         return Ok();
     }
 
     /// <summary>
-    /// 用户登出接口
+    /// User logout interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口登出账户，需要User权限
+    /// Logs user out of the system (User permission required)
     /// </remarks>
-    /// <response code="200">用户已登出</response>
-    /// <response code="401">无权访问</response>
+    /// <response code="200">Logged out successfully</response>
+    /// <response code="401">Unauthorized</response>
     [HttpPost]
     [RequireUser]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -320,15 +320,15 @@ public class AccountController : ControllerBase
     }
 
     /// <summary>
-    /// 用户数据更新接口
+    /// User profile update interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口更新用户用户名和描述，需要User权限
+    ///Updates user profile (User permission required)
     /// </remarks>
     /// <param name="model"></param>
-    /// <response code="200">用户数据成功更新</response>
-    /// <response code="400">校验失败或用户数据更新失败</response>
-    /// <response code="401">无权访问</response>
+    /// <response code="200">User profile updated successfully</response>
+    /// <response code="400">Failed to verify or update user profile</response>
+    /// <response code="401">Unauthorized</response>
     [HttpPut]
     [RequireUser]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -342,24 +342,24 @@ public class AccountController : ControllerBase
         var result = await userManager.UpdateAsync(user);
 
         if (!result.Succeeded)
-            return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "未知错误"));
+            return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "Unknown error"));
 
         if (oname != user.UserName)
-            logger.Log($"用户更新：{oname} => {model.UserName}", user, TaskStatus.Success);
+            logger.Log($"Changed user's name: {oname} => {model.UserName}", user, TaskStatus.Success);
 
         return Ok();
     }
 
     /// <summary>
-    /// 用户密码更改接口
+    /// User password change interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口更新用户密码，需要User权限
+    /// Changes user password (User permission required)
     /// </remarks>
     /// <param name="model"></param>
-    /// <response code="200">用户成功更新密码</response>
-    /// <response code="400">校验失败或用户密码更新失败</response>
-    /// <response code="401">无权访问</response>
+    /// <response code="200">User password changed</response>
+    /// <response code="400">Failed to verify or change user's password</response>
+    /// <response code="401">Unauthorized</response>
     [HttpPut]
     [RequireUser]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -370,23 +370,23 @@ public class AccountController : ControllerBase
         var result = await userManager.ChangePasswordAsync(user!, model.Old, model.New);
 
         if (!result.Succeeded)
-            return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "未知错误"));
+            return BadRequest(new RequestResponse(result.Errors.FirstOrDefault()?.Description ?? "Unknown error"));
 
-        logger.Log("用户更新密码", user, TaskStatus.Success);
+        logger.Log("Changed user's password", user, TaskStatus.Success);
 
         return Ok();
     }
 
     /// <summary>
-    /// 用户邮箱更改接口
+    /// User email change interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口更改用户邮箱，需要User权限，邮件URL：/confirm
+    /// Changes user email (User permission required), Mail-URL: /confirm
     /// </remarks>
     /// <param name="model"></param>
-    /// <response code="200">成功发送用户邮箱更改邮件，布尔值表示是否需要邮箱验证</response>
-    /// <response code="400">校验失败或邮箱已经被占用</response>
-    /// <response code="401">无权访问</response>
+    /// <response code="200">Mail change email sent, boolean value indicates if verification is required </response>
+    /// <response code="400">Verification failed or email is already taken</response>
+    /// <response code="401">Unauthorized</response>
     [HttpPut]
     [RequireUser]
     [EnableRateLimiting(nameof(RateLimiter.LimitPolicy.Register))]
@@ -396,7 +396,7 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> ChangeEmail([FromBody] MailChangeModel model)
     {
         if (await userManager.FindByEmailAsync(model.NewMail) is not null)
-            return BadRequest(new RequestResponse("邮箱已经被占用"));
+            return BadRequest(new RequestResponse("Email address already in use"));
 
         var user = await userManager.GetUserAsync(User);
 
@@ -405,11 +405,11 @@ public class AccountController : ControllerBase
             var result = await userManager.SetEmailAsync(user!, model.NewMail);
 
             if (!result.Succeeded)
-                return BadRequest(new RequestResponse<bool>(result.Errors.FirstOrDefault()?.Description ?? "邮箱更新失败", false));
-            return Ok(new RequestResponse<bool>("邮箱已更新", false, 200));
+                return BadRequest(new RequestResponse<bool>(result.Errors.FirstOrDefault()?.Description ?? "Email change failed", false));
+            return Ok(new RequestResponse<bool>("Email address changed", false, 200));
         }
 
-        logger.Log("发送用户邮箱更改邮件", user, TaskStatus.Pending);
+         logger.Log("Sending user email change confirmation mail", user, TaskStatus.Pending);
 
         var token = Codec.Base64.Encode(await userManager.GenerateChangeEmailTokenAsync(user!, model.NewMail));
 
@@ -421,23 +421,23 @@ public class AccountController : ControllerBase
         {
             if (!mailSender.SendConfirmEmailUrl(user!.UserName, user.Email,
                 $"https://{HttpContext.Request.Host}/account/confirm?token={token}&email={Codec.Base64.Encode(model.NewMail)}"))
-                return BadRequest(new RequestResponse("邮件无法发送，请联系管理员"));
+                return BadRequest(new RequestResponse("Mail cannot be sent, please contact the administrator"));
         }
 
-        return Ok(new RequestResponse<bool>("邮箱待验证", true, 200));
+        return Ok(new RequestResponse<bool>("Email change pending", true, 200));
     }
 
     /// <summary>
-    /// 用户邮箱更改确认接口
+    /// User email change confirmation interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口确认更改用户邮箱，需要邮箱验证码，需要User权限
+    /// Confirms user email change (User permission required)
     /// </remarks>
     /// <param name="model"></param>
-    /// <response code="200">用户成功更改邮箱</response>
-    /// <response code="400">校验失败或无效邮箱</response>
-    /// <response code="401">未授权用户</response>
-    /// <response code="403">无权访问</response>
+    /// <response code="200">Email changed successfully</response>
+    /// <response code="400">Failed to verify or change user's email</response>
+    /// <response code="401">Unauthorized</response>
+    /// <response code="403">Forbidden</response>
     [HttpPost]
     [RequireUser]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -449,21 +449,21 @@ public class AccountController : ControllerBase
         var result = await userManager.ChangeEmailAsync(user!, Codec.Base64.Decode(model.Email), Codec.Base64.Decode(model.Token));
 
         if (!result.Succeeded)
-            return BadRequest(new RequestResponse("无效邮箱"));
+            return BadRequest(new RequestResponse("Invalid token or email"));
 
-        logger.Log("更改邮箱成功", user, TaskStatus.Success);
+        logger.Log("Changed user's email address", user, TaskStatus.Success);
 
         return Ok();
     }
 
     /// <summary>
-    /// 获取用户信息接口
+    /// User profile information interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口获取用户信息，需要User权限
+    /// Gets user profile information (User permission required)
     /// </remarks>
-    /// <response code="200">用户成功获取信息</response>
-    /// <response code="401">未授权用户</response>
+    /// <response code="200">Profile information</response>
+    /// <response code="401">Unauthorized</response>
     [HttpGet]
     [RequireUser]
     [ProducesResponseType(typeof(ProfileUserInfoModel), StatusCodes.Status200OK)]
@@ -477,14 +477,14 @@ public class AccountController : ControllerBase
     }
 
     /// <summary>
-    /// 更新用户头像接口
+    /// User avatar change interface
     /// </summary>
     /// <remarks>
-    /// 使用此接口更新用户头像，需要User权限
+    /// Set user avatar (User permission required)
     /// </remarks>
-    /// <response code="200">用户头像URL</response>
-    /// <response code="400">非法请求</response>
-    /// <response code="401">未授权用户</response>
+    /// <response code="200">Avatar changed successfully</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="401">Unauthorized</response>
     [HttpPut]
     [RequireUser]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -493,10 +493,10 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> Avatar(IFormFile file, CancellationToken token)
     {
         if (file.Length == 0)
-            return BadRequest(new RequestResponse("文件非法"));
+            return BadRequest(new RequestResponse("File is invalid"));
 
         if (file.Length > 3 * 1024 * 1024)
-            return BadRequest(new RequestResponse("文件过大"));
+            return BadRequest(new RequestResponse("File is too large"));
 
         var user = await userManager.GetUserAsync(User);
 
@@ -506,15 +506,15 @@ public class AccountController : ControllerBase
         var avatar = await fileService.CreateOrUpdateFile(file, "avatar", token);
 
         if (avatar is null)
-            return BadRequest(new RequestResponse("文件创建失败"));
+            return BadRequest(new RequestResponse("Failed create avatar"));
 
         user.AvatarHash = avatar.Hash;
         var result = await userManager.UpdateAsync(user);
 
         if (result != IdentityResult.Success)
-            return BadRequest(new RequestResponse("用户更新失败"));
+            return BadRequest(new RequestResponse("Failed to set avatar"));
 
-        logger.Log($"更改新头像：[{avatar.Hash[..8]}]", user, TaskStatus.Success);
+        logger.Log($"Changed user's avatar：[{avatar.Hash[..8]}]", user, TaskStatus.Success);
 
         return Ok(avatar.Url());
     }

@@ -6,24 +6,24 @@ namespace CTFServer.Models.Request.Game;
 public class GameDetailModel
 {
     /// <summary>
-    /// 题目信息
+    /// Game information
     /// </summary>
     public Dictionary<ChallengeTag, IEnumerable<ChallengeInfo>> Challenges { get; set; } = new();
 
     /// <summary>
-    /// 积分榜信息
+    /// Scoreboard item
     /// </summary>
     [JsonPropertyName("rank")]
     public ScoreboardItem? ScoreboardItem { get; set; }
 
     /// <summary>
-    /// 队伍 Token
+    /// Team token
     /// </summary>
     [Required]
     public string TeamToken { get; set; } = string.Empty;
 
     /// <summary>
-    /// Writeup 提交截止时间
+    /// Writeup submission deadline
     /// </summary>
     [Required]
     [JsonPropertyName("wpddl")]
