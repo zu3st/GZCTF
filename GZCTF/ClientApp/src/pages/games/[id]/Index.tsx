@@ -302,7 +302,7 @@ const GameDetail: FC = () => {
           {teamRequire && (
             <Alert color="yellow" icon={<Icon path={mdiAlertCircle} />} title="Unable to join the game">
               You are not in a team. Please
-              <Anchor component={Link} to="/teams">
+              &nbsp;<Anchor component={Link} to="/teams">&nbsp;
                 join or create a team
               </Anchor>
               first.
