@@ -11,35 +11,35 @@
 [![Telegram Group](https://img.shields.io/endpoint?color=blue&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2Fgzctf)](https://telegram.dog/gzctf)
 [![DeepSource](https://deepsource.io/gh/GZTimeWalker/GZCTF.svg/?label=active+issues&show_trend=true&token=NSWORRXijp9nyrThqJTk-S7O)](https://deepsource.io/gh/GZTimeWalker/GZCTF/?ref=repository-badge)
 
-GZ::CTF 是一个基于 ASP.NET Core 的开源 CTF 平台。
+GZ::CTF is an open source CTF platform based on ASP.NET Core.
 
-## 特性 🛠️
+Features 🛠️
 
-- 创建高度可自定义的题目
-  - 题目类型：静态附件、动态附件、静态容器、动态容器
-    - 静态附件：共用附件，任意添加的 flag 均可提交。
-    - 动态附件：需要至少满足队伍数量的 flag 和附件，附件及 flag 按照队伍进行分发。
-    - 静态容器：共用容器模版，不下发 flag，任意添加的 flag 均可提交。
-    - 动态容器：自动生成并通过容器环境变量进行 flag 下发，每个队伍 flag 唯一。
-  - 动态分值
-    - 分值曲线：
+- Create highly customizable challenges
+  - Static Attachment, Dynamic Attachment, Static Container, Dynamic Container
+    - Static Attachment: Shared attachment, any added flag can be submitted
+    - Dynamic Attachment: Requires at least one flag and attachment per team, distributed according to team
+    - Static Container: Shared container template, no flag is issued, and any added flag can be submitted
+    - Dynamic Container: Flags are generated and issued by container environment variables, each team has a unique flag
+  - Dynamic Scoring System
+    - Formula:
       $$f(S, r, d, x) = \left \lfloor S \times \left[r  + ( 1- r) \times \exp\left( \dfrac{1 - x}{d} \right) \right] \right \rfloor $$
-      其中 $S$ 为原始分值、 $r$ 为最低分值比例、 $d$ 为难度系数、 $x$ 为提交次数。前三个参数可通过自定义实现绝大部分的动态分值需求。
-    - 三血奖励：
-      平台对一二三血分别奖励 5%、3%、1% 的当前题目分值
-  - 比赛进行中可启用新题
-  - 动态 flag 中启用作弊检测，可选的 flag 模版，leet flag 功能
-- 基于 Docker 或 K8s 的动态容器分发
-- 分组队伍得分时间线、分组积分榜
-- 基于 signalR 的实时比赛通知、比赛事件和 flag 提交监控及日志监控
-- SMTP 注册邮件发送、基于 Google ReCaptchav3 的恶意注册防护
-- 用户封禁、用户三级权限管理
-- 可选的队伍审核、邀请码、注册邮箱限制
-- 平台内 Writeup 收集和查阅
-- 实时事件监控、下载积分榜、下载全部提交记录、下载 Writeup
-- 比赛期间裁判监控、提交和主要事件日志
-- 应用内全局设置
-- 以及更多……
+      where $S$ is the original score, $r$ is the minimum score ratio, $d$ is the difficulty coefficient, and $x$ is the number of submissions. The first three parameters can be customized to implement most of the dynamic scoring requirements.
+
+    - Three blood reward: Awards 5%, 3%, 1% of the current question score for the first, second and third blood respectively
+  - New challenges can be added at any time during the competition
+  - Cheat detection support for dynamic flags, optional flag termplates, leet flag functionality
+- Dynamic container distribution based on Docker or K8s
+- Grouped team score timeline, grouped score board
+- Real-time competition notifications, event and flag submission monitoring using signalR.
+- SMTP registration emails, protection against malicious registration using Google ReCaptchav3.
+- User bans, three-level user permission management
+-  Optional team review, invitation code, registration email domain whitelist
+- In-platform writeup collection and viewing
+- Real-time event monitoring, download scoreboards, submissions, and writeups.
+- Competition monitoring, keeping track of submissions and important events.
+- In-app global settings
+- And more...
 
 ## Demo 🗿
 
@@ -53,9 +53,9 @@ GZ::CTF 是一个基于 ASP.NET Core 的开源 CTF 平台。
 ![](assets/demo-8.png)
 ![](assets/demo-9.png)
 
-## 安装配置 🚀
+## Deployment 🚀
 
-应用已编译打包成 Docker 镜像，可通过以下方式获取：
+The application has been compiled and packaged into a Docker image, which can be obtained in the following way:
 
 ```bash
 docker pull gztime/gzctf:latest
@@ -63,20 +63,20 @@ docker pull gztime/gzctf:latest
 docker pull ghcr.io/gztimewalker/gzctf/gzctf:latest
 ```
 
-也可使用 `scripts` 目录下的 `docker-compose.yml` 文件进行配置。
+You can also use the `docker-compose.yml` file in the `scripts` directory for configuration.
 
-题目配置和题目示例请见 [GZCTF-Challenges](https://github.com/GZTimeWalker/GZCTF-Challenges) 仓库。
+Please see the [GZCTF-Challenges](https://github.com/GZTimeWalker/GZCTF-Challenges) repository for challenge configuration and examples.
 
-### `appsettings.json` 配置
+### `appsettings.json` Configuration
 
-当 `ContainerProvider` 为 `Docker` 时：
+When `ContainerProvider` is `Docker`:
 
-- 如需使用本地 docker，请将 Uri 置空，并将 `/var/run/docker.sock` 挂载入容器对应位置
-- 如需使用外部 docker，请将 Uri 指向对应 docker API Server
+- To use local docker, set Uri to empty and mount `/var/run/docker.sock` in the container
+- To use external docker, set Uri to your docker daemon address
 
-当 `ContainerProvider` 为 `K8s` 时：
+When `ContainerProvider` is `K8s`:
 
-- 请将集群连接配置放入 `k8sconfig.yaml` 文件中，并将其挂载到 `/app` 目录下
+- Place the cluster connection configuration in the `k8sconfig.yaml` file and mount it to the `/app` directory
 
 ```json5
 {
@@ -128,36 +128,36 @@ docker pull ghcr.io/gztimewalker/gzctf/gzctf:latest
 }
 ```
 
-### 初始管理员
+### Initial Administrator Account
 
-生产环境中默认不存在管理员权限用户，需要在首次启动时设置 `GZCTF_ADMIN_PASSWORD` 环境变量来设置初始管理员密码，并通过 `Admin` 账号登录。
+In production environments, there are no user with administrator privileges by default. The initial administrator password must be set using the `GZCTF_ADMIN_PASSWORD` environment variable when the application is first started, and then logged in using the `Admin` account.
 
-你也可以通过手动更改数据库条目来将当前已注册的用户设置为管理员。当管理员注册完成并成功登录后，进入所选数据库表后执行：
+You can also manually change the database entry to set the current registered user as an administrator. Once you have registerd and logged in, enter the selected database and execute the following SQL statement:
 
 ```sql
 UPDATE "AspNetUsers" SET "Role"=3 WHERE "UserName"='some_user_name';
 ```
 
-### 端口暴露范围设置
+### Exposed Ports Range Configuration
 
-以下方式均为经验做法，可能因不同的系统环境有所出入，如不能正常生效，请自行查找相关资料及解决方案。
+The following methods are based on experience and may vary depending on your environment. If they don't work properly, please refer to the official documentation for your environment.
 
-- Docker 部署：
+- Docker deployment:
 
   - `sudo nano /etc/sysctl.conf`
-  - 添加如下内容，指定 `ip_local_port_range`：
+  - Add the following entry to specify `ip_local_port_range`:
 
     ```
     net.ipv4.ip_local_port_range = 20000 50000
     ```
 
-  - 执行 `sudo sysctl -p` 使配置生效
-  - 重启 Docker 服务
+  - Run `sudo sysctl -p` to apply the settings
+  - Restart the docker service
 
-- K3s 部署：
+- K3s deployment:
 
   - `sudo nano /etc/systemd/system/k3s.service`
-  - 编辑如下设置中的 `ExecStart`，指定`service-node-port-range`
+  - Edit the `ExecStart` setting, specifying `service-node-port-range`
 
     ```
     ExecStart=/usr/local/bin/k3s \
@@ -168,95 +168,95 @@ UPDATE "AspNetUsers" SET "Role"=3 WHERE "UserName"='some_user_name';
   - `sudo systemctl daemon-reload`
   - `sudo systemctl restart k3s`
 
-- K8s 及 Docker Swarm 部署：
+- K8s and Docker Swarm Deployment:
 
-  - 笔者尚未尝试，如有成功的朋友欢迎提 PR 补充
+  - The author has not yet attempted this. If you have done so successfully, please consider submitting a PR to add your knowledge.
 
 ### Q&A
 
-- **Q: 题目类型中的“静态容器”指的是全部参赛者共用一个容器吗？**
+- **Q: Does the "static container" challenge type mean that all participants share one container?**
 
-  不是。静态容器于动态容器相同，每个参赛队伍都有一个独立的容器。
+  No. Static containers, like dynamic containers, are seperate for each participating team. 
+  
+  However, the contents of each static container are the same, and no dynamic flag will be passed down. Only static flags, whic hare hard-coded in the container, can be used as verification indicators, hence the "static" name.
 
-  但是静态容器内的内容是一样的，且不会传递下发动态 flag。只能通过获取硬编码于容器中的一个或多个静态 flag 作为验证指标，也即“静态”的意思。
+- **Q: How does the current team logic work?**
 
-- **Q: 目前的组队逻辑是怎么样的呢？**
+  A user can join multiple teams, each team member must register separately for each competition, a user can participate in multiple competitions simultaneously with different teams, and choose which team to participate in when registering.
 
-  一名用户可参与多个队伍，每场比赛每个均需要每名队员独立报名，同一个人可以以不同队伍身份同时参与多场比赛，报名时需要选择以哪个队伍进行参赛。
+  Registrations can be withdrawn when waiting for review or rejected. Once approved or banned, registration cannot be withdrawn, the team cannot be changed, and the team will be locked. 
 
-  在报名等待审核和被拒绝时可以撤回报名。审核通过、禁赛时不可撤回报名及更换所属队伍，且队伍将会被锁定。
+  After competing, teams will stay locked until there are no other competitions in progress. At this time, the team will be unlocked automatically, allowing members to join and leave again.
 
-  在比赛结束后，队伍仍然显示处于锁定状态，若确认没有其他正在进行中的比赛时进行人员变动，队伍将会自动解锁。
+- **Q: What deployment forms does the platform support?**
 
-- **Q: 平台支持哪些部署形式？**
+  The following deployment forms are supported:
 
-  平台支持的部署形式有：
+  - K8s Cluster Deployment:
 
-  - K8s 集群部署：
+    GZCTF, database, and challenge containers are all in the same K8s cluster, using namespaces for isolation
 
-    GZCTF、数据库、题目容器均在同一 k8s 集群中，使用命名空间进行隔离
+  - Docker + K8s Separated Deployment
 
-  - Docker + K8s 分离部署：
+    GZCTF and database are in a single Docker instance, challenge containers in a separate K8s cluster
 
-    GZCTF、数据库在一个 Docker 实例中，并使用远程 k8s 作为题目容器平台
+  - Docker Standalone Deployment:
 
-  - Docker 单机部署：
+    GZCTF, database, and challenge containers are all in the same Docker instance
 
-    GZCTF、数据库、题目容器均在同一 Docker 实例中
+  - Docker Separated Deployment:
 
-  - Docker 分离部署：
+    GZCTF, database, and challenge containers in the same Docker, and use a remote Docker/Swarm for challenges (not recommended)
 
-    GZCTF、数据库在一个 Docker 实例中，并使用远程另一 Docker/Docker Swarm 作为题目容器平台（不推荐）
+  - Docker Swarm Cluster Deployment:
 
-  - Docker Swarm 集群部署：
+    GZCTF, database, and challenge containers are all in the same Docker Swarm cluster (not recommended)
 
-    GZCTF、数据库、题目容器均在 Docker Swarm 集群中（不推荐）
+- **Q: Which deployment method is recommended?**
 
-- **Q: 关于部署的建议？**
+  For users with multiple machine clusters and deployment requirements, it is recommended to use K3s as a distribution of K8s, which can provide all the features required and is easy to install and deploy.
 
-  对于拥有多机集群及其部署需求的用户，建议使用 K3s 作为 K8s 的发行版，其能提供所需的全部功能，且易于安装部署。
+  In general, the most straightforward way to deploy is using Docker and K3s separately. You can set up the GZCTF platform by simply running `docker-compose` - for K3s, you only need to install it, export the kubeconfig, and mount it to GZCTF.
 
-  更一般的情况下最方便的部署方式为 Docker + K3s 分离部署，只需要执行 `docker-compose` 即可完成 GZCTF 平台的部署，而 K3s 的部署则只需要执行安装后导出 kubeconfig 挂载给 GZCTF 即可。
+  For deploying within a K3s cluster, you'll need to provide two PVCs (for database and attachments), a ConfigMap (for storing `appsettings.json`), and a Secret (for storing `k8sconfig.yaml` pointing to your own cluster). You can deploy the database and Redis as needed, but if you're only running a single GZCTF instance, you don't need to deploy Redis.
 
-  如果需要使用 K3s 集群内部署，需要提供两个 PVC（用于数据库及附件存储）、一个 ConfigMap（用于存储 `appsettings.json`）、一个 Secret（用于存储指向自己集群的 `k8sconfig.yaml`）。你可以按需进行数据库部署及 Redis 部署，如果只运行一个 GZCTF 实例，可以不部署 Redis。
+- **Q: What should I pay attention to when deploying multiple instances of GZCTF?**
+  
+  GZCTF supports multiple instances running at the same time, but requires the same database instance, Redis instance (required for multiple instances), and shared storage (such as NFS) as PVCs. The database instance and shared storage are used to ensure data consistency, and the Redis instance is used for backend data cache synchronization and SignalR Scale-Out broadcast. 
 
-- **Q: GZCTF 集群多实例部署有什么需要注意的？**
+  In order to ensure the normal operation of SignalR based on websocket, Sticky Session needs to be configured in the load balancer.
 
-  GZCTF 支持多个实例同时运行，但需要提供相同的数据库实例及 Redis 实例（多实例必选）及共享存储（如 NFS）作为 PVC。其中数据库实例和共享存储用于保证数据一致，Redis 实例用于进行后端部分数据的缓存同步、SignalR 的 Scale-Out 广播。
+- **Q: 有没有更详细的部署教程？** // same in english: **Q: Is there a more detailed deployment tutorial?**
 
-  同时，为了确保 SignalR 基于 websocket 的正常运行，需要在负载均衡器中配置 Sticky Session。
+  I'm writing it, it will be released when v1.0.0 is released.
 
-- **Q: 有没有更详细的部署教程？**
+## About i18n 🌐
 
-  在写了，v1.0.0 的时候就发出来（
+ For the time being, no multi-language adaptation is considered.
 
-## 关于 i18n 🌐
-
-暂不考虑进行多语言适配。
-
-## 贡献者 👋
+## Contributors 👋
 
 <a href="https://github.com/GZTimeWalker/GZCTF/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=GZTimeWalker/GZCTF" />
 </a>
 
-## 赛事案例 🏆
+## CTFs using GZCTF 🏆
 
-已经有一些赛事的举办者选择了 GZCTF 并圆满完赛，他们的信任、支持和及时的反馈是 GZCTF 不断完善的第一推动力。
+Various organizers have chosen GZCTF and successfully completed the competition, their trust, support and timely feedback are the first driving force for GZCTF to continuously improve.
 
-- **清华大学网络安全技术挑战赛 THUCTF 2022**
-- **浙江大学 ZJUCTF 2022**
-- **东南大学第三届大学生网络安全挑战赛**
-- **甘肃政法大学 DIDCTF 2022**
-- **山东科技大学第一届网络安全实践大赛 woodpecker**
-- **西北工业大学 NPUCTF 2022**
-- **SkyNICO 网络空间安全三校联赛 (厦门理工学院、福建师范大学、齐鲁工业大学)**
+- **Tsinghua University Network Security Technology Challenge THUCTF 2022**
+- **Zhejiang University ZJUCTF 2022**
+- **Southeastern University 3rd University Student Network Security Challenge**
+- **Gansu University of Political Science and Law DIDCTF 2022**
+- **Shandong University of Science and Technology 1st Network Security Practice Competition woodpecker**
+- **Northwestern Polytechnical University NPUCTF 2022**
+- **SkyNICO Network Space Security Tournament (Xiamen University of Technology, Fujian Normal University, Qilu University of Technology)**
 
-_排名不分先后，欢迎提交 PR 进行补充。_
+_The ranking is not in order,feel free to submit a PR to add your CTF._
 
-## 特别感谢 ❤️‍🔥
+## Special Thanks  ❤️‍🔥
 
-感谢 THUCTF 2022 的组织者 NanoApe 提供的赞助及阿里云公网并发压力测试，帮助验证了 GZCTF 单机实例在千级并发、三分钟 134w 请求压力下的服务稳定性。
+Thanks to the organizers of THUCTF 2022 NanoApe for their sponsorship and Aliyun public network concurrency testing, which helped to verify the service stability of GZCTF single instance under 1,000 concurrent, three-minute 1.34 million requests pressure.
 
 ## Stars ✨
 
