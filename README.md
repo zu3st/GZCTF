@@ -226,7 +226,7 @@ The following methods are based on experience and may vary depending on your env
 
   In order to ensure the normal operation of SignalR based on websocket, Sticky Session needs to be configured in the load balancer.
 
-- **Q: 有没有更详细的部署教程？** // same in english: **Q: Is there a more detailed deployment tutorial?**
+- **Q: Is there a more detailed deployment tutorial?**
 
   I'm writing it, it will be released when v1.0.0 is released.
 
