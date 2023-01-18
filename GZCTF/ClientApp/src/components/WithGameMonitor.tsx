@@ -47,7 +47,7 @@ const WithGameMonitor: FC<WithGameMonitorProps> = ({ children, isLoading }) => {
                 leftIcon={<Icon path={mdiFileTableOutline} size={1} />}
                 onClick={() => window.open(`/api/game/${numId}/scoreboardsheet`, '_blank')}
               >
-                Download Scoreboard
+                Export Scores
               </Button>
               <Tabs
                 orientation="vertical"
