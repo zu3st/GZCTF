@@ -185,14 +185,14 @@ const GameDetail: FC = () => {
           <Text size="sm">Are you sure you want to join this game?</Text>
           <Text size="sm">
             Once joined, no further changes can be made to the team.
-            <Text span weight={700}>
+            &nbsp;<Text span weight={700}>
             That is, invite or kick out members.
-            </Text>
+            </Text>&nbsp;
             The team will be unlocked after the game ends or the request is rejected.
           </Text>
           <Text size="sm">
             Team size limit refers to the number of players who can join the game within a team,
-            <Text span weight={700}>
+            &nbsp;<Text span weight={700}>
               not the number of players in that team.
             </Text>
           </Text>
@@ -236,7 +236,7 @@ const GameDetail: FC = () => {
         started &&
         !isMobile &&
         (!finished || game?.practiceMode) && (
-          <Button onClick={() => navigate(`/games/${numId}/challenges`)}>Join Game</Button>
+          <Button onClick={() => navigate(`/games/${numId}/challenges`)}>View Game</Button>
         )}
     </>
   )
