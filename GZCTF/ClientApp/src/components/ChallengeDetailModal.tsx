@@ -363,7 +363,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
             <Stack align="center">
               <Group>
                 <Text size="sm" weight={600}>
-                  Instance entry:
+                  Instance endpoint:
                   <Tooltip label="Click to copy" withArrow classNames={tooltipClasses}>
                     <Code
                       style={{
@@ -375,7 +375,7 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
                         clipBoard.copy(challenge.context?.instanceEntry ?? '')
                         showNotification({
                           color: 'teal',
-                          message: 'Instance entry has been copied to clipboard',
+                          message: 'Instance endpoint has been copied to clipboard',
                           icon: <Icon path={mdiCheck} size={1} />,
                           disallowClose: true,
                         })
@@ -389,10 +389,10 @@ const ChallengeDetailModal: FC<ChallengeDetailModalProps> = (props) => {
               </Group>
               <Group position="center">
                 <Button color="orange" onClick={onProlongContainer} disabled={instanceLeft > 10}>
-                  Prolong instance
+                  Extend Instance
                 </Button>
                 <Button color="red" onClick={onDestroyContainer} disabled={disabled}>
-                  Destroy instance
+                  Destroy Instance
                 </Button>
               </Group>
             </Stack>

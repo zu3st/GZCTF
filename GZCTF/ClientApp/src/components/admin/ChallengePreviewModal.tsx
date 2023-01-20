@@ -196,7 +196,7 @@ const ChallengePreviewModal: FC<ChallengePreviewModalProps> = (props) => {
               </Group>
               <Group position="center">
                 <Button color="orange" disabled>
-                  Extend Time
+                  Extend Instance
                 </Button>
                 <Button color="red" onClick={() => setWithContainer(false)}>
                   Destroy Instance
