@@ -70,7 +70,22 @@ public class Container
     /// Container instance access method
     /// </summary>
     [NotMapped]
-    public string Entry => $"{PublicIP ?? IP}:{PublicPort ?? Port}";
+    public string Entry => InstanceEntry();
+
+    /// <summary>
+    /// Attachment access link
+    /// </summary>
+
+    /// <summary>
+    /// Entry presentation, supporting custom presentation for ssh and http
+    /// </summary>
+    public string InstanceEntry() => Port switch
+    {
+        // Inside the container, derive the ContainerId from hostname
+        22 => $"ssh u{ContainerId.Split('-').Last()}@{PublicIP ?? IP} -p {PublicPort ?? Port}",
+        80 when PublicIP != null => $"https://{ContainerId}.{PublicIP}",
+        _ => $"{PublicIP ?? IP}:{PublicPort ?? Port}"
+    };
 
     #region Db Relationship
 

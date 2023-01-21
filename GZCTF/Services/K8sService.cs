@@ -158,7 +158,7 @@ public class K8sService : IContainerService
             },
             Spec = new V1ServiceSpec()
             {
-                Type = "NodePort",
+                Type = config.ExposedPort == 80 ? "ClusterIP" : "NodePort",
                 Ports = new[]
                 {
                     new V1ServicePort(config.ExposedPort, targetPort: config.ExposedPort)
@@ -180,7 +180,16 @@ public class K8sService : IContainerService
             return null;
         }
 
-        container.PublicPort = service.Spec.Ports[0].NodePort;
+        if (config.ExposedPort == 80)
+        {
+            await SetupIngressAsync(containerName: name, targetPort: config.ExposedPort, cancellationToken: token);
+        }
+        else
+        {
+            container.PublicPort = service.Spec.Ports[0].NodePort;
+        }
+        
+
         container.IP = hostIP;
         container.PublicIP = publicEntry;
         container.StartedAt = DateTimeOffset.UtcNow;
@@ -192,6 +201,9 @@ public class K8sService : IContainerService
     {
         try
         {
+            if (container.Port == 80) {
+                await kubernetesClient.NetworkingV1.DeleteNamespacedIngressAsync(container.ContainerId, Namespace, cancellationToken: token);
+            }
             await kubernetesClient.CoreV1.DeleteNamespacedServiceAsync(container.ContainerId, Namespace, cancellationToken: token);
             await kubernetesClient.CoreV1.DeleteNamespacedPodAsync(container.ContainerId, Namespace, cancellationToken: token);
         }
@@ -212,6 +224,56 @@ public class K8sService : IContainerService
         }
 
         container.Status = ContainerStatus.Destroyed;
+    }
+
+    private async Task SetupIngressAsync(string containerName, int targetPort, CancellationToken cancellationToken = default)
+    {
+        var backend_service = new V1IngressServiceBackend
+        {
+            Name = containerName,
+            Port = new V1ServiceBackendPort
+            {
+                Number = targetPort
+            }
+        };
+
+        var http_rule = new V1HTTPIngressRuleValue
+        {
+            Paths = new List<V1HTTPIngressPath>
+                {
+                    new V1HTTPIngressPath
+                    {
+                        Path = "/",
+                        PathType = "Prefix",
+                        Backend = new V1IngressBackend
+                        {
+                            Service = backend_service
+                        }
+                    }
+                }
+        };
+
+        var ingress = new V1Ingress
+        {
+            Metadata = new V1ObjectMeta
+            {
+                Name = containerName,
+                NamespaceProperty = Namespace,
+            },
+            Spec = new V1IngressSpec
+            {
+                Rules = new List<V1IngressRule>
+                {
+                    new V1IngressRule
+                    {
+                        Host = $"{containerName}.{publicEntry}",
+                        Http = http_rule
+                    }
+                }
+            }
+        };
+
+        await kubernetesClient.NetworkingV1.CreateNamespacedIngressAsync(ingress, Namespace, cancellationToken: cancellationToken);
     }
 
     private void InitK8s(bool withAuth, RegistryConfig? registry)
