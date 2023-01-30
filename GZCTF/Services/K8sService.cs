@@ -57,8 +57,10 @@ public class K8sService : IContainerService
 
     public async Task<Container?> CreateContainerAsync(ContainerConfig config, CancellationToken token = default)
     {
+        // first, get only the image name
+        var imageName = $"{config.Image.Split("/").LastOrDefault()?.Split(":").FirstOrDefault()}";
         // use uuid avoid conflict
-        var name = $"{config.Image.Split("/").LastOrDefault()?.Split(":").FirstOrDefault()}-{Guid.NewGuid().ToString("N")[..16]}"
+        var name = $"{imageName}-{Guid.NewGuid().ToString("N")[..16]}"
             .Replace('_', '-'); // ensure name is available
 
         var pod = new V1Pod("v1", "Pod")
@@ -70,8 +72,9 @@ public class K8sService : IContainerService
                 Labels = new Dictionary<string, string>()
                 {
                     ["ctf.gzti.me/ResourceId"] = name,
+                    ["ctf.gzti.me/ImageId"] = imageName,
                     ["ctf.gzti.me/TeamId"] = config.TeamId,
-                    ["ctf.gzti.me/UserId"] = config.UserId
+                    ["ctf.gzti.me/UserId"] = config.UserId,
                 }
             },
             Spec = new V1PodSpec()
